@@ -1,0 +1,15 @@
+.editorconfig
+/artifacts/
+/bin/
+/build/
+/coverage/
+/docs/
+/results/
+/src/
+/tests/
+lcov-*
+xunit*
+TEST_*
+*.log
+*~
+*.tap
