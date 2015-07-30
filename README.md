@@ -1,5 +1,8 @@
 # subscribe-ui-event
 
+[![Build Status](https://travis-ci.org/yahoo/subscribe-ui-event.svg?branch=master)](https://travis-ci.org/yahoo/subscribe-ui-event)
+[![Coverage Status](https://coveralls.io/repos/yahoo/subscribe-ui-event/badge.svg)](https://coveralls.io/r/yahoo/subscribe-ui-event)
+
 `subscribe-ui-event` provides an cross-browser and performant way to subscribe to browser UI Events.
 
 Instead of calling `window.addEvenListener('scroll', eventHandler);`, you can call `subscribe('scroll', eventHandler)` and you can get lots of benifits:
