@@ -1,5 +1,4 @@
 /*global window */
-window.async = require('async');
 window.expect = require('expect.js');
 window.leIE8 = require('../../src/leIE8');
 window.React = require('react/addons');

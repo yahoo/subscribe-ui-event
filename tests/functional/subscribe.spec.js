@@ -1,4 +1,4 @@
-/* global describe, it, before, expect, window, document */
+/* global describe, it, before, expect, window, document, async */
 
 function $(selector) {
     var node = document.querySelector(selector);
@@ -53,7 +53,7 @@ describe('Subscribe UI Event tests', function () {
         };
 
         scripts.push(test);
-        window.async.series(scripts, done);
+        async.series(scripts, done);
     });
 
     // it('resize should work', function (done) {
