@@ -1,7 +1,9 @@
 # subscribe-ui-event
-
+[![npm version](https://badge.fury.io/js/subscribe-ui-event.svg)](http://badge.fury.io/js/subscribe-ui-event)
 [![Build Status](https://travis-ci.org/yahoo/subscribe-ui-event.svg?branch=master)](https://travis-ci.org/yahoo/subscribe-ui-event)
 [![Coverage Status](https://coveralls.io/repos/yahoo/subscribe-ui-event/badge.svg)](https://coveralls.io/r/yahoo/subscribe-ui-event)
+[![Dependency Status](https://david-dm.org/yahoo/subscribe-ui-event.svg)](https://david-dm.org/yahoo/subscribe-ui-event)
+[![devDependency Status](https://david-dm.org/yahoo/subscribe-ui-event/dev-status.svg)](https://david-dm.org/yahoo/subscribe-ui-event#info=devDependencies)
 
 `subscribe-ui-event` provides an cross-browser and performant way to subscribe to browser UI Events.
 
