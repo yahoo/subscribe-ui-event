@@ -8,7 +8,7 @@
 
 var AugmentedEvent = require('../AugmentedEvent');
 var ee = require('../eventEmitter').eventEmitter;
-var leIE8 = require('../leIE8');
+var leIE8 = require('../lib/leIE8');
 
 var EVENT_END_DELAY = 200;
 
@@ -82,7 +82,7 @@ function generateEdgeEventHandler(target, eventType, eventStart) {
                     ee.emit(eeType, e, augmentedEvent);
                 }
             }
-            
+
             clearTimeout(timer);
             if (leIE8) {
                 e = copyEventObj(e);

@@ -8,29 +8,42 @@
 
 var ee = require('../../../src/eventEmitter').eventEmitter;
 
-GLOBAL.window = {
-    addEventListener: function (eventType, cb) {
-        ee.on(eventType, cb);
-    },
-    setTimeout: function (cb, wait) {
-        cb();
-    }
-};
-GLOBAL.document = {
-    addEventListener: function (eventType, cb) {
-        ee.on(eventType, cb);
-    }
-};
-
 var expect = require('expect.js');
-var subscribe = require('../../../src/subscribe');
+var subscribe;
 
 describe('subscribe', function () {
+    before(function () {
+        GLOBAL.window = {
+            addEventListener: function (eventType, cb) {
+                ee.on(eventType, cb);
+            },
+            setTimeout: function (cb, wait) {
+                cb();
+            }
+        };
+        GLOBAL.document = {
+            addEventListener: function (eventType, cb) {
+                ee.on(eventType, cb);
+            }
+        };
+        require.cache[require.resolve('../../../src/eventHandlers')] = undefined;
+        require.cache[require.resolve('../../../src/lib/leIE8')] = undefined;
+        require.cache[require.resolve('../../../src/subscribe')] = undefined;
+    });
+
+    after(function () {
+        GLOBAL.window = undefined;
+        GLOBAL.document = undefined;
+    });
+
     beforeEach(function () {
+        subscribe = require('../../../src/subscribe');
+
         ee.removeAllListeners('scroll');
         ee.removeAllListeners('resize');
         ee.removeAllListeners('visibilitychange');
     });
+
     describe('#subscribe', function () {
         it('scroll should be triggered by window scroll', function (done) {
             var subscription = subscribe('scroll', function (e, syntheticEvent) {
