@@ -12,8 +12,8 @@ function warn() {
 
 if (typeof window !== 'undefined') {
     module.exports = {
-        subscribe: require('./src/subscribe'),
-        unsubscribe: require('./src/unsubscribe')
+        subscribe: require('./dist/subscribe'),
+        unsubscribe: require('./dist/unsubscribe')
     };
 } else {
     module.exports = {
