@@ -7,7 +7,7 @@
 var ee = require('./eventEmitter').eventEmitter;
 var emptyFunction = function () {};
 var eventHandlers = require('./eventHandlers');
-var leIE8 = require('./leIE8'); // less then or equal to IE8
+var leIE8 = require('./lib/leIE8'); // less then or equal to IE8
 var rAFThrottle = require('./lib/rAFThrottle');
 var subscriptions = require('./eventEmitter').subscriptions;
 var throttle = require('lodash.throttle');

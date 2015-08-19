@@ -34,6 +34,7 @@ describe('unsubscribe', function () {
             subscriptions[i].unsubscribe();
         }
     });
+    
     describe('#unsubscribe', function () {
         it('should unsubscribe the event', function () {
             function eventHandler() {
