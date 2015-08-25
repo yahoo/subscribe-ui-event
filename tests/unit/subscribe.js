@@ -197,5 +197,67 @@ describe('subscribe', function () {
             // simulate window scroll event
             ee.emit('scroll', {foo: 'foo'});
         });
+
+        it('same event should be subscribed once', function (done) {
+            // for continuous events
+            var subscription1 = subscribe('scroll', function (e, syntheticEvent) {
+                expect(e.foo).equal('foo');
+                expect(syntheticEvent.type).equal('scroll');
+                subscription1.unsubscribe();
+            });
+            var subscription2 = subscribe('scroll', function (e, syntheticEvent) {
+                expect(e.foo).equal('foo');
+                expect(syntheticEvent.type).equal('scroll');
+                subscription2.unsubscribe();
+            });
+
+            // Actually, ee never listens to those ui events, such like 'scroll', 'resize', and 'visibilitychange'.
+            // It only listens to throttled events, like 'scroll:50', 'scroll:50:raf'.
+            // ee.listeners('scroll') will increase because I mocked window.addEventListener above to listen to
+            // 'scroll' event. The number of listeners will stay at 1 if the same event is subscribed multiple times.
+            expect(ee.listeners('scroll').length).equal(1);
+            // simulate window scroll event
+            ee.emit('scroll', {foo: 'foo'});
+
+            // for edge events
+            subscription1 = subscribe('scrollStart', function (e, syntheticEvent) {
+                expect(e.foo).equal('foo');
+                expect(syntheticEvent.type).equal('scrollStart');
+                subscription1.unsubscribe();
+            });
+            subscription2 = subscribe('scrollStart', function (e, syntheticEvent) {
+                expect(e.foo).equal('foo');
+                expect(syntheticEvent.type).equal('scrollStart');
+                subscription2.unsubscribe();
+            });
+
+            // The number of scroll listeners plus 1 because 2 different events are subscribed. One is 'scroll',
+            // the other one is 'scrollStart' which will listen 'scroll'.
+            expect(ee.listeners('scroll').length).equal(2); // one is for scroll, one is for scrollStart
+
+            // simulate window scroll event
+            ee.emit('scroll', {foo: 'foo'});
+
+            // for viewportchange event
+            subscription1 = subscribe('viewportchange', function (e, syntheticEvent) {
+                expect(e.foo).equal('foo');
+                expect(syntheticEvent.type).equal('viewportchange');
+                subscription1.unsubscribe();
+            });
+            subscription2 = subscribe('viewportchange', function (e, syntheticEvent) {
+                expect(e.foo).equal('foo');
+                expect(syntheticEvent.type).equal('viewportchange');
+                subscription2.unsubscribe();
+                done();
+            });
+
+            // 'viewportchange' will listen 'scroll', 'resize', and 'visibilitychange'.
+            expect(ee.listeners('scroll').length).equal(3); // one is for viewportchange
+            expect(ee.listeners('resize').length).equal(1);
+            expect(ee.listeners('visibilitychange').length).equal(1);
+
+            // simulate window scroll event
+            ee.emit('visibilitychange', {foo: 'foo'});
+        });
     });
 });
