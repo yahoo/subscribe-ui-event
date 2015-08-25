@@ -22,6 +22,12 @@ describe('subscribe', function () {
             }
         };
         GLOBAL.document = {
+            documentElement: {
+                scrollTop: 10
+            },
+            body: {
+                scrollTop: 0
+            },
             addEventListener: function (eventType, cb) {
                 ee.on(eventType, cb);
             }
@@ -177,6 +183,19 @@ describe('subscribe', function () {
 
             // simulate window scroll event
             ee.emit('resize', {foo: 'foo'});
+        });
+
+        it('scroll should be triggered by window scroll with scroll top information', function (done) {
+            var subscription = subscribe('scroll', function (e, syntheticEvent) {
+                expect(e.foo).equal('foo');
+                expect(syntheticEvent.type).equal('scroll');
+                expect(syntheticEvent.scroll.top).equal(10);
+                subscription.unsubscribe();
+                done();
+            }, {enableScrollTop: true});
+
+            // simulate window scroll event
+            ee.emit('scroll', {foo: 'foo'});
         });
     });
 });
