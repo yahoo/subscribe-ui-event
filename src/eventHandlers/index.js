@@ -65,7 +65,13 @@ function listen(target, eventType, handler) {
  * @return {Function} The function to generate throttle event.
  */
 function generateEdgeEventHandler(target, eventType, eventStart) {
-    return function(eeType, throttleRate, throttle) {
+    return function(eeType, options) {
+        if (ee.listeners(eeType, true)) {
+            return;
+        }
+
+        var throttleRate = options.throttleRate;
+        var throttle = options.throttleFunc;
         var augmentedEvent = new AugmentedEvent({type: eventType + (eventStart ? 'Start' : 'End')});
         var timer;
 
@@ -111,10 +117,28 @@ function generateEdgeEventHandler(target, eventType, eventStart) {
  * @return {Function} The function to generate throttle event.
  */
 function generateContinuousEventHandler(target, eventType, noThrottle) {
-    return function(eeType, throttleRate, throttle) {
-        var augmentedEvent = new AugmentedEvent({type: eventType});
+    var enableScrollTop = false;
+    return function(eeType, options) {
+        if (ee.listeners(eeType, true)) {
+            return;
+        }
+
+        var throttleRate = options.throttleRate;
+        var throttle = options.throttleFunc;
+        var ae = new AugmentedEvent({type: eventType});
+        enableScrollTop = enableScrollTop || options.enableScrollTop;
+
         function eventHandler(e) {
-            ee.emit(eeType, e, augmentedEvent);
+            if (enableScrollTop && ae.type === 'scroll') {
+                ae.scroll.top = document.documentElement.scrollTop + document.body.scrollTop;
+                ae.scroll.direction = ae.scroll.top - ae.scroll.prevTop;
+            }
+
+            ee.emit(eeType, e, ae);
+
+            if (enableScrollTop && ae.type === 'scroll') {
+                ae.scroll.prevTop = ae.scroll.top;
+            }
         }
 
         var handler = (!noThrottle && throttleRate > 0) ? throttle(eventHandler, throttleRate) : eventHandler;
@@ -122,7 +146,13 @@ function generateContinuousEventHandler(target, eventType, noThrottle) {
     };
 }
 
-function viewportchange(eeType, throttleRate, throttle) {
+function viewportchange(eeType, options) {
+    if (ee.listeners(eeType, true)) {
+        return;
+    }
+
+    var throttleRate = options.throttleRate;
+    var throttle = options.throttleFunc;
     var augmentedEvent = new AugmentedEvent({type: 'viewportchange'});
     function eventHandler(e) {
         ee.emit(eeType, e, augmentedEvent);

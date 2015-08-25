@@ -33,6 +33,7 @@ function subscribe(eventType, cb, options) {
 
     var context = options.context || null;
     var eeType; // emitEmitterType =  eventType + ':' + throttle
+    var enableScrollTop = options.enableScrollTop || false;
     var sub;
     var throttleFunc;
     var throttleRate = parseInt(options.throttleRate);
@@ -53,10 +54,13 @@ function subscribe(eventType, cb, options) {
     eeType = eventType + ':' + throttleRate + (useRAF ? ':raf' : '');
 
     // wire UI event to throttled event, for example, wire "window.scroll" to "scroll:50"
-    if (!ee.listeners(eeType, true)) {
-        // add event listeners to UI event for the same throttled event
-        eventHandlers[eventType](eeType, throttleRate, throttleFunc);
-    }
+    // add event listeners to UI event for the same throttled event
+    eventHandlers[eventType](eeType, {
+        throttleRate: throttleRate,
+        throttleFunc: throttleFunc,
+        enableScrollTop: enableScrollTop
+    });
+
     // wire to throttled event
     ee.on(eeType, cb, context);
 
