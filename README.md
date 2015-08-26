@@ -5,14 +5,18 @@
 [![Dependency Status](https://david-dm.org/yahoo/subscribe-ui-event.svg)](https://david-dm.org/yahoo/subscribe-ui-event)
 [![devDependency Status](https://david-dm.org/yahoo/subscribe-ui-event/dev-status.svg)](https://david-dm.org/yahoo/subscribe-ui-event#info=devDependencies)
 
-`subscribe-ui-event` provides an cross-browser and performant way to subscribe to browser UI Events.
+`subscribe-ui-event` provides an cross-browser and performant way to subscribe to browser UI Events and some higher level events.
 
-Instead of calling `window.addEvenListener('scroll', eventHandler);`, you can call `subscribe('scroll', eventHandler)` and you can get lots of benifits:
+Instead of calling `window.addEvenListener('scroll', eventHandler);`, you can call `subscribe('scroll', eventHandler)`, and it will help you hook `eventHandler` to `window.scroll` only once for multiple subscriptions.
+
+The benefit is some global variables, such like `document.body.scrollTop`, can be retrieved only once for all subscriptions, which is better for performance. Throttling for all subscriptions is another benefit, which also can increase the performance.
+
+**The list of benefits:**
 
 1. Do throttling by default.
 2. Provide `requestAnimationFrame` throttle for the need of high performance.
 3. Attach to UI event only once for multiple subscriptions, and broadcast via [eventemitter3](https://github.com/primus/EventEmitter3),
-4. (In the near future) Provide single access to UI variables (such like `scrollTop`) to avoid multiple reflows.
+4. Provide single access to UI variables (such like `scrollTop`) to avoid multiple reflows.
 
 ## Install
 
@@ -47,11 +51,30 @@ var subscription = subscribe('scroll', eventHandler);
 subscription.unsubscribe();
 ```
 
+**Addtional Payload**
+
+The format of the payload is:
+```js
+{
+    type: <String>, // could be 'scroll', 'resize' ...
+    // you need to pass options.enableScrollTop = true to subscribe to get the following data
+    scroll: {
+        top: <Number>, // The scroll position, i.g., document.body.scrollTop
+        prevTop: <Number>, // The previous scroll position
+        delta: <Number> // The delta of scroll position, it is helpful for scroll direction
+    }
+}
+```
+
+**Options**
+
 `options.throttleRate` allows of changing the throttle rate, and the default value is 50 (ms). Set 0 for no throttle. **On IE8, there will be no throttle, because throttling will use setTimeout or rAF to achieve, and the event object passed into event handler will be overwritten.**
 
 `options.context` allows of setting the caller of callback function.
 
-`options.useRAF = true` allows of using `requestAnimationFrame` instead of `setTimeout`. If `true`, the default value of throttle rate will be 15 (ms).
+`options.useRAF = true` allows of using `requestAnimationFrame` instead of `setTimeout`.
+
+`options.enableScrollTop = true` allows of getting `scrollTop`.
 
 `eventType` could be one of the following:
 

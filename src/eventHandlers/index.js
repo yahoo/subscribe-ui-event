@@ -125,20 +125,18 @@ function generateContinuousEventHandler(target, eventType, noThrottle) {
 
         var throttleRate = options.throttleRate;
         var throttle = options.throttleFunc;
-        var ae = new AugmentedEvent({type: eventType});
+        var augmentedEvent = new AugmentedEvent({type: eventType});
         enableScrollTop = enableScrollTop || options.enableScrollTop;
 
         function eventHandler(e) {
+            var ae = augmentedEvent;
+            var top;
             if (enableScrollTop && ae.type === 'scroll') {
-                ae.scroll.top = document.documentElement.scrollTop + document.body.scrollTop;
-                ae.scroll.direction = ae.scroll.top - ae.scroll.prevTop;
+                top = document.documentElement.scrollTop + document.body.scrollTop;
+                ae.scroll.delta = top - ae.scroll.top;
+                ae.scroll.top = top;
             }
-
             ee.emit(eeType, e, ae);
-
-            if (enableScrollTop && ae.type === 'scroll') {
-                ae.scroll.prevTop = ae.scroll.top;
-            }
         }
 
         var handler = (!noThrottle && throttleRate > 0) ? throttle(eventHandler, throttleRate) : eventHandler;
