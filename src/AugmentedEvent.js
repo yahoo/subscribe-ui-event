@@ -12,6 +12,10 @@
 function ArgmentedEvent(option) {
     option = option || {};
     this.type = option.type || '';
+    this.scroll = {
+        delta: 0,
+        top: 0
+    };
 }
 
 module.exports = ArgmentedEvent;
