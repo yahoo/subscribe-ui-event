@@ -74,7 +74,9 @@ The format of the payload is:
 
 `options.useRAF = true` allows of using `requestAnimationFrame` instead of `setTimeout`.
 
-`options.enableScrollTop = true` allows of getting `scrollTop`.
+`options.enableScrollInfo = true` allows of getting `scrollTop`.
+
+`options.enableResizeInfo = true` allows of getting `width` and `height` of client.
 
 `eventType` could be one of the following:
 
