@@ -19,7 +19,8 @@ describe('subscribe', function () {
             },
             setTimeout: function (cb, wait) {
                 cb();
-            }
+            },
+            innerWidth: 10
         };
         GLOBAL.document = {
             documentElement: {
@@ -185,17 +186,30 @@ describe('subscribe', function () {
             ee.emit('resize', {foo: 'foo'});
         });
 
-        it('scroll should be triggered by window scroll with scroll top information', function (done) {
+        it('scroll should be triggered by window scroll with scroll information', function (done) {
             var subscription = subscribe('scroll', function (e, syntheticEvent) {
                 expect(e.foo).equal('foo');
                 expect(syntheticEvent.type).equal('scroll');
                 expect(syntheticEvent.scroll.top).equal(10);
                 subscription.unsubscribe();
                 done();
-            }, {enableScrollTop: true});
+            }, {enableScrollInfo: true});
 
             // simulate window scroll event
             ee.emit('scroll', {foo: 'foo'});
+        });
+
+        it('resize should be triggered by window resize with resize information', function (done) {
+            var subscription = subscribe('resize', function (e, syntheticEvent) {
+                expect(e.foo).equal('foo');
+                expect(syntheticEvent.type).equal('resize');
+                expect(syntheticEvent.resize.width).equal(10);
+                subscription.unsubscribe();
+                done();
+            }, {enableResizeInfo: true});
+
+            // simulate window scroll event
+            ee.emit('resize', {foo: 'foo'});
         });
 
         it('same event should be subscribed once', function (done) {

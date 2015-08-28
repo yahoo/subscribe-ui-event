@@ -16,6 +16,10 @@ function ArgmentedEvent(option) {
         delta: 0,
         top: 0
     };
+    this.resize = {
+        width: 0,
+        height: 0
+    };
 }
 
 module.exports = ArgmentedEvent;

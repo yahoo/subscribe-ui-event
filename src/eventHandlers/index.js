@@ -7,10 +7,21 @@
 'use strict';
 
 var AugmentedEvent = require('../AugmentedEvent');
+var doc;
+var docBody;
+var docEl;
 var ee = require('../eventEmitter').eventEmitter;
 var leIE8 = require('../lib/leIE8');
+var win;
 
 var EVENT_END_DELAY = 200;
+
+if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+    win = window;
+    doc = document;
+    docEl = doc.documentElement;
+    docBody = doc.body;
+}
 
 /**
  * This is designed for cloning event object and IE8 event object doesn't have hasOwnProperty(),
@@ -117,7 +128,9 @@ function generateEdgeEventHandler(target, eventType, eventStart) {
  * @return {Function} The function to generate throttle event.
  */
 function generateContinuousEventHandler(target, eventType, noThrottle) {
-    var enableScrollTop = false;
+    var enableScrollInfo = false;
+    var enableResizeInfo = false;
+
     return function(eeType, options) {
         if (ee.listeners(eeType, true)) {
             return;
@@ -126,15 +139,20 @@ function generateContinuousEventHandler(target, eventType, noThrottle) {
         var throttleRate = options.throttleRate;
         var throttle = options.throttleFunc;
         var augmentedEvent = new AugmentedEvent({type: eventType});
-        enableScrollTop = enableScrollTop || options.enableScrollTop;
+        enableScrollInfo = enableScrollInfo || options.enableScrollInfo;
+        enableResizeInfo = enableResizeInfo || options.enableResizeInfo;
 
         function eventHandler(e) {
             var ae = augmentedEvent;
             var top;
-            if (enableScrollTop && ae.type === 'scroll') {
-                top = document.documentElement.scrollTop + document.body.scrollTop;
+            if (enableScrollInfo && ae.type === 'scroll') {
+                top = docEl.scrollTop + docBody.scrollTop;
                 ae.scroll.delta = top - ae.scroll.top;
                 ae.scroll.top = top;
+            }
+            if (enableResizeInfo && ae.type === 'resize') {
+                ae.resize.width = win.innerWidth || docEl.clientWidth;
+                ae.resize.height = win.innerHeight || docEl.clientHeight;
             }
             ee.emit(eeType, e, ae);
         }
@@ -157,19 +175,19 @@ function viewportchange(eeType, options) {
     }
 
     var handler = throttleRate > 0 ? throttle(eventHandler, throttleRate) : eventHandler;
-    listen(window, 'scroll', handler);
-    listen(window, 'resize', handler);
+    listen(win, 'scroll', handler);
+    listen(win, 'resize', handler);
     // no throttle for visibilitychange, otherwise will call twice
-    listen(document, 'visibilitychange', eventHandler);
+    listen(win, 'visibilitychange', eventHandler);
 }
 
 module.exports = {
-    resize: generateContinuousEventHandler(window, 'resize'),
-    resizeEnd: generateEdgeEventHandler(window, 'resize', false),
-    resizeStart: generateEdgeEventHandler(window, 'resize', true),
-    scroll: generateContinuousEventHandler(window, 'scroll'),
-    scrollEnd: generateEdgeEventHandler(window, 'scroll', false),
-    scrollStart: generateEdgeEventHandler(window, 'scroll', true),
+    resize: generateContinuousEventHandler(win, 'resize'),
+    resizeEnd: generateEdgeEventHandler(win, 'resize', false),
+    resizeStart: generateEdgeEventHandler(win, 'resize', true),
+    scroll: generateContinuousEventHandler(win, 'scroll'),
+    scrollEnd: generateEdgeEventHandler(win, 'scroll', false),
+    scrollStart: generateEdgeEventHandler(win, 'scroll', true),
     viewportchange: viewportchange,
-    visibilitychange: generateContinuousEventHandler(document, 'visibilitychange', true)
+    visibilitychange: generateContinuousEventHandler(doc, 'visibilitychange', true)
 };
