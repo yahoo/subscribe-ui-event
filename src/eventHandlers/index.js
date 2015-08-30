@@ -7,14 +7,19 @@
 'use strict';
 
 var AugmentedEvent = require('../AugmentedEvent');
+var ee = require('../eventEmitter').eventEmitter;
+var leIE8 = require('../lib/leIE8');
+
+// constants
+var EVENT_END_DELAY = 200;
+
+// global variables
 var doc;
 var docBody;
 var docEl;
-var ee = require('../eventEmitter').eventEmitter;
-var leIE8 = require('../lib/leIE8');
+var enableResizeInfo = false;
+var enableScrollInfo = false;
 var win;
-
-var EVENT_END_DELAY = 200;
 
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     win = window;
@@ -39,6 +44,23 @@ function copyEventObj(o) {
         }
     }
     return r;
+}
+
+/**
+ * Update global scroll/resize info
+ * @param {Object} ae - The additional event object
+ * @param {String} eventType - The event type
+ */
+function updateAdditionalInfo(ae, eventType) {
+    var top;
+    if (eventType === 'scroll' && enableScrollInfo) {
+        top = docEl.scrollTop + docBody.scrollTop;
+        ae.scroll.delta = top - ae.scroll.top;
+        ae.scroll.top = top;
+    } else if (eventType === 'resize' && enableResizeInfo) {
+        ae.resize.width = win.innerWidth || docEl.clientWidth;
+        ae.resize.height = win.innerHeight || docEl.clientHeight;
+    }
 }
 
 /**
@@ -83,12 +105,13 @@ function generateEdgeEventHandler(target, eventType, eventStart) {
 
         var throttleRate = options.throttleRate;
         var throttle = options.throttleFunc;
-        var augmentedEvent = new AugmentedEvent({type: eventType + (eventStart ? 'Start' : 'End')});
+        var ae = new AugmentedEvent({type: eventType + (eventStart ? 'Start' : 'End')});
         var timer;
 
         function eventEndCallback(e) {
             if (!eventStart) {
-                ee.emit(eeType, e, augmentedEvent);
+                updateAdditionalInfo(ae, eventType);
+                ee.emit(eeType, e, ae);
             }
             timer = null;
         }
@@ -96,7 +119,8 @@ function generateEdgeEventHandler(target, eventType, eventStart) {
         function eventHandler(e) {
             if (!timer) {
                 if (eventStart) {
-                    ee.emit(eeType, e, augmentedEvent);
+                    updateAdditionalInfo(ae, eventType);
+                    ee.emit(eeType, e, ae);
                 }
             }
 
@@ -128,9 +152,6 @@ function generateEdgeEventHandler(target, eventType, eventStart) {
  * @return {Function} The function to generate throttle event.
  */
 function generateContinuousEventHandler(target, eventType, noThrottle) {
-    var enableScrollInfo = false;
-    var enableResizeInfo = false;
-
     return function(eeType, options) {
         if (ee.listeners(eeType, true)) {
             return;
@@ -138,22 +159,12 @@ function generateContinuousEventHandler(target, eventType, noThrottle) {
 
         var throttleRate = options.throttleRate;
         var throttle = options.throttleFunc;
-        var augmentedEvent = new AugmentedEvent({type: eventType});
+        var ae = new AugmentedEvent({type: eventType});
         enableScrollInfo = enableScrollInfo || options.enableScrollInfo;
         enableResizeInfo = enableResizeInfo || options.enableResizeInfo;
 
         function eventHandler(e) {
-            var ae = augmentedEvent;
-            var top;
-            if (enableScrollInfo && ae.type === 'scroll') {
-                top = docEl.scrollTop + docBody.scrollTop;
-                ae.scroll.delta = top - ae.scroll.top;
-                ae.scroll.top = top;
-            }
-            if (enableResizeInfo && ae.type === 'resize') {
-                ae.resize.width = win.innerWidth || docEl.clientWidth;
-                ae.resize.height = win.innerHeight || docEl.clientHeight;
-            }
+            updateAdditionalInfo(ae, eventType);
             ee.emit(eeType, e, ae);
         }
 
@@ -169,9 +180,9 @@ function viewportchange(eeType, options) {
 
     var throttleRate = options.throttleRate;
     var throttle = options.throttleFunc;
-    var augmentedEvent = new AugmentedEvent({type: 'viewportchange'});
+    var ae = new AugmentedEvent({type: 'viewportchange'});
     function eventHandler(e) {
-        ee.emit(eeType, e, augmentedEvent);
+        ee.emit(eeType, e, ae);
     }
 
     var handler = throttleRate > 0 ? throttle(eventHandler, throttleRate) : eventHandler;
