@@ -53,11 +53,11 @@ function copyEventObj(o) {
  */
 function updateAdditionalInfo(ae, eventType) {
     var top;
-    if (eventType === 'scroll' && enableScrollInfo) {
+    if (enableScrollInfo && eventType === 'scroll') {
         top = docEl.scrollTop + docBody.scrollTop;
         ae.scroll.delta = top - ae.scroll.top;
         ae.scroll.top = top;
-    } else if (eventType === 'resize' && enableResizeInfo) {
+    } else if (enableResizeInfo && eventType === 'resize') {
         ae.resize.width = win.innerWidth || docEl.clientWidth;
         ae.resize.height = win.innerHeight || docEl.clientHeight;
     }
