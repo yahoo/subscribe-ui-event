@@ -186,12 +186,21 @@ describe('subscribe', function () {
             ee.emit('resize', {foo: 'foo'});
         });
 
-        it('scroll should be triggered by window scroll with scroll information', function (done) {
-            var subscription = subscribe('scroll', function (e, syntheticEvent) {
+        it.only('scroll should be triggered by window scroll with scroll information', function (done) {
+            // the first one subscription should get scroll info as well, because information is global
+            var subscription1 = subscribe('scroll', function (e, syntheticEvent) {
                 expect(e.foo).equal('foo');
                 expect(syntheticEvent.type).equal('scroll');
                 expect(syntheticEvent.scroll.top).equal(10);
-                subscription.unsubscribe();
+                subscription1.unsubscribe();
+            }, {enableScrollInfo: false});
+
+            // the second one request scroll info, which should dominate.
+            var subscription2 = subscribe('scroll', function (e, syntheticEvent) {
+                expect(e.foo).equal('foo');
+                expect(syntheticEvent.type).equal('scroll');
+                expect(syntheticEvent.scroll.top).equal(10);
+                subscription2.unsubscribe();
                 done();
             }, {enableScrollInfo: true});
 
