@@ -99,6 +99,10 @@ function listen(target, eventType, handler) {
  */
 function generateEdgeEventHandler(target, eventType, eventStart) {
     return function(eeType, options) {
+        // One subscription needs scroll/resize info, all will get those information
+        enableScrollInfo = enableScrollInfo || options.enableScrollInfo;
+        enableResizeInfo = enableResizeInfo || options.enableResizeInfo;
+
         if (ee.listeners(eeType, true)) {
             return;
         }
@@ -153,6 +157,10 @@ function generateEdgeEventHandler(target, eventType, eventStart) {
  */
 function generateContinuousEventHandler(target, eventType, noThrottle) {
     return function(eeType, options) {
+        // One subscription needs scroll/resize info, all will get those information
+        enableScrollInfo = enableScrollInfo || options.enableScrollInfo;
+        enableResizeInfo = enableResizeInfo || options.enableResizeInfo;
+
         if (ee.listeners(eeType, true)) {
             return;
         }
@@ -160,8 +168,6 @@ function generateContinuousEventHandler(target, eventType, noThrottle) {
         var throttleRate = options.throttleRate;
         var throttle = options.throttleFunc;
         var ae = new AugmentedEvent({type: eventType});
-        enableScrollInfo = enableScrollInfo || options.enableScrollInfo;
-        enableResizeInfo = enableResizeInfo || options.enableResizeInfo;
 
         function eventHandler(e) {
             updateAdditionalInfo(ae, eventType);
