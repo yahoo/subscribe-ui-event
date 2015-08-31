@@ -208,7 +208,7 @@ describe('subscribe', function () {
             ee.emit('scroll', {foo: 'foo'});
         });
 
-        it.only('resize should be triggered by window resize with resize information', function (done) {
+        it('resize should be triggered by window resize with resize information', function (done) {
             // the first one subscription should get resize info as well, because the second one requests
             var subscription1 = subscribe('resize', function (e, syntheticEvent) {
                 expect(e.foo).equal('foo');
@@ -225,7 +225,7 @@ describe('subscribe', function () {
                 done();
             }, {enableResizeInfo: true});
 
-            // simulate window scroll event
+            // simulate window resize event
             ee.emit('resize', {foo: 'foo'});
         });
 
