@@ -12,6 +12,9 @@ GLOBAL.window = {
     addEventListener: function (eventType, cb) {
         ee.on(eventType, cb);
     },
+    removeEventListener: function (eventType, cb) {
+        ee.removeListener(eventType, cb);
+    },
     setTimeout: function (cb, wait) {
         cb();
     }
@@ -19,6 +22,9 @@ GLOBAL.window = {
 GLOBAL.document = {
     addEventListener: function (eventType, cb) {
         ee.on(eventType, cb);
+    },
+    removeEventListener: function (eventType, cb) {
+        ee.removeListener(eventType, cb);
     }
 };
 
@@ -34,7 +40,7 @@ describe('unsubscribe', function () {
             subscriptions[i].unsubscribe();
         }
     });
-    
+
     describe('#unsubscribe', function () {
         it('should unsubscribe the event', function () {
             function eventHandler() {

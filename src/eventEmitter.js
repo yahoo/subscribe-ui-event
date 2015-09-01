@@ -8,5 +8,6 @@ var EventEmitter = require('eventemitter3');
 
 module.exports = {
     eventEmitter: new EventEmitter(),
+    eventHandlers: {},
     subscriptions: []
 };

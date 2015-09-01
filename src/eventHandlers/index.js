@@ -8,6 +8,7 @@
 
 var AugmentedEvent = require('../AugmentedEvent');
 var ee = require('../eventEmitter').eventEmitter;
+var ehs = require('../eventEmitter').eventHandlers;
 var leIE8 = require('../lib/leIE8');
 
 // constants
@@ -146,7 +147,7 @@ function generateEdgeEventHandler(target, eventType, eventStart) {
         }
 
         var handler = throttle(eventHandler, throttleRate);
-        listen(target, eventType, handler);
+        ehs[eeType] = listen(target, eventType, handler);
     };
 }
 
@@ -178,7 +179,7 @@ function generateContinuousEventHandler(target, eventType, noThrottle) {
         }
 
         var handler = (!noThrottle && throttleRate > 0) ? throttle(eventHandler, throttleRate) : eventHandler;
-        listen(target, eventType, handler);
+        ehs[eeType] = listen(target, eventType, handler);
     };
 }
 
@@ -195,10 +196,20 @@ function viewportchange(eeType, options) {
     }
 
     var handler = throttleRate > 0 ? throttle(eventHandler, throttleRate) : eventHandler;
-    listen(win, 'scroll', handler);
-    listen(win, 'resize', handler);
-    // no throttle for visibilitychange, otherwise will call twice
-    listen(win, 'visibilitychange', eventHandler);
+
+    ehs[eeType] = {
+        remove: function () {
+            for (var i = 0, l = this._handlers; i < l; i++) {
+                this._handlers[i].remove();                
+            }
+        },
+        _handlers: [
+            listen(win, 'scroll', handler),
+            listen(win, 'resize', handler),
+            // no throttle for visibilitychange, otherwise will call twice
+            listen(win, 'visibilitychange', eventHandler)
+        ]
+    };
 }
 
 module.exports = {

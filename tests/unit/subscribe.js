@@ -17,6 +17,9 @@ describe('subscribe', function () {
             addEventListener: function (eventType, cb) {
                 ee.on(eventType, cb);
             },
+            removeEventListener: function (eventType, cb) {
+                ee.removeListener(eventType, cb);
+            },
             setTimeout: function (cb, wait) {
                 cb();
             },
@@ -31,6 +34,9 @@ describe('subscribe', function () {
             },
             addEventListener: function (eventType, cb) {
                 ee.on(eventType, cb);
+            },
+            removeEventListener: function (eventType, cb) {
+                ee.removeListener(eventType, cb);
             }
         };
         require.cache[require.resolve('../../../src/eventHandlers')] = undefined;
@@ -262,10 +268,7 @@ describe('subscribe', function () {
                 subscription2.unsubscribe();
             });
 
-            // The number of scroll listeners plus 1 because 2 different events are subscribed. One is 'scroll',
-            // the other one is 'scrollStart' which will listen 'scroll'.
-            expect(ee.listeners('scroll').length).equal(2); // one is for scroll, one is for scrollStart
-
+            expect(ee.listeners('scroll').length).equal(1);
             // simulate window scroll event
             ee.emit('scroll', {foo: 'foo'});
 
@@ -282,11 +285,9 @@ describe('subscribe', function () {
                 done();
             });
 
-            // 'viewportchange' will listen 'scroll', 'resize', and 'visibilitychange'.
-            expect(ee.listeners('scroll').length).equal(3); // one is for viewportchange
+            expect(ee.listeners('scroll').length).equal(1);
             expect(ee.listeners('resize').length).equal(1);
             expect(ee.listeners('visibilitychange').length).equal(1);
-
             // simulate window scroll event
             ee.emit('visibilitychange', {foo: 'foo'});
         });
