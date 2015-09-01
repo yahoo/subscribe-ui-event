@@ -55,8 +55,11 @@ function updateAdditionalInfo(ae, eventType) {
     var top;
     if (enableScrollInfo && eventType === 'scroll') {
         top = docEl.scrollTop + docBody.scrollTop;
-        ae.scroll.delta = top - ae.scroll.top;
-        ae.scroll.top = top;
+        // Prevent delta from being 0
+        if (top !== ae.scroll.top) {
+            ae.scroll.delta = top - ae.scroll.top;
+            ae.scroll.top = top;
+        }
     } else if (enableResizeInfo && eventType === 'resize') {
         ae.resize.width = win.innerWidth || docEl.clientWidth;
         ae.resize.height = win.innerHeight || docEl.clientHeight;
