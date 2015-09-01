@@ -57,11 +57,15 @@ The format of the payload is:
 ```js
 {
     type: <String>, // could be 'scroll', 'resize' ...
-    // you need to pass options.enableScrollTop = true to subscribe to get the following data
+    // you need to pass options.enableScrollInfo = true to subscribe to get the following data
     scroll: {
         top: <Number>, // The scroll position, i.g., document.body.scrollTop
-        prevTop: <Number>, // The previous scroll position
         delta: <Number> // The delta of scroll position, it is helpful for scroll direction
+    },
+    // you need to pass options.enableResizeInfo = true to subscribe to get the following data
+    resize: {
+        width: <Number>, // The client width
+        height: <Number> // The client height
     }
 }
 ```
