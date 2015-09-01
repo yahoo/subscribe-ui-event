@@ -5,6 +5,7 @@
 'use strict';
 
 var ee = require('./eventEmitter').eventEmitter;
+var ehs = require('./eventEmitter').eventHandlers;
 var emptyFunction = function () {};
 var eventHandlers = require('./eventHandlers');
 var leIE8 = require('./lib/leIE8'); // less then or equal to IE8
@@ -75,6 +76,10 @@ function subscribe(eventType, cb, options) {
             ee.removeListener(eeType, cb);
             if (i !== -1) {
                 subscriptions.splice(i, 1);
+            }
+            if (!ee.listeners(eeType, true)) {
+                ehs[eeType].remove();
+                ehs[eeType] = undefined;
             }
         }
     };

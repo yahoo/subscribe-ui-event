@@ -18,6 +18,9 @@ describe('subscribe-ie8', function () {
                 eventType = eventType.replace('on', '');
                 ee.on(eventType, cb);
             },
+            detachEvent: function (eventType, cb) {
+                ee.removeListener(eventType, cb);
+            },
             setTimeout: function (cb, wait) {
                 cb();
             }
@@ -25,6 +28,9 @@ describe('subscribe-ie8', function () {
         GLOBAL.document = {
             attachEvent: function (eventType, cb) {
                 ee.on(eventType, cb);
+            },
+            detachEvent: function (eventType, cb) {
+                ee.removeListener(eventType, cb);
             }
         };
         GLOBAL.navigator = {
