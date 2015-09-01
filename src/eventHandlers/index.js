@@ -199,8 +199,8 @@ function viewportchange(eeType, options) {
 
     ehs[eeType] = {
         remove: function () {
-            for (var i = 0, l = this._handlers; i < l; i++) {
-                this._handlers[i].remove();                
+            for (var i = 0, l = this._handlers.length; i < l; i++) {
+                this._handlers[i].remove();
             }
         },
         _handlers: [
