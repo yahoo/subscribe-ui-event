@@ -15,11 +15,11 @@ The [jsperf ](http://jsperf.com/subscribe-v-s-addeventlistener/2) runs 10 `addEv
 
 ![comparison](https://cloud.githubusercontent.com/assets/2044960/9611594/6167df1c-5095-11e5-8abc-c81ff4d13ce6.png)
 
-For 10 `addEventListener`, the difference of memory consumption between peak and bottom is about 4.1K.
+For 10 `addEventListener`, the difference of memory consumption between peak and trough is about 4.1K.
 
 ![addEventListener](https://cloud.githubusercontent.com/assets/2044960/9611614/778bc452-5095-11e5-80d9-be9379df9956.png)
 
-For 10 `subscribe`, the difference of memory consumption between peak and bottom is about 1.0K.
+For 10 `subscribe`, the difference of memory consumption between peak and trough is about 1.0K.
 
 ![subscribe](https://cloud.githubusercontent.com/assets/2044960/9611619/7c293652-5095-11e5-8d27-29a0d2d167cc.png)
 
