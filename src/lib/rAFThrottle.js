@@ -5,7 +5,9 @@
 'use strict';
 
 var rAF = require('raf');
-
+var getTime = Date.now || function() {
+    return new Date().getTime();
+};
 function rAFThrottle(func, throttle) {
     var context;
     var args;
@@ -13,7 +15,7 @@ function rAFThrottle(func, throttle) {
     var requestId = 0;
 
     var later = function () {
-        var now = +new Date;
+        var now = getTime();
         var remaining = throttle - (now - last);
 
         if (remaining <= 0) {
