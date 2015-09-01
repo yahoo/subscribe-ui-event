@@ -5,18 +5,30 @@
 [![Dependency Status](https://david-dm.org/yahoo/subscribe-ui-event.svg)](https://david-dm.org/yahoo/subscribe-ui-event)
 [![devDependency Status](https://david-dm.org/yahoo/subscribe-ui-event/dev-status.svg)](https://david-dm.org/yahoo/subscribe-ui-event#info=devDependencies)
 
-`subscribe-ui-event` provides an cross-browser and performant way to subscribe to browser UI Events and some higher level events.
+With `subscribe-ui-event`, instead of calling multiple `window.addEvenListener('scroll', eventHandler);` by different components, call `subscribe('scroll', eventHandler)`. It will only add single event listener and dispatch event to those who subscribe the event via [eventemitter3](https://github.com/primus/EventEmitter3).
 
-Instead of calling `window.addEvenListener('scroll', eventHandler);`, you can call `subscribe('scroll', eventHandler)`, and it will help you hook `eventHandler` to `window.scroll` only once for multiple subscriptions.
+Why single event? More performance and less memory consumption.
 
-The benefit is some global variables, such like `document.body.scrollTop`, can be retrieved only once for all subscriptions, which is better for performance. Throttling for all subscriptions is another benefit, which also can increase the performance.
+## Single Event Listener v.s. Multiple Event Listeners
 
-**The list of benefits:**
+The [jsperf ](http://jsperf.com/subscribe-v-s-addeventlistener/2) runs 10 `addEvenListener` and 10 non-throttling `subscribe`, and the outcome is that the ops/sec of `subscribe` is slightly less. But in regular case, you will use throttling `subscribe`, and it will be more performant.
+
+![comparison](https://cloud.githubusercontent.com/assets/2044960/9611594/6167df1c-5095-11e5-8abc-c81ff4d13ce6.png)
+
+For 10 `addEventListener`, the difference of memory consumption between peak and bottom is about 4.1K.
+
+![addEventListener](https://cloud.githubusercontent.com/assets/2044960/9611614/778bc452-5095-11e5-80d9-be9379df9956.png)
+
+For 10 `subscribe`, the difference of memory consumption between peak and bottom is about 4.1K.
+
+![subscribe](https://cloud.githubusercontent.com/assets/2044960/9611619/7c293652-5095-11e5-8d27-29a0d2d167cc.png)
+
+## Other Benifits
 
 1. Do throttling by default.
-2. Provide `requestAnimationFrame` throttle for the need of high performance.
-3. Attach to UI event only once for multiple subscriptions, and broadcast via [eventemitter3](https://github.com/primus/EventEmitter3),
-4. Provide single access to UI variables (such like `scrollTop`) to avoid multiple reflows.
+2. Get `document.body.scrollTop`, `window.innerWidth` once.
+3. Provide `requestAnimationFrame` throttle for the need of high performance.
+4. Be able to use like `scrollStart` (see below) those edge events.
 
 ## Install
 
