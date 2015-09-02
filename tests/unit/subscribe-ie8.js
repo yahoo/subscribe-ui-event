@@ -25,6 +25,8 @@ describe('subscribe-ie8', function () {
                 cb();
             }
         };
+        // IE 8 has no Date.now
+        GLOBAL.Date.now = undefined;
         GLOBAL.document = {
             attachEvent: function (eventType, cb) {
                 ee.on(eventType, cb);
