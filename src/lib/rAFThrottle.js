@@ -5,7 +5,7 @@
 'use strict';
 
 var rAF = require('raf');
-var getTime = Date.now || function() {
+var getTime = Date.now || /* istanbul ignore next */ function() {
     return new Date().getTime();
 };
 function rAFThrottle(func, throttle) {
