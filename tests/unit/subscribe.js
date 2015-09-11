@@ -291,5 +291,15 @@ describe('subscribe', function () {
             // simulate window scroll event
             ee.emit('visibilitychange', {foo: 'foo'});
         });
+        
+        it('should not have fatal error if multiple unsubscibe happens', function (done) {
+            var subscription = subscribe('scroll', function (e, syntheticEvent) {
+                expect(e.foo).equal('foo');
+                subscription.unsubscribe();
+                subscription.unsubscribe();
+                done();
+            });
+            ee.emit('scroll', {foo: 'foo'});
+        });
     });
 });

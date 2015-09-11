@@ -77,7 +77,7 @@ function subscribe(eventType, cb, options) {
             if (i !== -1) {
                 subscriptions.splice(i, 1);
             }
-            if (!ee.listeners(eeType, true)) {
+            if (!ee.listeners(eeType, true) && ehs[eeType]) {
                 ehs[eeType].remove();
                 ehs[eeType] = undefined;
             }
