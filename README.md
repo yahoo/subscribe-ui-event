@@ -33,7 +33,7 @@ For 10 `subscribe`, the difference of memory consumption between peak and trough
 ## Install
 
 ```bash
-ynpm install subscribe-ui-event
+npm install subscribe-ui-event
 ```
 
 ## API
