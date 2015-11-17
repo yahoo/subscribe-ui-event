@@ -14,7 +14,7 @@ module.exports = function (grunt) {
         'grunt-contrib-connect',
         'grunt-contrib-jshint',
         'grunt-contrib-watch',
-        'grunt-react',
+        'grunt-babel',
         'grunt-shell',
         'grunt-webpack'
     ].forEach(function (packageName) {
@@ -91,8 +91,11 @@ module.exports = function (grunt) {
         },
         // react
         // compiles jsx to js
-        react: {
+        babel: {
             dist: {
+                options: {
+                    sourceMap: false
+                },
                 files: [
                     {
                         expand: true,
@@ -105,6 +108,9 @@ module.exports = function (grunt) {
                 ]
             },
             functional: {
+                options: {
+                    sourceMap: false
+                },
                 files: [
                     {
                         expand: true,
@@ -115,6 +121,9 @@ module.exports = function (grunt) {
                 ]
             },
             unit: {
+                options: {
+                    sourceMap: false
+                },
                 files: [
                     {
                         expand: true,
@@ -154,7 +163,7 @@ module.exports = function (grunt) {
                 module: {
                     loaders: [
                         { test: /\.css$/, loader: 'style!css' },
-                        { test: /\.jsx$/, loader: 'jsx-loader' },
+                        { test: /\.jsx$/, loader: 'babel-loader' },
                         { test: /\.json$/, loader: 'json-loader'}
                     ]
                 }
@@ -192,7 +201,7 @@ module.exports = function (grunt) {
         'saucelabs-mocha': {
             all: {
                 options: {
-                    testname: 'react-i13n func test',
+                    testname: 'subscribe ui event func test',
                     urls: [
                         'http://127.0.0.1:9999/tests/functional/page.html'
                     ],
@@ -294,8 +303,8 @@ module.exports = function (grunt) {
     grunt.registerTask('cover', [
         'clean:tmp',
         'clean:dist',
-        'react:unit',
-        'react:dist',
+        'babel:unit',
+        'babel:dist',
         'shell:istanbul',
         'clean:tmp'
     ]);
@@ -303,16 +312,16 @@ module.exports = function (grunt) {
     grunt.registerTask('unit', [
         'clean:tmp',
         'clean:dist',
-        'react:unit',
-        'react:dist',
+        'babel:unit',
+        'babel:dist',
         'shell:mocha'
     ]);
 
     // dist
     // 1. clean dist/
     // 2. compile jsx to js in dist/
-    grunt.registerTask('dist', ['clean:dist', 'react:dist']);
-    grunt.registerTask('test', ['clean:dist', 'react:dist', 'clean:tmp', 'react:unit']);
+    grunt.registerTask('dist', ['clean:dist', 'babel:dist']);
+    grunt.registerTask('test', ['clean:dist', 'babel:dist', 'clean:tmp', 'babel:unit']);
 
     // default
     grunt.registerTask('default', ['dist']);
