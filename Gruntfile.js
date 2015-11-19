@@ -89,7 +89,7 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        // react
+        // babel
         // compiles jsx to js
         babel: {
             dist: {
@@ -279,7 +279,7 @@ module.exports = function (grunt) {
     // 9. run protractor
     grunt.registerTask('functional', [
         'atomizer:functional',
-        'react:functional',
+        'babel:functional',
         'webpack:functional',
         'connect:functional',
         'saucelabs-mocha',
@@ -289,7 +289,7 @@ module.exports = function (grunt) {
     // similar to functional, but don't run protractor, just open the test page
     grunt.registerTask('functional-debug', [
         'atomizer:functional',
-        'react:functional',
+        'babel:functional',
         'webpack:functional',
         'connect:functionalOpen',
         'watch:functional'
