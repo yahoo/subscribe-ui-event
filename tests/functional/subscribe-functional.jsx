@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 /* global require */
 var subscribe = require('../../dist/subscribe');
 
