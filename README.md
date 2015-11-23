@@ -113,6 +113,8 @@ Void unsubscribe(String eventType, Function callback)
 
 Unsubscribe an event. **Note that all subscriptions with the same eventHandler and the same event type will be unsubscribed together even if they have different options**.
 
+## Implementation
+
 ## License
 
 This software is free to use under the BSD license.
