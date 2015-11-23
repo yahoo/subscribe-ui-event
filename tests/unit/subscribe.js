@@ -12,7 +12,7 @@ var globalVars = require('../../../src/globalVars');
 var ee = require('../../../src/globalVars').EE;
 
 var expect = require('expect.js');
-var subscribe = require('../../../src/_subscribe');
+var subscribe = require('../../../src/subscribe');
 
 describe('subscribe', function () {
     describe('#subscribe', function () {

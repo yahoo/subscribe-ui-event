@@ -23,7 +23,7 @@ describe('subscribe-ie8', function () {
             }
         });
         require.cache[require.resolve('../../../src/lib/leIE8')] = undefined;
-        require.cache[require.resolve('../../../src/_subscribe')] = undefined;
+        require.cache[require.resolve('../../../src/subscribe')] = undefined;
     });
 
     after(function () {
@@ -35,7 +35,7 @@ describe('subscribe-ie8', function () {
     });
 
     beforeEach(function () {
-        subscribe = require('../../../src/_subscribe');
+        subscribe = require('../../../src/subscribe');
     });
 
     describe('#subscribe', function () {
