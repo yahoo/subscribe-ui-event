@@ -16,13 +16,19 @@ var env = {
     eventHandlers: {}
 };
 
+function addEventListener (type, cb) {
+    env.eventHandlers[type] = cb;
+}
+
+function removeEventListener (type, cb) {
+    env.eventHandlers[type] = undefined;
+}
+
 window = {
-    addEventListener: function (type, cb) {
-        env.eventHandlers[type] = cb;
-    },
-    removeEventListener: function (type, cb) {
-        env.eventHandlers[type] = undefined;
-    },
+    addEventListener: addEventListener,
+    removeEventListener: removeEventListener,
+    attachEvent: addEventListener,
+    detachEvent: removeEventListener,
     setTimeout: function (cb, wait) {
         cb();
     },
@@ -40,12 +46,10 @@ document = {
     body: {
         scrollTop: 0
     },
-    addEventListener: function (type, cb) {
-        env.eventHandlers[type] = cb;
-    },
-    removeEventListener: function (type, cb) {
-        env.eventHandlers[type] = undefined;
-    }
+    addEventListener: addEventListener,
+    removeEventListener: removeEventListener,
+    attachEvent: addEventListener,
+    detachEvent: removeEventListener
 };
 
 module.exports = env;

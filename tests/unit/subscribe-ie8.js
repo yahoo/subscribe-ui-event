@@ -22,8 +22,13 @@ describe('subscribe-ie8', function () {
                 return 'MSIE 1.0';
             }
         });
+        window.addEventListener = null;
+        window.removeEventListener = null;
+        document.addEventListener = null;
+        document.removeEventListener = null;
         require.cache[require.resolve('../../../src/lib/leIE8')] = undefined;
         require.cache[require.resolve('../../../src/subscribe')] = undefined;
+        require.cache[require.resolve('../../../src/mainEventConnectors')] = undefined;
     });
 
     after(function () {
@@ -32,6 +37,10 @@ describe('subscribe-ie8', function () {
                 return '';
             }
         });
+        window.addEventListener = window.attachEvent;
+        window.removeEventListener = window.detachEvent;
+        document.addEventListener = document.attachEvent;
+        document.removeEventListener = document.detachEvent;
     });
 
     beforeEach(function () {
@@ -49,7 +58,7 @@ describe('subscribe-ie8', function () {
             });
 
             // simulate window scroll event
-            env.eventHandlers.scroll({foo: 'foo'});
+            env.eventHandlers.onscroll({foo: 'foo'});
         });
 
         it('scrollStart and scrollEnd should be triggered by the start/end without throttling', function (done) {
@@ -68,7 +77,7 @@ describe('subscribe-ie8', function () {
             });
 
             // simulate window scroll event
-            env.eventHandlers.scroll({foo: 'foo'});
+            env.eventHandlers.onscroll({foo: 'foo'});
         });
     });
 });
