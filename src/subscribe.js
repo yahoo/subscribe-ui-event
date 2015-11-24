@@ -25,7 +25,15 @@ function subscribe(type, cb, options) {
     options = options || {};
 
     var useRAF = options.useRAF || false;
-    var throttleRate = useRAF ? 'raf' : parseInt(options.throttleRate, 10) || DEFAULT_THROTTLE_RATE;
+    var throttleRate = parseInt(options.throttleRate, 10);
+
+    if (isNaN(throttleRate)) {
+        throttleRate = DEFAULT_THROTTLE_RATE;
+    }
+
+    if (useRAF) {
+        throttleRate = 'raf';
+    }
 
     // turn off throttle if the browser is IE8 or less, because window.event will be reset
     // when using any delayed function, i.g., setTimeout, or rAF.

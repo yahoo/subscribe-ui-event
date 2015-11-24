@@ -62,11 +62,10 @@ var SubscribeDemo = React.createClass({
                 <EventCounter eventType='scroll' throttleRate={300} useRAF={true}/>
                 <EventCounter eventType='scrollStart'/>
                 <EventCounter eventType='scrollEnd'/>
-                <EventCounter eventType='viewportchange' throttleRate={0}/>
-                <EventCounter eventType='viewportchange' throttleRate={1000}/>
                 <EventCounter eventType='resize'/>
                 <EventCounter eventType='resizeStart'/>
                 <EventCounter eventType='resizeEnd'/>
+                <EventCounter eventType='visibilitychange'/>
             </div>
         );
     }

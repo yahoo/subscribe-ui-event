@@ -128,7 +128,6 @@ function connectContinuousEvent (target, mainEvent, event) {
     };
 }
 
-
 function connectDiscreteEvent (target, event) {
     return function throttleEvent (throttleRate, cb, context) {
         // no throttling for discrete event
@@ -159,6 +158,5 @@ module.exports = {
     resizeStart: connectContinuousEvent(win, 'resize', 'resizeStart'),
     resizeEnd: connectContinuousEvent(win, 'resize', 'resizeEnd'),
     resize: connectContinuousEvent(win, 'resize', 'resize'),
-    // viewportchange: viewportchange,
     visibilitychange: connectDiscreteEvent(doc, 'visibilitychange')
 };
