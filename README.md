@@ -102,7 +102,7 @@ The format of the payload is:
 4. resize - window.resize
 5. resizeStart - The start window.resize
 6. resizeEnd - The end window.resize
-7. visibilitychange - document.visibilitychange
+7. visibilitychange - document.visibilitychange (IE8 doesn't support)
 
 ## License
 

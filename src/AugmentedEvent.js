@@ -43,14 +43,18 @@ ArgmentedEvent.prototype = {
     update: function update (mainType) {
         var top;
 
-        if (globalVars.enableScrollInfo && mainType === 'scroll') {
+        if (globalVars.enableScrollInfo &&
+            (mainType === 'scroll' || mainType === 'touchmove')
+        ) {
             top = docEl.scrollTop + docBody.scrollTop;
             // Prevent delta from being 0
             if (top !== this.scroll.top) {
                 this.scroll.delta = top - this.scroll.top;
                 this.scroll.top = top;
+                console.log(top);
             }
-        } else if (globalVars.enableResizeInfo && mainType === 'resize') {
+        }
+        if (globalVars.enableResizeInfo && mainType === 'resize') {
             this.resize.width = win.innerWidth || docEl.clientWidth;
             this.resize.height = win.innerHeight || docEl.clientHeight;
         }

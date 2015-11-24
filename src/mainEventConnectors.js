@@ -5,11 +5,13 @@
  /* global window, document, setTimeout */
 'use strict';
 
+var _clone = require('lodash.clone');
 var _throttle = require('lodash.throttle');
 var AugmentedEvent = require('./AugmentedEvent');
 var connections = require('./globalVars').connections;
 var EE = require('./globalVars').EE;
 var globalVars = require('./globalVars');
+var leIE8 = require('./lib/leIE8');
 var listen = require('./lib/listen');
 var listeners = require('./globalVars').listeners;
 var rAFThrottle = require('./lib/rAFThrottle');
@@ -114,9 +116,11 @@ function connectContinuousEvent (target, mainEvent, event) {
 
             // No need to call ae.main.update(), because ae.start.update is called, everything is update-to-date.
             EE.emit(throttledMainEvent, e, ae.main);
-            if (endCallback.bind) {
+            if (!leIE8) {
                 timer = setTimeout(endCallback.bind(null, e), throttleRate + EVENT_END_DELAY);
             } else {
+                // For browser less then and equal to IE8, event object need to be cloned for setTimeout.
+                e = _clone(e);
                 timer = setTimeout(function eventEndDelay() {
                     endCallback(e);
                 }, throttleRate + EVENT_END_DELAY);
@@ -158,5 +162,10 @@ module.exports = {
     resizeStart: connectContinuousEvent(win, 'resize', 'resizeStart'),
     resizeEnd: connectContinuousEvent(win, 'resize', 'resizeEnd'),
     resize: connectContinuousEvent(win, 'resize', 'resize'),
-    visibilitychange: connectDiscreteEvent(doc, 'visibilitychange')
+    visibilitychange: connectDiscreteEvent(doc, 'visibilitychange'),
+    touchmoveStart: connectContinuousEvent(win, 'touchmove', 'touchmoveStart'),
+    touchmoveEnd: connectContinuousEvent(win, 'touchmove', 'touchmoveEnd'),
+    touchmove: connectContinuousEvent(win, 'touchmove', 'touchmove'),
+    touchstart: connectDiscreteEvent(doc, 'touchstart'),
+    touchend: connectDiscreteEvent(doc, 'touchend'),
 };
