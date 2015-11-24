@@ -6,151 +6,106 @@
 
 'use strict';
 
-var ee = require('../../../src/eventEmitter').eventEmitter;
+var env = require('../lib/setup');
+
+var globalVars = require('../../../src/globalVars');
+var ee = require('../../../src/globalVars').EE;
 
 var expect = require('expect.js');
-var subscribe;
+var subscribe = require('../../../src/subscribe');
 
 describe('subscribe', function () {
-    before(function () {
-        GLOBAL.window = {
-            addEventListener: function (eventType, cb) {
-                ee.on(eventType, cb);
-            },
-            removeEventListener: function (eventType, cb) {
-                ee.removeListener(eventType, cb);
-            },
-            setTimeout: function (cb, wait) {
-                cb();
-            },
-            innerWidth: 10
-        };
-        GLOBAL.document = {
-            documentElement: {
-                scrollTop: 10
-            },
-            body: {
-                scrollTop: 0
-            },
-            addEventListener: function (eventType, cb) {
-                ee.on(eventType, cb);
-            },
-            removeEventListener: function (eventType, cb) {
-                ee.removeListener(eventType, cb);
-            }
-        };
-        require.cache[require.resolve('../../../src/eventHandlers')] = undefined;
-        require.cache[require.resolve('../../../src/lib/leIE8')] = undefined;
-        require.cache[require.resolve('../../../src/subscribe')] = undefined;
-    });
-
-    after(function () {
-        GLOBAL.window = undefined;
-        GLOBAL.document = undefined;
-    });
-
-    beforeEach(function () {
-        subscribe = require('../../../src/subscribe');
-
-        ee.removeAllListeners('scroll');
-        ee.removeAllListeners('resize');
-        ee.removeAllListeners('visibilitychange');
-    });
-
     describe('#subscribe', function () {
         it('scroll should be triggered by window scroll', function (done) {
-            var subscription = subscribe('scroll', function (e, syntheticEvent) {
+            var subscription = subscribe('scroll', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('scroll');
+                expect(ae.type).equal('scroll');
                 subscription.unsubscribe();
                 done();
             });
 
             // simulate window scroll event
-            ee.emit('scroll', {foo: 'foo'});
-        });
-
-        it('by default scroll should be triggered by scroll:50 (scroll with 50ms throttle)', function (done) {
-            var subscription = subscribe('scroll', function (e, syntheticEvent) {
-                expect(e.foo).equal('foo');
-                expect(syntheticEvent.bar).equal('bar');
-                subscription.unsubscribe();
-                done();
-            });
-
-            ee.emit('scroll:50', {foo: 'foo'}, {bar: 'bar'});
+            env.eventHandlers.scroll({foo: 'foo'});
         });
 
         it('scroll with throttle = 100 should be triggered by scroll:100 (scroll with 100ms throttle)', function (done) {
-            var subscription = subscribe('scroll', function (e, syntheticEvent) {
+            var subscription = subscribe('scroll', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.bar).equal('bar');
+                expect(ae.type).equal('scroll');
+                expect(subscription._type).equal('scroll:100');
                 subscription.unsubscribe();
                 done();
             }, {throttleRate: 100});
 
-            ee.emit('scroll:100', {foo: 'foo'}, {bar: 'bar'});
+            // simulate window scroll event
+            env.eventHandlers.scroll({foo: 'foo'});
         });
 
         it('scroll with rAF throttle should be triggered by window scroll', function (done) {
-            var subscription = subscribe('scroll', function (e, syntheticEvent) {
+            var subscription = subscribe('scroll', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('scroll');
+                expect(ae.type).equal('scroll');
+                expect(subscription._type).equal('scroll:raf');
                 subscription.unsubscribe();
                 done();
             }, {useRAF: true});
 
-            ee.emit('scroll', {foo: 'foo'});
+            // simulate window scroll event
+            env.eventHandlers.scroll({foo: 'foo'});
         });
 
-        it('by default scroll with rAF throttle should be triggered by scroll:15:raf', function (done) {
-            var subscription = subscribe('scroll', function (e, syntheticEvent) {
+        it('scroll with 50ms rAF throttle should be triggered by scroll:raf', function (done) {
+            var subscription = subscribe('scroll', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.bar).equal('bar');
-                subscription.unsubscribe();
-                done();
-            }, {useRAF: true});
-
-            ee.emit('scroll:15:raf', {foo: 'foo'}, {bar: 'bar'});
-        });
-
-        it('scroll with 50ms rAF throttle should be triggered by scroll:50:raf', function (done) {
-            var subscription = subscribe('scroll', function (e, syntheticEvent) {
-                expect(e.foo).equal('foo');
-                expect(syntheticEvent.bar).equal('bar');
+                expect(ae.type).equal('scroll');
+                expect(subscription._type).equal('scroll:raf');
                 subscription.unsubscribe();
                 done();
             }, {throttleRate: 50, useRAF: true});
 
-            ee.emit('scroll:50:raf', {foo: 'foo'}, {bar: 'bar'});
+            // simulate window scroll event
+            env.eventHandlers.scroll({foo: 'foo'});
         });
 
-        it('viewportchange should be triggered by scroll, resize, and visibilitychange', function (done) {
-            var fireCount = 0;
-            var subscription = subscribe('viewportchange', function (e, syntheticEvent) {
-                expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('viewportchange');
-                fireCount++;
-                if (fireCount === 3) {
-                    subscription.unsubscribe();
-                    done();
-                }
-            });
+        // it('viewportchange should be triggered by scroll, resize, and visibilitychange', function (done) {
+        //     var fireCount = 0;
+        //     var subscription = subscribe('viewportchange', function (e, ae) {
+        //         expect(e.foo).equal('foo');
+        //         expect(ae.type).equal('viewportchange');
+        //         fireCount++;
+        //         if (fireCount === 3) {
+        //             subscription.unsubscribe();
+        //             done();
+        //         }
+        //     });
+        //
+        //     ee.emit('scroll', {foo: 'foo'});
+        //     ee.emit('resize', {foo: 'foo'});
+        //     ee.emit('visibilitychange', {foo: 'foo'});
+        // });
+        //
+        // it('viewportchange should be triggered by viewportchange:50', function (done) {
+        //     var subscription = subscribe('viewportchange', function (e, ae) {
+        //         expect(e.foo).equal('foo');
+        //         expect(ae.bar).equal('bar');
+        //         subscription.unsubscribe();
+        //         done();
+        //     });
+        //
+        //     ee.emit('viewportchange:50', {foo: 'foo'}, {bar: 'bar'});
+        // });
 
-            ee.emit('scroll', {foo: 'foo'});
-            ee.emit('resize', {foo: 'foo'});
-            ee.emit('visibilitychange', {foo: 'foo'});
-        });
-
-        it('viewportchange should be triggered by viewportchange:50', function (done) {
-            var subscription = subscribe('viewportchange', function (e, syntheticEvent) {
+        it('visibilitychange should be triggered by visibilitychange:0', function (done) {
+            // no throttling for discrete event
+            var subscription = subscribe('visibilitychange', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.bar).equal('bar');
+                expect(ae.type).equal('visibilitychange');
+                expect(subscription._type).equal('visibilitychange:0');
                 subscription.unsubscribe();
                 done();
             });
 
-            ee.emit('viewportchange:50', {foo: 'foo'}, {bar: 'bar'});
+            env.eventHandlers.visibilitychange({foo: 'foo'});
         });
 
         it('should not fail if pass null arguments', function () {
@@ -159,147 +114,154 @@ describe('subscribe', function () {
         });
 
         it('scrollStart and scrollEnd should be triggered by the start/end of window scroll', function (done) {
-            var subscription1 = subscribe('scrollStart', function (e, syntheticEvent) {
+            var subscription1 = subscribe('scrollStart', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('scrollStart');
+                expect(ae.type).equal('scrollStart');
                 subscription1.unsubscribe();
             });
-            var subscription2 = subscribe('scrollEnd', function (e, syntheticEvent) {
+            var subscription2 = subscribe('scrollEnd', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('scrollEnd');
+                expect(ae.type).equal('scrollEnd');
                 subscription2.unsubscribe();
                 done();
             });
 
             // simulate window scroll event
-            ee.emit('scroll', {foo: 'foo'});
+            env.eventHandlers.scroll({foo: 'foo'});
         });
 
         it('resizeStart and resizeEnd should be triggered by the start/end of window resize', function (done) {
-            var subscription1 = subscribe('resizeStart', function (e, syntheticEvent) {
+            var subscription1 = subscribe('resizeStart', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('resizeStart');
+                expect(ae.type).equal('resizeStart');
                 subscription1.unsubscribe();
             });
-            var subscription2 = subscribe('resizeEnd', function (e, syntheticEvent) {
+            var subscription2 = subscribe('resizeEnd', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('resizeEnd');
+                expect(ae.type).equal('resizeEnd');
                 subscription2.unsubscribe();
                 done();
             });
 
             // simulate window scroll event
-            ee.emit('resize', {foo: 'foo'});
+            env.eventHandlers.resize({foo: 'foo'});
         });
 
         it('scroll should be triggered by window scroll with scroll information', function (done) {
             // the first one subscription should get scroll info as well, because the second one requests
-            var subscription1 = subscribe('scroll', function (e, syntheticEvent) {
+            var subscription1 = subscribe('scroll', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('scroll');
-                expect(syntheticEvent.scroll.top).equal(10);
+                expect(ae.type).equal('scroll');
+                expect(ae.scroll.top).equal(10);
                 subscription1.unsubscribe();
             }, {enableScrollInfo: false});
 
             // the second one request scroll info, which should dominate.
-            var subscription2 = subscribe('scroll', function (e, syntheticEvent) {
+            var subscription2 = subscribe('scroll', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('scroll');
-                expect(syntheticEvent.scroll.top).equal(10);
+                expect(ae.type).equal('scroll');
+                expect(ae.scroll.top).equal(10);
                 subscription2.unsubscribe();
                 done();
             }, {enableScrollInfo: true});
 
             // simulate window scroll event
-            ee.emit('scroll', {foo: 'foo'});
+            env.eventHandlers.scroll({foo: 'foo'});
         });
 
         it('resize should be triggered by window resize with resize information', function (done) {
             // the first one subscription should get resize info as well, because the second one requests
-            var subscription1 = subscribe('resize', function (e, syntheticEvent) {
+            var subscription1 = subscribe('resize', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('resize');
-                expect(syntheticEvent.resize.width).equal(10);
+                expect(ae.type).equal('resize');
+                expect(ae.resize.width).equal(20);
                 subscription1.unsubscribe();
             }, {enableResizeInfo: false});
 
-            var subscription2 = subscribe('resize', function (e, syntheticEvent) {
+            var subscription2 = subscribe('resize', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('resize');
-                expect(syntheticEvent.resize.width).equal(10);
+                expect(ae.type).equal('resize');
+                expect(ae.resize.width).equal(20);
                 subscription2.unsubscribe();
                 done();
             }, {enableResizeInfo: true});
 
-            // simulate window resize event
-            ee.emit('resize', {foo: 'foo'});
+            // simulate window scroll event
+            env.eventHandlers.resize({foo: 'foo'});
         });
 
-        it('same event should be subscribed once', function (done) {
+        it('same main event should be subscribed once', function (done) {
             // for continuous events
-            var subscription1 = subscribe('scroll', function (e, syntheticEvent) {
+            var subscription1 = subscribe('scroll', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('scroll');
+                expect(ae.type).equal('scroll');
                 subscription1.unsubscribe();
             });
-            var subscription2 = subscribe('scroll', function (e, syntheticEvent) {
+            var subscription2 = subscribe('scroll', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('scroll');
+                expect(ae.type).equal('scroll');
                 subscription2.unsubscribe();
             });
 
-            // Actually, ee never listens to those ui events, such like 'scroll', 'resize', and 'visibilitychange'.
-            // It only listens to throttled events, like 'scroll:50', 'scroll:50:raf'.
-            // ee.listeners('scroll') will increase because I mocked window.addEventListener above to listen to
             // 'scroll' event. The number of listeners will stay at 1 if the same event is subscribed multiple times.
-            expect(ee.listeners('scroll').length).equal(1);
+            expect(ee.listeners('scroll:50').length).equal(2);
+            expect(globalVars.listeners['scroll:50']).to.be.ok();
             // simulate window scroll event
-            ee.emit('scroll', {foo: 'foo'});
+            env.eventHandlers.scroll({foo: 'foo'});
+
+            // remove scroll:50 listeners after unsubscibing
+            expect(globalVars.listeners['scroll:50']).equal(undefined);
 
             // for edge events
-            subscription1 = subscribe('scrollStart', function (e, syntheticEvent) {
+            subscription1 = subscribe('scrollStart', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('scrollStart');
+                expect(ae.type).equal('scrollStart');
                 subscription1.unsubscribe();
             });
-            subscription2 = subscribe('scrollStart', function (e, syntheticEvent) {
+            subscription2 = subscribe('scrollStart', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('scrollStart');
+                expect(ae.type).equal('scrollStart');
                 subscription2.unsubscribe();
             });
 
-            expect(ee.listeners('scroll').length).equal(1);
+            expect(ee.listeners('scrollStart:50').length).equal(2);
+            expect(globalVars.listeners['scroll:50']).to.be.ok();
             // simulate window scroll event
-            ee.emit('scroll', {foo: 'foo'});
+            env.eventHandlers.scroll({foo: 'foo'});
 
-            // for viewportchange event
-            subscription1 = subscribe('viewportchange', function (e, syntheticEvent) {
+            // remove scroll:50 listeners after unsubscibing
+            expect(globalVars.listeners['scroll:50']).equal(undefined);
+
+            // for visibilitychange event
+            subscription1 = subscribe('visibilitychange', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('viewportchange');
+                expect(ae.type).equal('visibilitychange');
                 subscription1.unsubscribe();
             });
-            subscription2 = subscribe('viewportchange', function (e, syntheticEvent) {
+            subscription2 = subscribe('visibilitychange', function (e, ae) {
                 expect(e.foo).equal('foo');
-                expect(syntheticEvent.type).equal('viewportchange');
+                expect(ae.type).equal('visibilitychange');
                 subscription2.unsubscribe();
                 done();
             });
 
-            expect(ee.listeners('scroll').length).equal(1);
-            expect(ee.listeners('resize').length).equal(1);
-            expect(ee.listeners('visibilitychange').length).equal(1);
+            expect(ee.listeners('visibilitychange:0').length).equal(2);
+            expect(globalVars.listeners['visibilitychange:0']).to.be.ok();
             // simulate window scroll event
-            ee.emit('visibilitychange', {foo: 'foo'});
+            env.eventHandlers.visibilitychange({foo: 'foo'});
         });
 
         it('should not have fatal error if multiple unsubscibe happens', function (done) {
-            var subscription = subscribe('scroll', function (e, syntheticEvent) {
+            var subscription = subscribe('scroll', function (e, ae) {
                 expect(e.foo).equal('foo');
                 subscription.unsubscribe();
                 subscription.unsubscribe();
+                expect(globalVars.connections['scroll:50']).equal(0);
                 done();
             });
-            ee.emit('scroll', {foo: 'foo'});
+
+            // simulate window scroll event
+            env.eventHandlers.scroll({foo: 'foo'});
         });
     });
 });

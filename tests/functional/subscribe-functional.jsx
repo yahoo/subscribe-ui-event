@@ -30,7 +30,8 @@ var EventCounter = React.createClass({
         if (!this.props.disable) {
             subscribe(this.props.eventType, this._handleEvent, {
                 throttleRate: this.props.throttleRate,
-                useRAF: this.props.useRAF
+                useRAF: this.props.useRAF,
+                enableScrollInfo: true
             });
         }
     },
@@ -62,11 +63,15 @@ var SubscribeDemo = React.createClass({
                 <EventCounter eventType='scroll' throttleRate={300} useRAF={true}/>
                 <EventCounter eventType='scrollStart'/>
                 <EventCounter eventType='scrollEnd'/>
-                <EventCounter eventType='viewportchange' throttleRate={0}/>
-                <EventCounter eventType='viewportchange' throttleRate={1000}/>
                 <EventCounter eventType='resize'/>
                 <EventCounter eventType='resizeStart'/>
                 <EventCounter eventType='resizeEnd'/>
+                <EventCounter eventType='visibilitychange'/>
+                <EventCounter eventType='touchmoveStart'/>
+                <EventCounter eventType='touchmoveEnd'/>
+                <EventCounter eventType='touchmove' throttleRate={1000}/>
+                <EventCounter eventType='touchstart' throttleRate={1000}/>
+                <EventCounter eventType='touchend' throttleRate={1000}/>
             </div>
         );
     }

@@ -4,10 +4,7 @@
  */
 'use strict';
 
-var EventEmitter = require('eventemitter3');
-
 module.exports = {
-    eventEmitter: new EventEmitter(),
-    eventHandlers: {},
-    subscriptions: []
+    EVENT_END_DELAY: 200,
+    DEFAULT_THROTTLE_RATE: 50
 };

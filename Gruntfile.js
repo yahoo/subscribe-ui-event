@@ -128,6 +128,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         src: [
+                            '<%= project.unit %>/../lib/**/*.*',
                             '<%= project.unit %>/**/*.*'
                         ],
                         dest: '<%= project.tmp %>',

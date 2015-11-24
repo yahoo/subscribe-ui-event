@@ -14,6 +14,8 @@ function rAFThrottle(func, throttle) {
     var last = 0;
     var requestId = 0;
 
+    throttle = throttle || 15;
+
     var later = function () {
         var now = getTime();
         var remaining = throttle - (now - last);
