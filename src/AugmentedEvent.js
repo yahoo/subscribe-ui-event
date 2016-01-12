@@ -51,7 +51,6 @@ ArgmentedEvent.prototype = {
             if (top !== this.scroll.top) {
                 this.scroll.delta = top - this.scroll.top;
                 this.scroll.top = top;
-                console.log(top);
             }
         }
         if (globalVars.enableResizeInfo && mainType === 'resize') {
