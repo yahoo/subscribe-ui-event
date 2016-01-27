@@ -12,10 +12,12 @@ function warn() {
 
 if (typeof window !== 'undefined') {
     module.exports = {
-        subscribe: require('./dist/subscribe')
+        subscribe: require('./dist/subscribe'),
+        unsubscribe: require('./dist/subscribe')
     };
 } else {
     module.exports = {
-        subscribe: warn
+        subscribe: warn,
+        unsubscribe: warn
     };
 }
