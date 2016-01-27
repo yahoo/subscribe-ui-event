@@ -18,6 +18,7 @@ function unsubscribe(type, cb, options) {
         remover = removers[i];
         if (remover._cb === cb && remover._type.indexOf(type) >= 0) {
             remover.unsubscribe();
+            removers.splice(i, 1);
         }
     }
 }

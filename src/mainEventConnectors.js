@@ -64,6 +64,15 @@ function connectThrottle (throttledEvent, cb, ctx, throttledMainEvent) {
             this._type = undefined;
             this._cb = undefined;
             this._ctx = undefined;
+
+            // remove the remover from removers array
+            for (var i = removers.length - 1; i >= 0; i--) {
+                var remover = removers[i];
+                if (remover === this) {
+                    removers.splice(i, 1);
+                    break;
+                }
+            }
         }
     };
 }
