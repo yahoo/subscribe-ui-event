@@ -15,6 +15,7 @@ var leIE8 = require('./lib/leIE8');
 var listen = require('./lib/listen');
 var listeners = require('./globalVars').listeners;
 var rAFThrottle = require('./lib/rAFThrottle');
+var removers = require('./globalVars').removers;
 var subscriptions = require('./globalVars').subscriptions;
 
 // constants
@@ -82,6 +83,7 @@ function connectContinuousEvent (target, mainEvent, event) {
         var throttledEvent = event + ':' + throttleRate;
 
         var remover = connectThrottle(throttledEvent, cb, context, throttledMainEvent);
+        removers.push(remover);
 
         if (listeners[throttledMainEvent]) {
             return remover;
@@ -138,6 +140,7 @@ function connectDiscreteEvent (target, event) {
         var throttledEvent = event + ':0';
 
         var remover = connectThrottle(throttledEvent, cb, context);
+        removers.push(remover);
 
         if (listeners[throttledEvent]) {
             return remover;

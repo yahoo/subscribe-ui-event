@@ -7,9 +7,10 @@
 var EventEmitter = require('eventemitter3');
 
 module.exports = {
-    EE: new EventEmitter(),
     connections: {},
-    listeners: {},
+    EE: new EventEmitter(),
+    enableResizeInfo: false,
     enableScrollInfo: false,
-    enableResizeInfo: false
+    listeners: {},
+    removers: []
 };
