@@ -44,7 +44,7 @@ npm install subscribe-ui-event
 Subscription subscribe(String eventType, Function callback, Object? options)
 ```
 
-Provide throttled version of window or document events, such like `scroll`, `resize` and `visibilitychange` to subscribe.
+Provide throttled version of window or document events, such like `scroll`, `resize`, `touch` and `visibilitychange` to subscribe, see below.
 
 **Note on IE8 or the below, the throttle will be turned off because the event object is global and will be deleted for setTimeout or rAF.**
 
@@ -97,12 +97,26 @@ The format of the payload is:
 `eventType` could be one of the following:
 
 1. scroll - window.scoll
-2. scrollStart - The start window.scoll
-3. scrollEnd - The end window.scoll
+2. scrollStart - The start of window.scoll
+3. scrollEnd - The end of window.scoll
 4. resize - window.resize
 5. resizeStart - The start window.resize
 6. resizeEnd - The end window.resize
 7. visibilitychange - document.visibilitychange (IE8 doesn't support)
+8. touchmoveStart - The start of window.touchmove
+9. touchmoveEnd - The end of window.touchmove
+10. touchmove - window.touchmove
+11. touchstart - window.touchstart
+12. touchend - window.touchend
+
+
+### unsubscribe
+
+```js
+Void unsubscribe(String eventType, Function callback)
+```
+
+Unsubscribe an event listener, suggest to use `subscription.unsubscribe()`, because it may accidentally unsubscribe those events having the same `eventType` and `callback` but different `throttleRate`.
 
 ## License
 

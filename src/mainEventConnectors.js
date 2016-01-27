@@ -15,6 +15,7 @@ var leIE8 = require('./lib/leIE8');
 var listen = require('./lib/listen');
 var listeners = require('./globalVars').listeners;
 var rAFThrottle = require('./lib/rAFThrottle');
+var removers = require('./globalVars').removers;
 var subscriptions = require('./globalVars').subscriptions;
 
 // constants
@@ -63,6 +64,15 @@ function connectThrottle (throttledEvent, cb, ctx, throttledMainEvent) {
             this._type = undefined;
             this._cb = undefined;
             this._ctx = undefined;
+
+            // remove the remover from removers array
+            for (var i = removers.length - 1; i >= 0; i--) {
+                var remover = removers[i];
+                if (remover === this) {
+                    removers.splice(i, 1);
+                    break;
+                }
+            }
         }
     };
 }
@@ -82,6 +92,7 @@ function connectContinuousEvent (target, mainEvent, event) {
         var throttledEvent = event + ':' + throttleRate;
 
         var remover = connectThrottle(throttledEvent, cb, context, throttledMainEvent);
+        removers.push(remover);
 
         if (listeners[throttledMainEvent]) {
             return remover;
@@ -138,6 +149,7 @@ function connectDiscreteEvent (target, event) {
         var throttledEvent = event + ':0';
 
         var remover = connectThrottle(throttledEvent, cb, context);
+        removers.push(remover);
 
         if (listeners[throttledEvent]) {
             return remover;
