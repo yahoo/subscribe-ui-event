@@ -24,8 +24,7 @@
   "author": "Hank Hsiao <hankxiao@yahoo-inc.com>",
   "dependencies": {
     "eventemitter3": "^1.1.0",
-    "lodash.throttle": "^3.0.3",
-    "lodash.clone": "^3.0.3",
+    "lodash": "^3.0.3",
     "raf": "^3.0.0"
   },
   "devDependencies": {
