@@ -13,6 +13,7 @@
     "url": "https://github.com/yahoo/subscribe-ui-event"
   },
   "keywords": [
+    "addEventListener",
     "browser",
     "events",
     "requestAnimationFrame",
@@ -36,15 +37,15 @@
     "grunt-atomizer": "^3.0.0",
     "grunt-babel": "^5.0.0",
     "grunt-cli": "^0.1.13",
-    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-connect": "^0.11.0",
-    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-saucelabs": "^8.3.2",
     "grunt-shell": "^1.1.2",
     "grunt-webpack": "^1.0.8",
     "grunt": "^0.4.5",
-    "istanbul": "^0.3.0",
+    "istanbul": "^0.4.0",
     "jshint": "^2.5.1",
     "minimist": "^1.0.0",
     "mocha": "^2.0",
@@ -53,7 +54,7 @@
     "pre-commit": "^1.0.0",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
-    "xunit-file": "^0.0.7"
+    "xunit-file": "^0.0.9"
   },
   "precommit": [
     "lint",

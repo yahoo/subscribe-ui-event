@@ -12,11 +12,13 @@ function warn() {
 
 if (typeof window !== 'undefined') {
     module.exports = {
+        listen: require('./dist/lib/listen'),
         subscribe: require('./dist/subscribe'),
         unsubscribe: require('./dist/subscribe')
     };
 } else {
     module.exports = {
+        listen: warn,
         subscribe: warn,
         unsubscribe: warn
     };
