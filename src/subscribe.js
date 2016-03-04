@@ -44,6 +44,7 @@ function subscribe(type, cb, options) {
     // once those variables enabled, then never disabled.
     globalVars.enableScrollInfo = globalVars.enableScrollInfo || options.enableScrollInfo || false;
     globalVars.enableResizeInfo = globalVars.enableResizeInfo || options.enableResizeInfo || false;
+    globalVars.enableTouchInfo = globalVars.enableTouchInfo || options.enableTouchInfo || false;
 
     return mainEventConnectors[type](throttleRate, cb, options.context);
 }

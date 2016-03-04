@@ -78,6 +78,14 @@ The format of the payload is:
     resize: {
         width: <Number>, // The client width
         height: <Number> // The client height
+    },
+    // you need to pass options.enableTouchInfo = true to subscribe to get the following data
+    touch: {
+        axisIntention: <String>, // 'x', 'y', or ''.
+        startX: <Number>,
+        startY: <Number>,
+        deltaX: <Number>,
+        deltaY: <Number>
     }
 }
 ```
@@ -93,6 +101,8 @@ The format of the payload is:
 `options.enableScrollInfo = true` allows of getting `scrollTop`.
 
 `options.enableResizeInfo = true` allows of getting `width` and `height` of client.
+
+`options.enableTouchInfo = true` allows of getting touch information (see above).
 
 `eventType` could be one of the following:
 
