@@ -46,7 +46,7 @@ function subscribe(type, cb, options) {
     globalVars.enableResizeInfo = globalVars.enableResizeInfo || options.enableResizeInfo || false;
     globalVars.enableTouchInfo = globalVars.enableTouchInfo || options.enableTouchInfo || false;
 
-    return mainEventConnectors[type](throttleRate, cb, options.context);
+    return mainEventConnectors[type](throttleRate, cb, options);
 }
 
 module.exports = subscribe;

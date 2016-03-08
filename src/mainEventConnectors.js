@@ -25,11 +25,16 @@ var EVENT_END_DELAY = require('./constants').EVENT_END_DELAY;
 var doc;
 var win;
 var body;
+var hashId = 0;
 
 if (typeof window !== 'undefined') {
     win = window;
     doc = win.document || document;
     body = doc.body;
+}
+
+function getHash (domNode) {
+    return domNode.id || 'target-id-' + hashId++;
 }
 
 /**
@@ -87,11 +92,15 @@ function connectThrottle(throttledEvent, cb, ctx, throttledMainEvent) {
  * @param {String} event - A subscribe event.
  */
 function connectContinuousEvent(target, mainEvent, event) {
-    return function throttleEvent(throttleRate, cb, context) {
+    return function throttleEvent(throttleRate, cb, options) {
+        var context = options.context;
+        var domTarget = options.target;
+        var domId = domTarget && getHash(domTarget);
+
         var throttledStartEvent = mainEvent + 'Start:' + throttleRate;
         var throttledEndEvent = mainEvent + 'End:' + throttleRate;
-        var throttledMainEvent = mainEvent + ':' + throttleRate;
-        var throttledEvent = event + ':' + throttleRate;
+        var throttledMainEvent = mainEvent + ':' + throttleRate + (domId ? ':' + domId : '');
+        var throttledEvent = event + ':' + throttleRate + (domId ? ':' + domId : '');
 
         var remover = connectThrottle(throttledEvent, cb, context, throttledMainEvent);
         removers.push(remover);
@@ -140,15 +149,19 @@ function connectContinuousEvent(target, mainEvent, event) {
             }
         }
 
-        listeners[throttledMainEvent] = listen(target, mainEvent, handler);
+        listeners[throttledMainEvent] = listen(domTarget || target, mainEvent, handler);
         return remover;
     };
 }
 
 function connectDiscreteEvent(target, event) {
-    return function throttleEvent(throttleRate, cb, context) {
+    return function throttleEvent(throttleRate, cb, options) {
+        var context = options.context;
+        var domTarget = options.target;
+        var domId = domTarget && getHash(domTarget);
+
         // no throttling for discrete event
-        var throttledEvent = event + ':0';
+        var throttledEvent = event + ':0' + (domId ? ':' + domId : '');
 
         var remover = connectThrottle(throttledEvent, cb, context);
         removers.push(remover);
@@ -164,7 +177,7 @@ function connectDiscreteEvent(target, event) {
             EE.emit(throttledEvent, e, ae);
         }
 
-        listeners[throttledEvent] = listen(target, event, handler);
+        listeners[throttledEvent] = listen(domTarget || target, event, handler);
         return remover;
     };
 }
