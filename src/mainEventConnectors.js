@@ -2,7 +2,7 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
- /* global window, document, setTimeout */
+/* global window, document, setTimeout */
 'use strict';
 
 var _clone = require('lodash/lang/clone');
@@ -24,10 +24,17 @@ var EVENT_END_DELAY = require('./constants').EVENT_END_DELAY;
 // global variables
 var doc;
 var win;
+var body;
+var hashId = 0;
 
 if (typeof window !== 'undefined') {
     win = window;
     doc = win.document || document;
+    body = doc.body;
+}
+
+function getHash (domNode) {
+    return domNode.id || 'target-id-' + hashId++;
 }
 
 /**
@@ -41,7 +48,7 @@ if (typeof window !== 'undefined') {
  * @param {String} throttledMainEvent - A throttled main event
  * @return {Object} An event remover
  */
-function connectThrottle (throttledEvent, cb, ctx, throttledMainEvent) {
+function connectThrottle(throttledEvent, cb, ctx, throttledMainEvent) {
     EE.on(throttledEvent, cb, ctx);
     throttledMainEvent = throttledMainEvent || throttledEvent;
     connections[throttledMainEvent] = (connections[throttledMainEvent] || 0) + 1;
@@ -49,7 +56,7 @@ function connectThrottle (throttledEvent, cb, ctx, throttledMainEvent) {
         _type: throttledEvent,
         _cb: cb,
         _ctx: ctx,
-        unsubscribe: function unsubscribe () {
+        unsubscribe: function unsubscribe() {
             if (!this._type) {
                 return;
             }
@@ -84,12 +91,16 @@ function connectThrottle (throttledEvent, cb, ctx, throttledMainEvent) {
  * @param {String} mainEvent - A browser event, like scroll or resize.
  * @param {String} event - A subscribe event.
  */
-function connectContinuousEvent (target, mainEvent, event) {
-    return function throttleEvent (throttleRate, cb, context) {
+function connectContinuousEvent(target, mainEvent, event) {
+    return function throttleEvent(throttleRate, cb, options) {
+        var context = options.context;
+        var domTarget = options.target;
+        var domId = domTarget && getHash(domTarget);
+
         var throttledStartEvent = mainEvent + 'Start:' + throttleRate;
         var throttledEndEvent = mainEvent + 'End:' + throttleRate;
-        var throttledMainEvent = mainEvent + ':' + throttleRate;
-        var throttledEvent = event + ':' + throttleRate;
+        var throttledMainEvent = mainEvent + ':' + throttleRate + (domId ? ':' + domId : '');
+        var throttledEvent = event + ':' + throttleRate + (domId ? ':' + domId : '');
 
         var remover = connectThrottle(throttledEvent, cb, context, throttledMainEvent);
         removers.push(remover);
@@ -99,12 +110,12 @@ function connectContinuousEvent (target, mainEvent, event) {
         }
 
         var ae = {
-            start: new AugmentedEvent({type: mainEvent + 'Start'}), // start
-            main: new AugmentedEvent({type: mainEvent}), // main
-            end: new AugmentedEvent({type: mainEvent + 'End'}), // end
-        };
+            start: new AugmentedEvent({ mainType: mainEvent, subType: 'start' }), // start
+            main: new AugmentedEvent({ mainType: mainEvent }), // main
+            end: new AugmentedEvent({ mainType: mainEvent, subType: 'end' }) };
 
         // No throttle for throttleRate = 0
+        // end
         if (throttleRate === 'raf') {
             throttleRate = 16; // Set as a number for setTimeout later.
             handler = rAFThrottle(handler);
@@ -113,19 +124,19 @@ function connectContinuousEvent (target, mainEvent, event) {
         }
 
         var timer;
-        function endCallback (e) {
-            ae.end.update(mainEvent);
+        function endCallback(e) {
+            ae.end.update(e);
             EE.emit(throttledEndEvent, e, ae.end);
             timer = null;
         }
-        function handler (e) {
-            ae.start.update(mainEvent);
+        function handler(e) {
             if (!timer) {
+                ae.start.update(e);
                 EE.emit(throttledStartEvent, e, ae.start);
             }
             clearTimeout(timer);
 
-            // No need to call ae.main.update(), because ae.start.update is called, everything is update-to-date.
+            ae.main.update(e);
             EE.emit(throttledMainEvent, e, ae.main);
             if (!leIE8) {
                 timer = setTimeout(endCallback.bind(null, e), throttleRate + EVENT_END_DELAY);
@@ -138,15 +149,19 @@ function connectContinuousEvent (target, mainEvent, event) {
             }
         }
 
-        listeners[throttledMainEvent] = listen(target, mainEvent, handler);
+        listeners[throttledMainEvent] = listen(domTarget || target, mainEvent, handler);
         return remover;
     };
 }
 
-function connectDiscreteEvent (target, event) {
-    return function throttleEvent (throttleRate, cb, context) {
+function connectDiscreteEvent(target, event) {
+    return function throttleEvent(throttleRate, cb, options) {
+        var context = options.context;
+        var domTarget = options.target;
+        var domId = domTarget && getHash(domTarget);
+
         // no throttling for discrete event
-        var throttledEvent = event + ':0';
+        var throttledEvent = event + ':0' + (domId ? ':' + domId : '');
 
         var remover = connectThrottle(throttledEvent, cb, context);
         removers.push(remover);
@@ -155,14 +170,14 @@ function connectDiscreteEvent (target, event) {
             return remover;
         }
 
-        var ae = new AugmentedEvent({type: event});
+        var ae = new AugmentedEvent({ mainType: event });
 
-        function handler (e) {
-            ae.update(event);
+        function handler(e) {
+            ae.update(e);
             EE.emit(throttledEvent, e, ae);
         }
 
-        listeners[throttledEvent] = listen(target, event, handler);
+        listeners[throttledEvent] = listen(domTarget || target, event, handler);
         return remover;
     };
 }
@@ -175,9 +190,9 @@ module.exports = {
     resizeEnd: connectContinuousEvent(win, 'resize', 'resizeEnd'),
     resize: connectContinuousEvent(win, 'resize', 'resize'),
     visibilitychange: connectDiscreteEvent(doc, 'visibilitychange'),
-    touchmoveStart: connectContinuousEvent(win, 'touchmove', 'touchmoveStart'),
-    touchmoveEnd: connectContinuousEvent(win, 'touchmove', 'touchmoveEnd'),
-    touchmove: connectContinuousEvent(win, 'touchmove', 'touchmove'),
-    touchstart: connectDiscreteEvent(doc, 'touchstart'),
-    touchend: connectDiscreteEvent(doc, 'touchend'),
+    touchmoveStart: connectContinuousEvent(body, 'touchmove', 'touchmoveStart'),
+    touchmoveEnd: connectContinuousEvent(body, 'touchmove', 'touchmoveEnd'),
+    touchmove: connectContinuousEvent(body, 'touchmove', 'touchmove'),
+    touchstart: connectDiscreteEvent(body, 'touchstart'),
+    touchend: connectDiscreteEvent(body, 'touchend')
 };

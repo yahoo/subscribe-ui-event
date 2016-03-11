@@ -41,10 +41,16 @@ window = {
 };
 document = {
     documentElement: {
-        scrollTop: 10
+        scrollTop: 10,
+        scrollLeft: 0
     },
     body: {
-        scrollTop: 0
+        scrollTop: 0,
+        scrollLeft: 0,
+        addEventListener: addEventListener,
+        removeEventListener: removeEventListener,
+        attachEvent: addEventListener,
+        detachEvent: removeEventListener
     },
     addEventListener: addEventListener,
     removeEventListener: removeEventListener,
