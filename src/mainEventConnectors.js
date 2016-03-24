@@ -96,11 +96,12 @@ function connectContinuousEvent(target, mainEvent, event) {
         var context = options.context;
         var domTarget = options.target;
         var domId = domTarget && getHash(domTarget);
+        var targetPart = domId ? ':' + domId : '';
 
-        var throttledStartEvent = mainEvent + 'Start:' + throttleRate;
-        var throttledEndEvent = mainEvent + 'End:' + throttleRate;
-        var throttledMainEvent = mainEvent + ':' + throttleRate + (domId ? ':' + domId : '');
-        var throttledEvent = event + ':' + throttleRate + (domId ? ':' + domId : '');
+        var throttledStartEvent = mainEvent + 'Start:' + throttleRate + targetPart;
+        var throttledEndEvent = mainEvent + 'End:' + throttleRate + targetPart;
+        var throttledMainEvent = mainEvent + ':' + throttleRate + targetPart;
+        var throttledEvent = event + ':' + throttleRate + targetPart;
 
         var remover = connectThrottle(throttledEvent, cb, context, throttledMainEvent);
         removers.push(remover);
