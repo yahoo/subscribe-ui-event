@@ -5,6 +5,6 @@
 'use strict';
 
 module.exports = {
-    EVENT_END_DELAY: 200,
+    EVENT_END_DELAY: 100,
     DEFAULT_THROTTLE_RATE: 50
 };
