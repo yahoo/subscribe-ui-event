@@ -5,8 +5,8 @@
 /* global window, document, setTimeout */
 'use strict';
 
-var _clone = require('lodash/lang/clone');
-var _throttle = require('lodash/function/throttle');
+var _clone = require('lodash/clone');
+var _throttle = require('lodash/throttle');
 var AugmentedEvent = require('./AugmentedEvent');
 var connections = require('./globalVars').connections;
 var EE = require('./globalVars').EE;
