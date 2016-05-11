@@ -8,15 +8,15 @@
 var _clone = require('lodash/clone');
 var _throttle = require('lodash/throttle');
 var AugmentedEvent = require('./AugmentedEvent');
-var connections = require('./globalVars').connections;
-var EE = require('./globalVars').EE;
 var globalVars = require('./globalVars');
+var connections = globalVars.connections;
+var EE = globalVars.EE;
 var leIE8 = require('./lib/leIE8');
 var listen = require('./lib/listen');
-var listeners = require('./globalVars').listeners;
+var listeners = globalVars.listeners;
 var rAFThrottle = require('./lib/rAFThrottle');
-var removers = require('./globalVars').removers;
-var subscriptions = require('./globalVars').subscriptions;
+var removers = globalVars.removers;
+var subscriptions = globalVars.subscriptions;
 
 // constants
 var EVENT_END_DELAY = require('./constants').EVENT_END_DELAY;
