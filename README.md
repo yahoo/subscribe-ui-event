@@ -5,13 +5,13 @@
 [![Dependency Status](https://david-dm.org/yahoo/subscribe-ui-event.svg)](https://david-dm.org/yahoo/subscribe-ui-event)
 [![devDependency Status](https://david-dm.org/yahoo/subscribe-ui-event/dev-status.svg)](https://david-dm.org/yahoo/subscribe-ui-event#info=devDependencies)
 
-With `subscribe-ui-event`, instead of calling multiple `window.addEvenListener('scroll', eventHandler);` by different components, call `subscribe('scroll', eventHandler)`. It will only add single event listener and dispatch event to those who subscribe the event via [eventemitter3](https://github.com/primus/EventEmitter3).
+With `subscribe-ui-event`, instead of calling multiple `window.addEventListener('scroll', eventHandler);` by different components, call `subscribe('scroll', eventHandler)`. It will only add single event listener and dispatch event to those who subscribe the event via [eventemitter3](https://github.com/primus/EventEmitter3).
 
 Why single event? More performance and less memory consumption.
 
 ## Single Event Listener v.s. Multiple Event Listeners
 
-The [jsperf ](http://jsperf.com/subscribe-v-s-addeventlistener/2) runs 10 `addEvenListener` and 10 non-throttling `subscribe`, and the outcome is that the ops/sec of `subscribe` is slightly less. But in regular case, you will use throttling `subscribe`, and it will be more performant.
+The [jsperf ](http://jsperf.com/subscribe-v-s-addeventlistener/2) runs 10 `addEventListener` and 10 non-throttling `subscribe`, and the outcome is that the ops/sec of `subscribe` is slightly less. But in regular case, you will use throttling `subscribe`, and it will be more performant.
 
 ![comparison](https://cloud.githubusercontent.com/assets/2044960/9611594/6167df1c-5095-11e5-8abc-c81ff4d13ce6.png)
 
