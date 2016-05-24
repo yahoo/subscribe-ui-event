@@ -1,6 +1,6 @@
 {
   "name": "subscribe-ui-event",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A single, throttle built-in solution to subscribe to browser UI Events.",
   "main": "index.js",
   "scripts": {
