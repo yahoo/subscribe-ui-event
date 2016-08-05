@@ -14,7 +14,7 @@ if (typeof window !== 'undefined') {
     module.exports = {
         listen: require('./dist/lib/listen'),
         subscribe: require('./dist/subscribe'),
-        unsubscribe: require('./dist/subscribe')
+        unsubscribe: require('./dist/unsubscribe')
     };
 } else {
     module.exports = {
