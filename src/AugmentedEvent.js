@@ -55,6 +55,16 @@ function ArgmentedEvent(option) {
 }
 
 ArgmentedEvent.prototype = {
+    
+    updateDocProperty: function(){
+        if ((!docEl || !docBody) && typeof window !== 'undefined') {
+            win = window;
+            doc = win.document || document;
+            docEl = doc.documentElement;
+            docBody = doc.body;
+        }        
+    },
+    
     getXY: function (touch) {
         var t = { x: 0, y: 0};
 
