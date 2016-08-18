@@ -68,6 +68,8 @@ ArgmentedEvent.prototype = {
     getXY: function (touch) {
         var t = { x: 0, y: 0};
 
+        this.updateDocProperty();
+        
         if (touch.pageX || touch.pageY) {
             t.x = touch.pageX;
             t.y = touch.pageY;
@@ -83,6 +85,8 @@ ArgmentedEvent.prototype = {
         var mainType = this.mainType;
         var subType = this.subType;
 
+        this.updateDocProperty();
+        
         if (globalVars.enableScrollInfo && (mainType === 'scroll' || mainType === 'touchmove')) {
             var top = docEl.scrollTop + docBody.scrollTop;
             // Prevent delta from being 0
