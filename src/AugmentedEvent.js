@@ -2,6 +2,8 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
+ /* global window, document */
+
 'use strict';
 
 var globalVars = require('./globalVars');
@@ -21,20 +23,7 @@ var touch = {
     deltaY: 0
 };
 
-// global variables
-var doc;
-var docBody;
-var docEl;
-var win;
-
 var INTENTION_THRESHOLD = 5;
-
-if (typeof window !== 'undefined') {
-    win = window;
-    doc = win.document || document;
-    docEl = doc.documentElement;
-    docBody = doc.body;
-}
 
 /**
  * ArgmentedEvent will hold some global information, such like window scroll postion,
@@ -57,6 +46,8 @@ function ArgmentedEvent(option) {
 ArgmentedEvent.prototype = {
     getXY: function (touch) {
         var t = { x: 0, y: 0};
+        var docBody = document.body;
+        var docEl = document.documentElement;
 
         if (touch.pageX || touch.pageY) {
             t.x = touch.pageX;
@@ -72,9 +63,10 @@ ArgmentedEvent.prototype = {
     update: function update(e) {
         var mainType = this.mainType;
         var subType = this.subType;
+        var docEl = document.documentElement;
 
         if (globalVars.enableScrollInfo && (mainType === 'scroll' || mainType === 'touchmove')) {
-            var top = docEl.scrollTop + docBody.scrollTop;
+            var top = docEl.scrollTop + document.body.scrollTop;
             // Prevent delta from being 0
             if (top !== this.scroll.top) {
                 this.scroll.delta = top - this.scroll.top;
@@ -82,8 +74,8 @@ ArgmentedEvent.prototype = {
             }
         }
         if (globalVars.enableResizeInfo && mainType === 'resize') {
-            this.resize.width = win.innerWidth || docEl.clientWidth;
-            this.resize.height = win.innerHeight || docEl.clientHeight;
+            this.resize.width = window.innerWidth || docEl.clientWidth;
+            this.resize.height = window.innerHeight || docEl.clientHeight;
         }
         if (globalVars.enableTouchInfo && e.touches &&
             (mainType === 'touchstart' || mainType === 'touchmove' || mainType === 'touchend')
