@@ -19,6 +19,7 @@ var DEFAULT_THROTTLE_RATE = require('./constants').DEFAULT_THROTTLE_RATE;
  * @param {Object} options.context - The caller.
  * @param {Number} options.throttleRate - The amount of time for throttling.
  * @param {Boolean} options.useRAF - Use rAF for throttling if true.
+ * @param {Boolean} options.passive - Register as passive event
  * @return {Object} The object with unsubscribe function.
  */
 function subscribe(type, cb, options) {

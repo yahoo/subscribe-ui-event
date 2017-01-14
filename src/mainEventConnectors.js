@@ -95,6 +95,7 @@ function connectContinuousEvent(target, mainEvent, event) {
     return function throttleEvent(throttleRate, cb, options) {
         var context = options.context;
         var domTarget = options.target;
+        var passive = options.passive;
         var domId = domTarget && getHash(domTarget);
         var targetPart = domId ? ':' + domId : '';
 
@@ -150,7 +151,7 @@ function connectContinuousEvent(target, mainEvent, event) {
             }
         }
 
-        listeners[throttledMainEvent] = listen(domTarget || target, mainEvent, handler);
+        listeners[throttledMainEvent] = listen(domTarget || target, mainEvent, handler, passive);
         return remover;
     };
 }
@@ -159,6 +160,7 @@ function connectDiscreteEvent(target, event) {
     return function throttleEvent(throttleRate, cb, options) {
         var context = options.context;
         var domTarget = options.target;
+        var passive = options.passive;
         var domId = domTarget && getHash(domTarget);
 
         // no throttling for discrete event
@@ -178,7 +180,7 @@ function connectDiscreteEvent(target, event) {
             EE.emit(throttledEvent, e, ae);
         }
 
-        listeners[throttledEvent] = listen(domTarget || target, event, handler);
+        listeners[throttledEvent] = listen(domTarget || target, event, handler, passive);
         return remover;
     };
 }
