@@ -44,11 +44,23 @@ function ArgmentedEvent(option) {
 }
 
 ArgmentedEvent.prototype = {
+    
+    updateDocProperty: function(){
+        if ((!docEl || !docBody) && typeof window !== 'undefined') {
+            win = window;
+            doc = win.document || document;
+            docEl = doc.documentElement;
+            docBody = doc.body;
+        }        
+    },
+    
     getXY: function (touch) {
         var t = { x: 0, y: 0};
         var docBody = document.body;
         var docEl = document.documentElement;
 
+        this.updateDocProperty();
+        
         if (touch.pageX || touch.pageY) {
             t.x = touch.pageX;
             t.y = touch.pageY;
@@ -65,6 +77,8 @@ ArgmentedEvent.prototype = {
         var subType = this.subType;
         var docEl = document.documentElement;
 
+        this.updateDocProperty();
+        
         if (globalVars.enableScrollInfo && (mainType === 'scroll' || mainType === 'touchmove')) {
             var top = docEl.scrollTop + document.body.scrollTop;
             // Prevent delta from being 0
