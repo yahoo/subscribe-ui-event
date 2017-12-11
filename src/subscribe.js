@@ -19,6 +19,7 @@ var DEFAULT_THROTTLE_RATE = require('./constants').DEFAULT_THROTTLE_RATE;
  * @param {Object} options.context - The caller.
  * @param {Number} options.throttleRate - The amount of time for throttling.
  * @param {Boolean} options.useRAF - Use rAF for throttling if true.
+ * @param {Object} options.eventOptions - Option to pass to event listener
  * @return {Object} The object with unsubscribe function.
  */
 function subscribe(type, cb, options) {
@@ -26,6 +27,7 @@ function subscribe(type, cb, options) {
 
     var useRAF = options.useRAF || false;
     var throttleRate = parseInt(options.throttleRate, 10);
+    var eventOptions = options.eventOptions;
 
     if (isNaN(throttleRate)) {
         throttleRate = DEFAULT_THROTTLE_RATE;
@@ -46,7 +48,7 @@ function subscribe(type, cb, options) {
     globalVars.enableResizeInfo = globalVars.enableResizeInfo || options.enableResizeInfo || false;
     globalVars.enableTouchInfo = globalVars.enableTouchInfo || options.enableTouchInfo || false;
 
-    return mainEventConnectors[type](throttleRate, cb, options);
+    return mainEventConnectors[type](throttleRate, cb, options, eventOptions);
 }
 
 module.exports = subscribe;

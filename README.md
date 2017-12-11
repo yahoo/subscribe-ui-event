@@ -119,6 +119,7 @@ The format of the payload is:
 11. touchstart - window.touchstart
 12. touchend - window.touchend
 
+`options.eventOptions`: An options object that specifies characteristics about the event listener (if passive event is supported by the browser)
 
 ### unsubscribe
 
