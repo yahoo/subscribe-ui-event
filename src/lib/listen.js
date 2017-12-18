@@ -23,7 +23,7 @@ var defaultEventOption = {
 function listen(target, eventType, handler, options) {
     var add = 'addEventListener';
     var remove = 'removeEventListener';
-    var eventOptions = globalVars.supportsPassive ? _assign(defaultEventOption, options) : false;
+    var eventOptions = globalVars.supportPassiveEvent ? _assign({}, defaultEventOption, options) : false;
 
     if (!target.addEventListener && target.attachEvent) {
         add = 'attachEvent';
