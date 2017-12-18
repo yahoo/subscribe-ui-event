@@ -109,34 +109,6 @@ describe('subscribe', function () {
             env.eventHandlers.scroll({foo: 'foo'});
         });
 
-        it('subscribe event should be default passive', function (done) {
-            var subscription = subscribe('scroll', function (e, ae) {
-                expect(e.defaultPrevented).equal(false);
-                e.preventDefault();
-                // browser should ignore preventDefault
-                expect(e.defaultPrevented).equal(false);
-                subscription.unsubscribe();
-                done();
-            });
-
-            // simulate window scroll event
-            env.eventHandlers.scroll({foo: 'foo'});
-        });
-
-        it('pasive event could be override', function (done) {
-            var subscription = subscribe('scroll', function (e, ae) {
-                expect(e.defaultPrevented).equal(false);
-                e.preventDefault();
-                // browser should ignore preventDefault
-                expect(e.defaultPrevented).equal(true);
-                subscription.unsubscribe();
-                done();
-            }, { eventOptions: { passive: false }});
-
-            // simulate window scroll event
-            env.eventHandlers.scroll({foo: 'foo'});
-        });
-
         it('scroll with throttle = 100 should be triggered by scroll:100 (scroll with 100ms throttle)', function (done) {
             var subscription = subscribe('scroll', function (e, ae) {
                 expect(e.foo).equal('foo');
