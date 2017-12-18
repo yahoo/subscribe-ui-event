@@ -5,7 +5,7 @@
 'use strict';
 
 var EventEmitter = require('eventemitter3');
-var supoortPassiveEvent = require('./lib/supportPassiveEvent');
+var supportPassiveEvent = require('./lib/supportPassiveEvent');
 
 module.exports = {
     connections: {},
@@ -14,5 +14,5 @@ module.exports = {
     enableScrollInfo: false,
     listeners: {},
     removers: [],
-    supportsPassive: supoortPassiveEvent
+    supportPassiveEvent: supportPassiveEvent
 };
