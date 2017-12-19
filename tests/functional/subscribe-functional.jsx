@@ -9,7 +9,6 @@ var EventCounter = React.createClass({
     getDefaultProps: function () {
         return {
             disable: false,
-            defaultPrevented: false,
             eventType: 'scroll',
             throttleRate: undefined,
             useRAF: false
@@ -22,10 +21,8 @@ var EventCounter = React.createClass({
         };
     },
     _handleEvent: function (e) {
-        e.preventDefault();
         this.setState({
             count: this.state.count + 1,
-            defaultPrevented: e.defaultPrevented,
             type: e.type
         });
     },
@@ -50,7 +47,6 @@ var EventCounter = React.createClass({
             <div className={this.props.disable ? 'Td(lt)' : ''}>
                 <span>{text} </span>
                 <span className={className}>{this.state.count}</span>
-                <span className={this.state.defaultPrevented ? 'default-prevented' : 'default-not-prevented'} />
             </div>
         );
     }

@@ -1,6 +1,4 @@
 /* global describe, it, before, expect, window, document, async */
-var passiveSupported = require('../../src/lib/supportPassiveEvent');
-
 function $(selector) {
     var node = document.querySelector(selector);
     return {
@@ -43,13 +41,6 @@ describe('Subscribe UI Event tests', function () {
                 expect($('.scroll-raf').getInt()).to.not.below(20, 'scroll-raf');
                 expect($('.scroll-1000').getInt()).to.not.below(20, 'scroll-1000');
                 expect($('.scroll-300-raf').getInt()).to.not.below(20, 'scroll-300-raf');
-            }
-
-            // verify passive event
-            if (passiveSupported) {
-              expect($('.default-prevented').count).to.not.equal(0);
-            } else {
-              expect($('.default-prevented').count).to.equal(0);
             }
 
             expect($('.scrollStart').getInt()).to.equal(1, 'scrollStart');
