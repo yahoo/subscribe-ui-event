@@ -1,4 +1,5 @@
 /* global describe, it, before, expect, window, document, async */
+
 function $(selector) {
     var node = document.querySelector(selector);
     return {
@@ -7,9 +8,6 @@ function $(selector) {
         },
         getInt: function () {
             return parseInt(node.innerHTML, 10);
-        },
-        count: function () {
-          return node.length;
         }
     };
 }
