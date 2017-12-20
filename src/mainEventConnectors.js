@@ -90,8 +90,9 @@ function connectThrottle(throttledEvent, cb, ctx, throttledMainEvent) {
  * @param {Object} target - The target of a main event, window or document.
  * @param {String} mainEvent - A browser event, like scroll or resize.
  * @param {String} event - A subscribe event.
+ * @param {Object} eventOptions - An options pass to event listener
  */
-function connectContinuousEvent(target, mainEvent, event) {
+function connectContinuousEvent(target, mainEvent, event, eventOptions) {
     return function throttleEvent(throttleRate, cb, options) {
         var context = options.context;
         var domTarget = options.target;
@@ -150,7 +151,7 @@ function connectContinuousEvent(target, mainEvent, event) {
             }
         }
 
-        listeners[throttledMainEvent] = listen(domTarget || target, mainEvent, handler);
+        listeners[throttledMainEvent] = listen(domTarget || target, mainEvent, handler, eventOptions);
         return remover;
     };
 }
