@@ -8,7 +8,7 @@ var globalVars = require('../globalVars');
 
 var defaultEventOption = {
   capture: false,
-  passive: true
+  passive: false
 };
 
 /**
