@@ -4,7 +4,5 @@
  */
 'use strict';
 
-module.exports = {
-    EVENT_END_DELAY: 100,
-    DEFAULT_THROTTLE_RATE: 50
-};
+export const EVENT_END_DELAY = 100;
+export const DEFAULT_THROTTLE_RATE = 50;

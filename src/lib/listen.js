@@ -3,8 +3,8 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 'use strict';
-var _assign = require('lodash/assign');
-var globalVars = require('../globalVars');
+import assign from 'lodash/assign';
+import globalVars from '../globalVars';
 
 var defaultEventOption = {
   capture: false,
@@ -21,22 +21,22 @@ var defaultEventOption = {
  * @return {Object} The object to be able to remove the handler.
  */
 function listen(target, eventType, handler, options) {
-    var add = 'addEventListener';
-    var remove = 'removeEventListener';
-    var eventOptions = globalVars.supportPassiveEvent ? _assign({}, defaultEventOption, options) : false;
+  let add = 'addEventListener';
+  let remove = 'removeEventListener';
+  const eventOptions = globalVars.supportPassiveEvent ? assign({}, defaultEventOption, options) : false;
 
-    if (!target.addEventListener && target.attachEvent) {
-        add = 'attachEvent';
-        remove = 'detachEvent';
-        eventType = 'on' + eventType;
+  if (!target.addEventListener && target.attachEvent) {
+    add = 'attachEvent';
+    remove = 'detachEvent';
+    eventType = 'on' + eventType;
+  }
+  target[add](eventType, handler, eventOptions);
+
+  return {
+    remove: function() {
+      target[remove](eventType, handler);
     }
-    target[add](eventType, handler, eventOptions);
-
-    return {
-        remove: function() {
-            target[remove](eventType, handler);
-        }
-    };
+  };
 }
 
-module.exports = listen;
+export default listen;

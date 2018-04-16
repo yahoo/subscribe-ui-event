@@ -6,7 +6,8 @@
 
 'use strict';
 
-var globalVars = require('./globalVars');
+import globalVars from './globalVars';
+
 var resize = {
     width: 0,
     height: 0
@@ -108,4 +109,4 @@ ArgmentedEvent.prototype = {
     }
 };
 
-module.exports = ArgmentedEvent;
+export default ArgmentedEvent;

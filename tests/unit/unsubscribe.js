@@ -8,11 +8,11 @@
 
 var env = require('../lib/setup');
 
-var globalVars = require('../../../src/globalVars');
+var globalVars = require('../../../dist/globalVars');
 
 var expect = require('expect.js');
-var subscribe = require('../../../src/subscribe');
-var unsubscribe = require('../../../src/unsubscribe');
+var subscribe = require('../../../dist/subscribe');
+var unsubscribe = require('../../../dist/unsubscribe');
 
 describe('unsubscribe', function () {
     describe('#unsubscribe', function () {

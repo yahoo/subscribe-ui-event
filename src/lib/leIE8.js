@@ -5,13 +5,13 @@
 /* global navigator, parseFloat */
 'use strict';
 
-var leIE8 = false; // less then or equal to IE8
+let leIE8 = false; // less then or equal to IE8
 
 if (typeof navigator !== 'undefined') {
-    var matches = navigator.userAgent.match(/MSIE (\d+\.\d+)/);
-    if (matches) {
-        leIE8 = parseFloat(matches[1], 10) < 9;
-    }
+  const matches = navigator.userAgent.match(/MSIE (\d+\.\d+)/);
+  if (matches) {
+    leIE8 = parseFloat(matches[1], 10) < 9;
+  }
 }
 
-module.exports = leIE8;
+export default leIE8;

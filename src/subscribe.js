@@ -4,12 +4,12 @@
  */
 'use strict';
 
-var globalVars = require('./globalVars');
-var leIE8 = require('./lib/leIE8'); // less then or equal to IE8
-var mainEventConnectors = require('./mainEventConnectors');
+import globalVars from './globalVars';
+import leIE8 from './lib/leIE8'; // less then or equal to IE8
+import mainEventConnectors from './mainEventConnectors';
 
 // constants
-var DEFAULT_THROTTLE_RATE = require('./constants').DEFAULT_THROTTLE_RATE;
+import { DEFAULT_THROTTLE_RATE } from './constants';
 
 /**
  * Subscribe to UI events.
@@ -51,4 +51,4 @@ function subscribe(type, cb, options) {
     return mainEventConnectors[type](throttleRate, cb, options, eventOptions);
 }
 
-module.exports = subscribe;
+export default subscribe;

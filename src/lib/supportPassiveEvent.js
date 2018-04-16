@@ -1,4 +1,4 @@
-var passiveSupported = false;
+let passiveSupported = false;
 
 if (typeof window !== 'undefined') {
   try {
@@ -12,4 +12,4 @@ if (typeof window !== 'undefined') {
   } catch (err) {}
 }
 
-module.exports = passiveSupported;
+export default passiveSupported;

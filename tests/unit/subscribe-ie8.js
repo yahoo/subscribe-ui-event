@@ -8,8 +8,8 @@
 
 var env = require('../lib/setup');
 
-var globalVars = require('../../../src/globalVars');
-var ee = require('../../../src/globalVars').EE;
+var globalVars = require('../../../dist/globalVars');
+var ee = globalVars.EE;
 
 var expect = require('expect.js');
 var subscribe;
@@ -26,9 +26,9 @@ describe('subscribe-ie8', function () {
         window.removeEventListener = null;
         document.addEventListener = null;
         document.removeEventListener = null;
-        require.cache[require.resolve('../../../src/lib/leIE8')] = undefined;
-        require.cache[require.resolve('../../../src/subscribe')] = undefined;
-        require.cache[require.resolve('../../../src/mainEventConnectors')] = undefined;
+        require.cache[require.resolve('../../../dist/lib/leIE8')] = undefined;
+        require.cache[require.resolve('../../../dist/subscribe')] = undefined;
+        require.cache[require.resolve('../../../dist/mainEventConnectors')] = undefined;
     });
 
     after(function () {
@@ -44,7 +44,7 @@ describe('subscribe-ie8', function () {
     });
 
     beforeEach(function () {
-        subscribe = require('../../../src/subscribe');
+        subscribe = require('../../../dist/subscribe');
     });
 
     describe('#subscribe', function () {

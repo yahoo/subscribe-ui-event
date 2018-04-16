@@ -8,11 +8,11 @@
 
 var env = require('../lib/setup');
 
-var globalVars = require('../../../src/globalVars');
-var ee = require('../../../src/globalVars').EE;
+var globalVars = require('../../../dist/globalVars');
+var ee = globalVars.EE;
 
 var expect = require('expect.js');
-var subscribe = require('../../../src/subscribe');
+var subscribe = require('../../../dist/subscribe');
 
 describe('subscribe', function () {
     describe('#general', function () {

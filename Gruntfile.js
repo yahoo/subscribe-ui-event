@@ -164,7 +164,13 @@ module.exports = function (grunt) {
                 module: {
                     loaders: [
                         { test: /\.css$/, loader: 'style!css' },
-                        { test: /\.jsx$/, loader: 'babel-loader' },
+                        {
+                          test: /\.jsx$/,
+                          loader: 'babel-loader',
+                          options: {
+                            presets: ['babel-preset-env']
+                          }
+                        },
                         { test: /\.json$/, loader: 'json-loader'}
                     ]
                 }
