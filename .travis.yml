@@ -6,7 +6,3 @@ node_js:
 after_success:
   - "npm run func"
   - "cat artifacts/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
-addons:
-  sauce_connect:
-    username: "roderick.hsiao"
-    access_key: "a7c8994f-a04b-4d04-808f-1090f5148079"

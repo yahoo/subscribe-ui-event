@@ -211,16 +211,17 @@ module.exports = function (grunt) {
     'saucelabs-mocha': {
       all: {
         options: {
+          // this is apply for open source project https://saucelabs.com/open-source
+          username: 'roderick.hsiao',
+          key: () => 'a7c8994f-a04b-4d04-808f-1090f5148079',
           testname: 'subscribe ui event func test',
           urls: ['http://127.0.0.1:9999/tests/functional/page.html'],
-
           build: process.env.TRAVIS_BUILD_NUMBER,
           sauceConfig: {
             'record-video': true,
             'capture-html': false,
             'record-screenshots': false
           },
-          throttled: 3,
           browsers: [
             {
               browserName: 'internet explorer',
@@ -229,28 +230,23 @@ module.exports = function (grunt) {
             },
             {
               browserName: 'internet explorer',
-              platform: 'Windows 7',
-              version: '9'
-            },
-            {
-              browserName: 'internet explorer',
-              platform: 'Windows 8',
-              version: '10'
-            },
-            {
-              browserName: 'internet explorer',
               platform: 'Windows 8.1',
               version: '11'
             },
             {
+              browserName: 'edge',
+              platform: 'Windows 10',
+              version: '16'
+            },
+            {
               browserName: 'chrome',
-              platform: 'Windows 7',
-              version: '37'
+              platform: 'Windows 10',
+              version: '64'
             },
             {
               browserName: 'firefox',
-              platform: 'Windows 7',
-              version: '32'
+              platform: 'Windows 10',
+              version: '59'
             },
             {
               browserName: 'iphone',
@@ -264,8 +260,8 @@ module.exports = function (grunt) {
             },
             {
               browserName: 'safari',
-              platform: 'OS X 10.9',
-              version: '7'
+              platform: 'OS X 10.12',
+              version: '11'
             }
           ]
         }
