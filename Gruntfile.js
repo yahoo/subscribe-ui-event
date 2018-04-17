@@ -154,7 +154,6 @@ module.exports = function (grunt) {
     // create js rollup with webpack module loader for functional tests
     webpack: {
       functional: {
-        mode: 'development',
         entry: './<%= project.functional %>/bootstrap.js',
         output: {
           path: path.resolve(__dirname, '<%= project.functional %>/'),

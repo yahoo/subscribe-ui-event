@@ -16,7 +16,8 @@ describe('subscribe-ie8', () => {
     Object.defineProperty(navigator, 'userAgent', {
       get() {
         return 'MSIE 1.0';
-      }
+      },
+      configurable: true
     });
     window.addEventListener = null;
     window.removeEventListener = null;
@@ -31,7 +32,8 @@ describe('subscribe-ie8', () => {
     Object.defineProperty(navigator, 'userAgent', {
       get() {
         return '';
-      }
+      },
+      configurable: true
     });
     window.addEventListener = window.attachEvent;
     window.removeEventListener = window.detachEvent;

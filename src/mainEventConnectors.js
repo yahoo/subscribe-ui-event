@@ -9,13 +9,15 @@ import throttle from 'lodash/throttle';
 import noop from 'lodash/noop';
 
 import AugmentedEvent from './AugmentedEvent';
-import { connections, EE, listeners, removers } from './globalVars';
+import globalVars from './globalVars';
 import leIE8 from './lib/leIE8';
 import listen from './lib/listen';
 import rAFThrottle from './lib/rAFThrottle';
 
 // constants
 import { EVENT_END_DELAY } from './constants';
+
+const { connections, EE, listeners, removers } = globalVars;
 
 // global variables
 let doc;

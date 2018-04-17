@@ -4,11 +4,16 @@
  */
 /* global describe, it */
 
+const jsdom = require('jsdom');
 
-const jsdom = require('node-jsdom');
+const { JSDOM } = jsdom;
 
-global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
-global.window = document.parentWindow;
+const dom = new JSDOM('<!doctype html><html><body></body></html>', { pretendToBeVisual: true });
+const { window } = dom;
+const document = window.document;
+
+global.document = document;
+global.window = window;
 global.navigator = window.navigator;
 global.Event = window.Event;
 
@@ -24,37 +29,31 @@ function removeEventListener(type, cb) {
   env.eventHandlers[type] = undefined;
 }
 
-window = {
-  addEventListener,
-  removeEventListener,
-  attachEvent: addEventListener,
-  detachEvent: removeEventListener,
-  setTimeout(cb, wait) {
-    cb();
-  },
-  requestAnimationFrame(cb) {
-    cb();
-  },
-  cancelAnimationFrame() {},
-  innerWidth: 20
+window.addEventListener = addEventListener;
+window.removeEventListener = removeEventListener;
+window.attachEvent = addEventListener;
+window.detachEvent = removeEventListener;
+window.setTimeout = (cb, wait) => {
+  cb();
 };
-document = {
-  documentElement: {
-    scrollTop: 10,
-    scrollLeft: 0
-  },
-  body: {
-    scrollTop: 0,
-    scrollLeft: 0,
-    addEventListener,
-    removeEventListener,
-    attachEvent: addEventListener,
-    detachEvent: removeEventListener
-  },
-  addEventListener,
-  removeEventListener,
-  attachEvent: addEventListener,
-  detachEvent: removeEventListener
+window.requestAnimationFrame = (cb) => {
+  cb();
 };
+window.cancelAnimationFrame = () => {};
+window.innerWidth = 20;
+
+document.documentElement.scrollTop = 10;
+document.documentElement.scrollLeft = 0;
+document.body.scrollTop = 0;
+document.body.scrollLeft = 0;
+document.body.addEventListener = addEventListener;
+document.body.removeEventListener = removeEventListener;
+document.body.attachEvent = addEventListener;
+document.body.detachEvent = removeEventListener;
+
+document.addEventListener = addEventListener;
+document.removeEventListener = removeEventListener;
+document.attachEvent = addEventListener;
+document.detachEvent = removeEventListener;
 
 module.exports = env;
