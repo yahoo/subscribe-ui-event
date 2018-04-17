@@ -223,11 +223,11 @@ module.exports = function (grunt) {
             'record-screenshots': false
           },
           browsers: [
-            {
-              browserName: 'internet explorer',
-              platform: 'Windows 7',
-              version: '8'
-            },
+            // {
+            //   browserName: 'internet explorer',
+            //   platform: 'Windows 7',
+            //   version: '8'
+            // },
             {
               browserName: 'internet explorer',
               platform: 'Windows 8.1',
