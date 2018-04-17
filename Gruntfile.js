@@ -143,7 +143,7 @@ module.exports = function (grunt) {
           }
         },
         command:
-          'node node_modules/nyc/bin/nyc.js --dir <%= project.coverage_dir %> -- ./node_modules/mocha/bin/_mocha <%= project.tmp %>/<%= project.unit %> --recursive --reporter=xunit-file'
+          'node node_modules/nyc/bin/nyc.js --reporter=lcovonly --dir <%= project.coverage_dir %> -- ./node_modules/mocha/bin/_mocha <%= project.tmp %>/<%= project.unit %> --recursive --reporter=xunit-file'
       },
       mocha: {
         command:
