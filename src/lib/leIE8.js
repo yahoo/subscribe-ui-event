@@ -3,9 +3,9 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 /* global navigator, parseFloat */
-'use strict';
 
-let leIE8 = false; // less then or equal to IE8
+// less then or equal to IE8
+let leIE8 = false; // eslint-disable-line import/no-mutable-exports
 
 if (typeof navigator !== 'undefined') {
   const matches = navigator.userAgent.match(/MSIE (\d+\.\d+)/);

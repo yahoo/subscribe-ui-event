@@ -2,24 +2,25 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
+
+import listenLib from './dist/lib/listen';
+import subscribeLib from './dist/subscribe';
+import unsubscribeLib from './dist/unsubscribe';
+
+const IS_CLIENT = typeof window !== 'undefined';
 
 function warn() {
-  if ('production' !== process.env.NODE_ENV) {
-    console.warn('Warning: the function is client-side only, does not work on server side');
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn('Warning: the function is client-side only, does not work on server side'); // eslint-disable-line
   }
 }
 
-if (typeof window !== 'undefined') {
-  export default {
-    listen: require('./dist/lib/listen'),
-    subscribe: require('./dist/subscribe'),
-    unsubscribe: require('./dist/unsubscribe')
-  };
-} else {
-  export default {
-    listen: warn,
-    subscribe: warn,
-    unsubscribe: warn
-  };
-}
+export const listen = IS_CLIENT ? listenLib : warn;
+export const subscribe = IS_CLIENT ? subscribeLib : warn;
+export const unsubscribe = IS_CLIENT ? unsubscribeLib : warn;
+
+export default {
+  listen,
+  subscribe,
+  unsubscribe
+};

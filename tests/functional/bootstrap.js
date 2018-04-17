@@ -1,6 +1,15 @@
-/*global window */
-window.expect = require('expect.js');
-window.leIE8 = require('../../dist/lib/leIE8');
-window.React = require('react');
-window.ReactDOM = require('react-dom');
-window.SubscribeDemo = require('./subscribe-functional.jsx');
+/* global window, document */
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { expect } from 'chai';
+
+import leIE8 from '../../src/lib/leIE8';
+
+
+import SubscribeDemo from './subscribe-functional';
+
+window.expect = expect;
+window.leIE8 = leIE8;
+
+const container = document.getElementById('container');
+ReactDOM.render(React.createElement(SubscribeDemo, null), container);

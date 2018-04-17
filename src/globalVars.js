@@ -2,7 +2,6 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
 
 import EventEmitter from 'eventemitter3';
 import supportPassiveEvent from './lib/supportPassiveEvent';
@@ -14,5 +13,5 @@ export default {
   enableScrollInfo: false,
   listeners: {},
   removers: [],
-  supportPassiveEvent: supportPassiveEvent
+  supportPassiveEvent
 };

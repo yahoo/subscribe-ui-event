@@ -3,26 +3,25 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 /* global window, document, setTimeout */
-'use strict';
 
 import clone from 'lodash/clone';
 import throttle from 'lodash/throttle';
+import noop from 'lodash/noop';
+
 import AugmentedEvent from './AugmentedEvent';
-import globalVars from './globalVars';
+import { connections, EE, listeners, removers } from './globalVars';
 import leIE8 from './lib/leIE8';
 import listen from './lib/listen';
 import rAFThrottle from './lib/rAFThrottle';
-
-const { connections, EE, listeners, removers, subscriptions } = globalVars;
 
 // constants
 import { EVENT_END_DELAY } from './constants';
 
 // global variables
-var doc;
-var win;
-var body;
-var hashId = 0;
+let doc;
+let win;
+let body;
+let hashId = 0;
 
 if (typeof window !== 'undefined') {
   win = window;
@@ -31,7 +30,7 @@ if (typeof window !== 'undefined') {
 }
 
 function getHash(domNode) {
-  return domNode.id || 'target-id-' + hashId++;
+  return domNode.id || `target-id-${hashId++}`; // eslint-disable-line
 }
 
 /**
@@ -46,7 +45,7 @@ function getHash(domNode) {
  * @return {Object} An event remover
  */
 function connectThrottle(throttledEvent, cb, ctx, throttledMainEvent) {
-  EE.on(throttledEvent, cb, ctx);
+  EE.on(throttledEvent, cb || noop, ctx);
   throttledMainEvent = throttledMainEvent || throttledEvent;
   connections[throttledMainEvent] = (connections[throttledMainEvent] || 0) + 1;
   return {
@@ -70,8 +69,8 @@ function connectThrottle(throttledEvent, cb, ctx, throttledMainEvent) {
       this._ctx = undefined;
 
       // remove the remover from removers array
-      for (var i = removers.length - 1; i >= 0; i--) {
-        var remover = removers[i];
+      for (let i = removers.length - 1; i >= 0; i--) {
+        const remover = removers[i];
         if (remover === this) {
           removers.splice(i, 1);
           break;
@@ -91,24 +90,24 @@ function connectThrottle(throttledEvent, cb, ctx, throttledMainEvent) {
  */
 function connectContinuousEvent(target, mainEvent, event, eventOptions) {
   return function throttleEvent(throttleRate, cb, options) {
-    var context = options.context;
-    var domTarget = options.target;
-    var domId = domTarget && getHash(domTarget);
-    var targetPart = domId ? ':' + domId : '';
+    const context = options.context;
+    const domTarget = options.target;
+    const domId = domTarget && getHash(domTarget);
+    const targetPart = domId ? `:${domId}` : '';
 
-    var throttledStartEvent = mainEvent + 'Start:' + throttleRate + targetPart;
-    var throttledEndEvent = mainEvent + 'End:' + throttleRate + targetPart;
-    var throttledMainEvent = mainEvent + ':' + throttleRate + targetPart;
-    var throttledEvent = event + ':' + throttleRate + targetPart;
+    const throttledStartEvent = `${mainEvent}Start:${throttleRate}${targetPart}`;
+    const throttledEndEvent = `${mainEvent}End:${throttleRate}${targetPart}`;
+    const throttledMainEvent = `${mainEvent}:${throttleRate}${targetPart}`;
+    const throttledEvent = `${event}:${throttleRate}${targetPart}`;
 
-    var remover = connectThrottle(throttledEvent, cb, context, throttledMainEvent);
+    const remover = connectThrottle(throttledEvent, cb, context, throttledMainEvent);
     removers.push(remover);
 
     if (listeners[throttledMainEvent]) {
       return remover;
     }
 
-    var ae = {
+    const ae = {
       start: new AugmentedEvent({ mainType: mainEvent, subType: 'start' }), // start
       main: new AugmentedEvent({ mainType: mainEvent }), // main
       end: new AugmentedEvent({ mainType: mainEvent, subType: 'end' })
@@ -123,7 +122,7 @@ function connectContinuousEvent(target, mainEvent, event, eventOptions) {
       handler = throttle(handler, throttleRate);
     }
 
-    var timer;
+    let timer;
     function endCallback(e) {
       ae.end.update(e);
       EE.emit(throttledEndEvent, e, ae.end);
@@ -142,9 +141,8 @@ function connectContinuousEvent(target, mainEvent, event, eventOptions) {
         timer = setTimeout(endCallback.bind(null, e), throttleRate + EVENT_END_DELAY);
       } else {
         // For browser less then and equal to IE8, event object need to be cloned for setTimeout.
-        e = clone(e);
-        timer = setTimeout(function eventEndDelay() {
-          endCallback(e);
+        timer = setTimeout(() => {
+          endCallback(clone(e));
         }, throttleRate + EVENT_END_DELAY);
       }
     }
@@ -156,21 +154,21 @@ function connectContinuousEvent(target, mainEvent, event, eventOptions) {
 
 function connectDiscreteEvent(target, event) {
   return function throttleEvent(throttleRate, cb, options) {
-    var context = options.context;
-    var domTarget = options.target;
-    var domId = domTarget && getHash(domTarget);
+    const context = options.context;
+    const domTarget = options.target;
+    const domId = domTarget && getHash(domTarget);
 
     // no throttling for discrete event
-    var throttledEvent = event + ':0' + (domId ? ':' + domId : '');
+    const throttledEvent = `${event}:0${domId ? `:${domId}` : ''}`;
 
-    var remover = connectThrottle(throttledEvent, cb, context);
+    const remover = connectThrottle(throttledEvent, cb, context);
     removers.push(remover);
 
     if (listeners[throttledEvent]) {
       return remover;
     }
 
-    var ae = new AugmentedEvent({ mainType: event });
+    const ae = new AugmentedEvent({ mainType: event });
 
     function handler(e) {
       ae.update(e);
@@ -181,6 +179,7 @@ function connectDiscreteEvent(target, event) {
     return remover;
   };
 }
+
 
 export default {
   scrollStart: connectContinuousEvent(win, 'scroll', 'scrollStart'),

@@ -10,3 +10,4 @@ dist/
 tests/functional/css
 tests/functional/bundle.js
 tests/functional/subscribe-functional.js
+.nyc_output
