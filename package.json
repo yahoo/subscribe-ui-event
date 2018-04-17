@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "grunt functional-debug",
-    "func": "./tests/functional/saucelabs.sh",
+    "func": "grunt functional",
     "lint": "eslint src",
     "prepublish": "grunt dist",
     "unit": "grunt unit",

@@ -45,7 +45,7 @@ const getXY = (pos) => {
  * so that those information is only calculated once.
  * @param {Object} option - The option for SyntheticEvent
  */
-class ArgmentedEvent {
+class AugmentedEvent {
   constructor(option = {}) {
     const mainType = (option.mainType || '').toLowerCase();
     const subType = (option.subType || '').toLowerCase();
@@ -107,4 +107,4 @@ class ArgmentedEvent {
     }
   }
 }
-export default ArgmentedEvent;
+export default AugmentedEvent;
