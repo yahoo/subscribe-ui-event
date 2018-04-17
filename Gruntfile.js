@@ -222,12 +222,13 @@ module.exports = function (grunt) {
             'capture-html': false,
             'record-screenshots': false
           },
+          throttled: 3,
           browsers: [
-            // {
-            //   browserName: 'internet explorer',
-            //   platform: 'Windows 7',
-            //   version: '8'
-            // },
+            {
+              browserName: 'internet explorer',
+              platform: 'Windows 7',
+              version: '8'
+            },
             {
               browserName: 'internet explorer',
               platform: 'Windows 8.1',
@@ -236,7 +237,7 @@ module.exports = function (grunt) {
             {
               browserName: 'edge',
               platform: 'Windows 10',
-              version: '16'
+              version: '11'
             },
             {
               browserName: 'chrome',
