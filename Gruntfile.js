@@ -159,6 +159,7 @@ module.exports = function (grunt) {
           path: path.resolve(__dirname, '<%= project.functional %>/'),
           filename: 'bundle.js'
         },
+        mode: 'production',
         module: {
           rules: [
             { test: /\.css$/, use: 'style!css' },

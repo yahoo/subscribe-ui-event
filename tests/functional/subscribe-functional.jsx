@@ -37,7 +37,9 @@ class EventCounter extends Component {
     var text =
       this.props.eventType +
       (this.state.type ? ' (' + this.state.type + ')' : '') +
-      (!isNaN(this.props.throttleRate) ? ' with throttle ' + this.props.throttleRate : '') +
+      (!isNaN(this.props.throttleRate)
+        ? ' with throttle ' + this.props.throttleRate
+        : '') +
       (this.props.useRAF ? ' with rAF' : '') +
       ':';
     var className =

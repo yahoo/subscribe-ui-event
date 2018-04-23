@@ -6,15 +6,15 @@
 
 import globalVars from './globalVars';
 
-let resize = {
+let resize = { // eslint-disable-line prefer-const
   width: 0,
   height: 0
 };
-let scroll = {
+let scroll = { // eslint-disable-line prefer-const
   delta: 0,
   top: 0
 };
-let touch = {
+let touch = { // eslint-disable-line prefer-const
   axisIntention: '',
   startX: 0,
   startY: 0,
@@ -25,7 +25,7 @@ let touch = {
 const INTENTION_THRESHOLD = 5;
 
 const getXY = (pos) => {
-  let t = { x: 0, y: 0 };
+  let t = { x: 0, y: 0 }; // eslint-disable-line prefer-const
   const docBody = document.body;
   const docEl = document.documentElement;
 
@@ -52,7 +52,8 @@ class AugmentedEvent {
 
     this.mainType = mainType;
     this.subType = subType;
-    this.type = mainType + subType.charAt(0).toUpperCase() + subType.slice(1) || '';
+    this.type =
+      mainType + subType.charAt(0).toUpperCase() + subType.slice(1) || '';
     this.scroll = scroll;
     this.resize = resize;
     this.touch = touch;
@@ -62,7 +63,10 @@ class AugmentedEvent {
     const { mainType, subType } = this;
     const docEl = document.documentElement;
 
-    if (globalVars.enableScrollInfo && (mainType === 'scroll' || mainType === 'touchmove')) {
+    if (
+      globalVars.enableScrollInfo &&
+      (mainType === 'scroll' || mainType === 'touchmove')
+    ) {
       const top = docEl.scrollTop + document.body.scrollTop;
       // Prevent delta from being 0
       if (top !== this.scroll.top) {
@@ -77,7 +81,9 @@ class AugmentedEvent {
     if (
       globalVars.enableTouchInfo &&
       e.touches &&
-      (mainType === 'touchstart' || mainType === 'touchmove' || mainType === 'touchend')
+      (mainType === 'touchstart' ||
+        mainType === 'touchmove' ||
+        mainType === 'touchend')
     ) {
       let pos;
       let absX;

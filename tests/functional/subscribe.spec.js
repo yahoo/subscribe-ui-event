@@ -13,7 +13,7 @@ function $(selector) {
 }
 
 describe('Subscribe UI Event tests', () => {
-  it('scroll and throttled scroll should work', (done) => {
+  it('scroll and throttled scroll should work', done => {
     const scripts = [];
 
     // execute scroll 20 times, could trigger more then 20 times on Safari 7
@@ -34,11 +34,17 @@ describe('Subscribe UI Event tests', () => {
       if (!leIE8) {
         expect($('.scroll-raf').getInt()).to.not.above(20, 'scroll-raf');
         expect($('.scroll-1000').getInt()).to.below(20, 'scroll-1000');
-        expect($('.scroll-300-raf').getInt()).to.not.above(20, 'scroll-300-raf');
+        expect($('.scroll-300-raf').getInt()).to.not.above(
+          20,
+          'scroll-300-raf'
+        );
       } else {
         expect($('.scroll-raf').getInt()).to.not.below(20, 'scroll-raf');
         expect($('.scroll-1000').getInt()).to.not.below(20, 'scroll-1000');
-        expect($('.scroll-300-raf').getInt()).to.not.below(20, 'scroll-300-raf');
+        expect($('.scroll-300-raf').getInt()).to.not.below(
+          20,
+          'scroll-300-raf'
+        );
       }
 
       expect($('.scrollStart').getInt()).to.equal(1, 'scrollStart');

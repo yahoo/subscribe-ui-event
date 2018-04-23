@@ -6,7 +6,6 @@ import async from 'async';
 
 import leIE8 from '../../src/lib/leIE8';
 
-
 import SubscribeDemo from './subscribe-functional';
 
 window.expect = expect;
