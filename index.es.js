@@ -3,9 +3,9 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-const listenLib = require('./dist/lib/listen');
-const subscribeLib = require('./dist/subscribe');
-const unsubscribeLib = require('./dist/unsubscribe');
+import listenLib from './dist/lib/listen';
+import subscribeLib from './dist/subscribe';
+import unsubscribeLib from './dist/unsubscribe';
 
 const IS_CLIENT = typeof window !== 'undefined';
 
@@ -15,8 +15,6 @@ function warn() {
   }
 }
 
-module.exports = {
-  listen: IS_CLIENT ? listenLib : warn,
-  subscribe: IS_CLIENT ? subscribeLib : warn,
-  unsubscribe: IS_CLIENT ? unsubscribeLib : warn
-};
+export const listen = IS_CLIENT ? listenLib : warn;
+export const subscribe = IS_CLIENT ? subscribeLib : warn;
+export const unsubscribe = IS_CLIENT ? unsubscribeLib : warn;

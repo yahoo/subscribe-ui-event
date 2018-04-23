@@ -226,6 +226,8 @@ module.exports = function (grunt) {
           },
           throttled: 3,
           browsers: [
+            // Mocha drops IE 10 and below supports in 5.0.0
+            // https://github.com/mochajs/mocha/blob/master/CHANGELOG.md#500--2018-01-17
             // {
             //   browserName: 'internet explorer',
             //   platform: 'Windows 7',
@@ -241,16 +243,16 @@ module.exports = function (grunt) {
             //   platform: 'Windows 8',
             //   version: '10'
             // },
-            // {
-            //   browserName: 'internet explorer',
-            //   platform: 'Windows 8.1',
-            //   version: '11'
-            // },
-            // {
-            //   browserName: 'MicrosoftEdge',
-            //   platform: 'Windows 10',
-            //   version: '16'
-            // },
+            {
+              browserName: 'internet explorer',
+              platform: 'Windows 8.1',
+              version: '11'
+            },
+            {
+              browserName: 'MicrosoftEdge',
+              platform: 'Windows 10',
+              version: '16'
+            },
             {
               browserName: 'chrome',
               platform: 'Windows 10',
