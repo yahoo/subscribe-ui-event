@@ -218,6 +218,7 @@ module.exports = function (grunt) {
           urls: ['http://127.0.0.1:9999/tests/functional/page.html'],
           build: process.env.TRAVIS_BUILD_NUMBER,
           sauceConfig: {
+            extendedDebugging: true,
             'record-video': true,
             'capture-html': false,
             'record-screenshots': false
