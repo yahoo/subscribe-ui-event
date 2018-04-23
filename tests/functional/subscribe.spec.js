@@ -49,7 +49,7 @@ describe('Subscribe UI Event tests', () => {
 
       expect($('.scrollStart').getInt()).to.equal(1, 'scrollStart');
       expect($('.scrollEnd').getInt()).to.equal(0, 'scrollEnd');
-      setTimeout(() => {
+      setTimeout(function() { // eslint-disable-line
         expect($('.scrollEnd').getInt()).to.equal(1, 'scrollEnd');
         cb();
       }, 500);
