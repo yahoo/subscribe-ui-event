@@ -256,11 +256,11 @@ module.exports = function (grunt) {
               platform: 'OS X 10.9',
               version: '7.1'
             },
-            {
-              browserName: 'android',
-              platform: 'Linux',
-              version: '4.4'
-            },
+            // {
+            //   browserName: 'android',
+            //   platform: 'Linux',
+            //   version: '4.4'
+            // },
             {
               browserName: 'safari',
               platform: 'OS X 10.12',

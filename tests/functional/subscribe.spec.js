@@ -14,17 +14,17 @@ function $(selector) {
 
 describe('Subscribe UI Event tests', () => {
   it('scroll and throttled scroll should work', (done) => {
-    const scripts = [];
+    var scripts = []; // eslint-disable-line
 
     // execute scroll 20 times, could trigger more then 20 times on Safari 7
     function executeScroll(cb) {
       window.scrollBy(0, 10);
-      setTimeout(() => {
+      setTimeout(function callback() { // eslint-disable-line
         cb();
       }, 20);
     }
 
-    for (let i = 0; i < 20; i += 1) {
+    for (var i = 0; i < 20; i += 1) { // eslint-disable-line
       scripts.push(executeScroll);
     }
 
