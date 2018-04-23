@@ -226,20 +226,30 @@ module.exports = function (grunt) {
           },
           throttled: 3,
           browsers: [
-            // {
-            //   browserName: 'internet explorer',
-            //   platform: 'Windows 7',
-            //   version: '8'
-            // },
-            // {
-            //   browserName: 'internet explorer',
-            //   platform: 'Windows 8.1',
-            //   version: '11'
-            // },
             {
-              browserName: 'edge',
-              platform: 'Windows 10',
+              browserName: 'internet explorer',
+              platform: 'Windows 7',
+              version: '8'
+            },
+            {
+              browserName: 'internet explorer',
+              platform: 'Windows 7',
+              version: '9'
+            },
+            {
+              browserName: 'internet explorer',
+              platform: 'Windows 8',
+              version: '10'
+            },
+            {
+              browserName: 'internet explorer',
+              platform: 'Windows 8.1',
               version: '11'
+            },
+            {
+              browserName: 'MicrosoftEdge',
+              platform: 'Windows 10',
+              version: '16'
             },
             {
               browserName: 'chrome',
@@ -252,19 +262,22 @@ module.exports = function (grunt) {
               version: '59'
             },
             {
-              browserName: 'iphone',
-              platform: 'OS X 10.9',
-              version: '7.1'
+              browserName: 'Safari',
+              deviceName: 'iPhone 8 Simulator',
+              deviceOrientation: 'portrait',
+              platform: 'iOS',
+              platformVersion: '11.2'
             },
-            // {
-            //   browserName: 'android',
-            //   platform: 'Linux',
-            //   version: '4.4'
-            // },
+            {
+              deviceName: 'Android Emulator',
+              deviceOrientation: 'portrait',
+              platformName: 'Android',
+              platformVersion: '4.4'
+            },
             {
               browserName: 'safari',
-              platform: 'OS X 10.12',
-              version: '11'
+              platform: 'macOS 10.13',
+              version: '11.0'
             }
           ]
         }
