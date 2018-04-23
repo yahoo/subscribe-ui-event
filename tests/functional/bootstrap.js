@@ -1,14 +1,14 @@
 /* global window, document */
-import 'babel-polyfill';
+require('babel-polyfill');
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { expect } from 'chai';
-import series from 'async/series';
+import React from 'react'; // eslint-disable-line
+import ReactDOM from 'react-dom'; // eslint-disable-line
+import { expect } from 'chai'; // eslint-disable-line
+import series from 'async/series'; // eslint-disable-line
 
-import leIE8 from '../../src/lib/leIE8';
+import leIE8 from '../../src/lib/leIE8'; // eslint-disable-line
 
-import SubscribeDemo from './subscribe-functional';
+import SubscribeDemo from './subscribe-functional'; // eslint-disable-line
 
 window.expect = expect;
 window.leIE8 = leIE8;
