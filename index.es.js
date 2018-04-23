@@ -3,9 +3,9 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import listenLib from './dist/lib/listen';
-import subscribeLib from './dist/subscribe';
-import unsubscribeLib from './dist/unsubscribe';
+import listenLib from './dist-es/lib/listen';
+import subscribeLib from './dist-es/subscribe';
+import unsubscribeLib from './dist-es/unsubscribe';
 
 const IS_CLIENT = typeof window !== 'undefined';
 

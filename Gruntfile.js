@@ -32,6 +32,7 @@ module.exports = function (grunt) {
   const projectConfig = {
     src: 'src',
     dist: 'dist',
+    distES: 'dist-es',
     tmp: 'tmp',
     unit: 'tests/unit',
     functional: 'tests/functional',
@@ -49,7 +50,7 @@ module.exports = function (grunt) {
         files: [
           {
             dot: true,
-            src: ['<%= project.dist %>']
+            src: ['<%= project.dist %>', '<%= project.distES %>']
           }
         ]
       },
@@ -92,7 +93,9 @@ module.exports = function (grunt) {
     babel: {
       dist: {
         options: {
-          sourceMap: false
+          sourceMap: false,
+          plugins: ['add-module-exports'],
+          presets: ['env', 'react']
         },
         files: [
           {
@@ -105,9 +108,50 @@ module.exports = function (grunt) {
           }
         ]
       },
+      'dist-es': {
+        options: {
+          sourceMap: false,
+          presets: [
+            [
+              'env',
+              {
+                targets: {
+                  browsers: [
+                    'last 2 Chrome versions',
+                    'not Chrome < 60',
+                    'last 2 Safari versions',
+                    'not Safari < 10.1',
+                    'last 2 iOS versions',
+                    'not iOS < 10.3',
+                    'last 2 Firefox versions',
+                    'not Firefox < 54',
+                    'last 2 Edge versions',
+                    'not Edge < 15'
+                  ]
+                },
+                useBuiltIns: 'entry',
+                modules: false
+              }
+            ],
+            'react'
+          ]
+        },
+        files: [
+          {
+            expand: true,
+            cwd: '<%= project.src %>',
+            src: ['**/*.*'],
+            dest: '<%= project.distES %>/',
+            extDot: 'last',
+            ext: '.js'
+          }
+        ]
+      },
       functional: {
         options: {
-          sourceMap: false
+          sourceMap: false,
+          plugins: ['add-module-exports'],
+          presets: ['env', 'react']
         },
         files: [
           {
@@ -120,7 +164,9 @@ module.exports = function (grunt) {
       },
       unit: {
         options: {
-          sourceMap: false
+          sourceMap: false,
+          plugins: ['add-module-exports'],
+          presets: ['env', 'react']
         },
         files: [
           {
@@ -154,10 +200,7 @@ module.exports = function (grunt) {
     // create js rollup with webpack module loader for functional tests
     webpack: {
       functional: {
-        entry: [
-          'babel-polyfill',
-          './<%= project.functional %>/bootstrap.js'
-        ],
+        entry: ['babel-polyfill', './<%= project.functional %>/bootstrap.js'],
         output: {
           path: path.resolve(__dirname, '<%= project.functional %>/'),
           filename: 'bundle.js'
@@ -331,6 +374,7 @@ module.exports = function (grunt) {
     'clean:dist',
     'babel:unit',
     'babel:dist',
+    'babel:dist-es',
     'shell:nyc',
     'clean:tmp'
   ]);
@@ -339,6 +383,7 @@ module.exports = function (grunt) {
     'clean:tmp',
     'clean:dist',
     'babel:unit',
+    'babel:dist-es',
     'babel:dist',
     'shell:mocha'
   ]);
@@ -346,8 +391,14 @@ module.exports = function (grunt) {
   // dist
   // 1. clean dist/
   // 2. compile jsx to js in dist/
-  grunt.registerTask('dist', ['clean:dist', 'babel:dist']);
-  grunt.registerTask('test', ['clean:dist', 'babel:dist', 'clean:tmp', 'babel:unit']);
+  grunt.registerTask('dist', ['clean:dist', 'babel:dist', 'babel:dist-es']);
+  grunt.registerTask('test', [
+    'clean:dist',
+    'babel:dist',
+    'babel:dist-es',
+    'clean:tmp',
+    'babel:unit'
+  ]);
 
   // default
   grunt.registerTask('default', ['dist']);
