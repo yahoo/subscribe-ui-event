@@ -154,7 +154,10 @@ module.exports = function (grunt) {
     // create js rollup with webpack module loader for functional tests
     webpack: {
       functional: {
-        entry: './<%= project.functional %>/bootstrap.js',
+        entry: [
+          'babel-polyfill',
+          './<%= project.functional %>/bootstrap.js'
+        ],
         output: {
           path: path.resolve(__dirname, '<%= project.functional %>/'),
           filename: 'bundle.js'
@@ -224,7 +227,6 @@ module.exports = function (grunt) {
             'capture-html': false,
             'record-screenshots': false
           },
-          throttled: 3,
           browsers: [
             // Mocha drops IE 10 and below supports in 5.0.0
             // https://github.com/mochajs/mocha/blob/master/CHANGELOG.md#500--2018-01-17

@@ -1,6 +1,4 @@
 /* global window, document */
-require('babel-polyfill');
-
 import React from 'react'; // eslint-disable-line
 import ReactDOM from 'react-dom'; // eslint-disable-line
 import { expect } from 'chai'; // eslint-disable-line
