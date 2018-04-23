@@ -226,31 +226,31 @@ module.exports = function (grunt) {
           },
           throttled: 3,
           browsers: [
-            {
-              browserName: 'internet explorer',
-              platform: 'Windows 7',
-              version: '8'
-            },
-            {
-              browserName: 'internet explorer',
-              platform: 'Windows 7',
-              version: '9'
-            },
-            {
-              browserName: 'internet explorer',
-              platform: 'Windows 8',
-              version: '10'
-            },
-            {
-              browserName: 'internet explorer',
-              platform: 'Windows 8.1',
-              version: '11'
-            },
-            {
-              browserName: 'MicrosoftEdge',
-              platform: 'Windows 10',
-              version: '16'
-            },
+            // {
+            //   browserName: 'internet explorer',
+            //   platform: 'Windows 7',
+            //   version: '8'
+            // },
+            // {
+            //   browserName: 'internet explorer',
+            //   platform: 'Windows 7',
+            //   version: '9'
+            // },
+            // {
+            //   browserName: 'internet explorer',
+            //   platform: 'Windows 8',
+            //   version: '10'
+            // },
+            // {
+            //   browserName: 'internet explorer',
+            //   platform: 'Windows 8.1',
+            //   version: '11'
+            // },
+            // {
+            //   browserName: 'MicrosoftEdge',
+            //   platform: 'Windows 10',
+            //   version: '16'
+            // },
             {
               browserName: 'chrome',
               platform: 'Windows 10',
@@ -261,19 +261,19 @@ module.exports = function (grunt) {
               platform: 'Windows 10',
               version: '59'
             },
-            {
-              browserName: 'Safari',
-              deviceName: 'iPhone 8 Simulator',
-              deviceOrientation: 'portrait',
-              platform: 'iOS',
-              platformVersion: '11.2'
-            },
-            {
-              deviceName: 'Android Emulator',
-              deviceOrientation: 'portrait',
-              platformName: 'Android',
-              platformVersion: '4.4'
-            },
+            // {
+            //   browserName: 'Safari',
+            //   deviceName: 'iPhone 8 Simulator',
+            //   deviceOrientation: 'portrait',
+            //   platform: 'iOS',
+            //   platformVersion: '11.2'
+            // },
+            // {
+            //   deviceName: 'Android Emulator',
+            //   deviceOrientation: 'portrait',
+            //   platformName: 'Android',
+            //   platformVersion: '4.4'
+            // },
             {
               browserName: 'safari',
               platform: 'macOS 10.13',
