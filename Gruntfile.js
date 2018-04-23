@@ -226,46 +226,46 @@ module.exports = function (grunt) {
           },
           throttled: 3,
           browsers: [
-            {
-              browserName: 'internet explorer',
-              platform: 'Windows 7',
-              version: '8'
-            },
-            {
-              browserName: 'internet explorer',
-              platform: 'Windows 8.1',
-              version: '11'
-            },
-            {
-              browserName: 'edge',
-              platform: 'Windows 10',
-              version: '11'
-            },
+            // {
+            //   browserName: 'internet explorer',
+            //   platform: 'Windows 7',
+            //   version: '8'
+            // },
+            // {
+            //   browserName: 'internet explorer',
+            //   platform: 'Windows 8.1',
+            //   version: '11'
+            // },
+            // {
+            //   browserName: 'edge',
+            //   platform: 'Windows 10',
+            //   version: '11'
+            // },
             {
               browserName: 'chrome',
               platform: 'Windows 10',
               version: '64'
-            },
-            {
-              browserName: 'firefox',
-              platform: 'Windows 10',
-              version: '59'
-            },
-            {
-              browserName: 'iphone',
-              platform: 'OS X 10.9',
-              version: '7.1'
-            },
-            {
-              browserName: 'android',
-              platform: 'Linux',
-              version: '4.4'
-            },
-            {
-              browserName: 'safari',
-              platform: 'OS X 10.12',
-              version: '11'
             }
+            // {
+            //   browserName: 'firefox',
+            //   platform: 'Windows 10',
+            //   version: '59'
+            // },
+            // {
+            //   browserName: 'iphone',
+            //   platform: 'OS X 10.9',
+            //   version: '7.1'
+            // },
+            // {
+            //   browserName: 'android',
+            //   platform: 'Linux',
+            //   version: '4.4'
+            // },
+            // {
+            //   browserName: 'safari',
+            //   platform: 'OS X 10.12',
+            //   version: '11'
+            // }
           ]
         }
       }

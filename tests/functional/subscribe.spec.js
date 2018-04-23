@@ -1,4 +1,4 @@
-/* global describe, it, expect, window, document, leIE8, async */
+/* global describe, it, expect, window, document, leIE8, series */
 
 function $(selector) {
   const node = document.querySelector(selector);
@@ -13,7 +13,7 @@ function $(selector) {
 }
 
 describe('Subscribe UI Event tests', () => {
-  it('scroll and throttled scroll should work', done => {
+  it('scroll and throttled scroll should work', (done) => {
     const scripts = [];
 
     // execute scroll 20 times, could trigger more then 20 times on Safari 7
@@ -56,7 +56,7 @@ describe('Subscribe UI Event tests', () => {
     }
 
     scripts.push(test);
-    async.series(scripts, done);
+    series(scripts, done);
   });
 
   // it('resize should work', function (done) {

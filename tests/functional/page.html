@@ -36,14 +36,13 @@
         <script src="../../node_modules/async/dist/async.js"></script>
         <script src="bundle.js"></script>
         <script>
-            mocha.setup('bdd');
+          mocha.setup('bdd');
         </script>
         <script src="subscribe.spec.js"></script>
         <script>
-        (function () {
-          var runner = mocha.run();
-
+          mocha.checkLeaks();
           var failedTests = [];
+          var runner = mocha.run();
           runner.on('end', function () {
             window.mochaResults = runner.stats;
             window.mochaResults.reports = failedTests;
@@ -59,7 +58,6 @@
           }
 
           runner.on('fail', function (test, err) {
-
             failedTests.push({
               name: test.title,
               result: false,
@@ -67,9 +65,7 @@
               stack: err && err.stack,
               titles: flattenTitles(test)
             });
-
           });
-        }());
         </script>
     </body>
 </html>
