@@ -1,30 +1,33 @@
 /* global describe, it, expect, window, document, leIE8, series */
-
 function $(selector) {
   const node = document.querySelector(selector);
   return {
-    getText() {
+    getText: function getText() {
       return node.innerHTML;
     },
-    getInt() {
+    getInt: function getInt() {
       return parseInt(node.innerHTML, 10);
     }
   };
 }
 
-describe('Subscribe UI Event tests', function testSuite() { // eslint-disable-line
-  it('scroll and throttled scroll should work', function testCase(done) { // eslint-disable-line
+describe('Subscribe UI Event tests', () => {
+  // eslint-disable-line
+  it('scroll and throttled scroll should work', (done) => {
+    // eslint-disable-line
     var scripts = []; // eslint-disable-line
 
     // execute scroll 20 times, could trigger more then 20 times on Safari 7
     function executeScroll(cb) {
       window.scrollBy(0, 10);
-      setTimeout(function callback() { // eslint-disable-line
+      setTimeout(() => {
+        // eslint-disable-line
         cb();
       }, 20);
     }
 
-    for (var i = 0; i < 20; i += 1) { // eslint-disable-line
+    for (let i = 0; i < 20; i += 1) {
+      // eslint-disable-line
       scripts.push(executeScroll);
     }
 
@@ -34,22 +37,17 @@ describe('Subscribe UI Event tests', function testSuite() { // eslint-disable-li
       if (!leIE8) {
         expect($('.scroll-raf').getInt()).to.not.above(20, 'scroll-raf');
         expect($('.scroll-1000').getInt()).to.below(20, 'scroll-1000');
-        expect($('.scroll-300-raf').getInt()).to.not.above(
-          20,
-          'scroll-300-raf'
-        );
+        expect($('.scroll-300-raf').getInt()).to.not.above(20, 'scroll-300-raf');
       } else {
         expect($('.scroll-raf').getInt()).to.not.below(20, 'scroll-raf');
         expect($('.scroll-1000').getInt()).to.not.below(20, 'scroll-1000');
-        expect($('.scroll-300-raf').getInt()).to.not.below(
-          20,
-          'scroll-300-raf'
-        );
+        expect($('.scroll-300-raf').getInt()).to.not.below(20, 'scroll-300-raf');
       }
 
       expect($('.scrollStart').getInt()).to.equal(1, 'scrollStart');
       expect($('.scrollEnd').getInt()).to.equal(0, 'scrollEnd');
-      setTimeout(function waitForScrollEnd() { // eslint-disable-line
+      setTimeout(() => {
+        // eslint-disable-line
         expect($('.scrollEnd').getInt()).to.equal(1, 'scrollEnd');
         cb();
       }, 500);
