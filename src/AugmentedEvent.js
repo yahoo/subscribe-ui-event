@@ -6,15 +6,15 @@
 
 import globalVars from './globalVars';
 
-const resize = {
+let resize = {
   width: 0,
   height: 0
 };
-const scroll = {
+let scroll = {
   delta: 0,
   top: 0
 };
-const touch = {
+let touch = {
   axisIntention: '',
   startX: 0,
   startY: 0,
@@ -25,7 +25,7 @@ const touch = {
 const INTENTION_THRESHOLD = 5;
 
 const getXY = (pos) => {
-  const t = { x: 0, y: 0 };
+  let t = { x: 0, y: 0 };
   const docBody = document.body;
   const docEl = document.documentElement;
 
@@ -59,8 +59,7 @@ class AugmentedEvent {
   }
 
   update(e) {
-    const mainType = this.mainType;
-    const subType = this.subType;
+    const { mainType, subType } = this;
     const docEl = document.documentElement;
 
     if (globalVars.enableScrollInfo && (mainType === 'scroll' || mainType === 'touchmove')) {
