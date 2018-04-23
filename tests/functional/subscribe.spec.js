@@ -13,7 +13,7 @@ function $(selector) {
 }
 
 describe('Subscribe UI Event tests', () => {
-  it('scroll and throttled scroll should work', (done) => {
+  it('scroll and throttled scroll should work', function testCase(done) { // eslint-disable-line
     var scripts = []; // eslint-disable-line
 
     // execute scroll 20 times, could trigger more then 20 times on Safari 7
@@ -49,7 +49,7 @@ describe('Subscribe UI Event tests', () => {
 
       expect($('.scrollStart').getInt()).to.equal(1, 'scrollStart');
       expect($('.scrollEnd').getInt()).to.equal(0, 'scrollEnd');
-      setTimeout(function() { // eslint-disable-line
+      setTimeout(function waitForScrollEnd() { // eslint-disable-line
         expect($('.scrollEnd').getInt()).to.equal(1, 'scrollEnd');
         cb();
       }, 500);
