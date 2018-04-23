@@ -12,7 +12,7 @@ function $(selector) {
   };
 }
 
-describe('Subscribe UI Event tests', () => {
+describe('Subscribe UI Event tests', function testSuite() { // eslint-disable-line
   it('scroll and throttled scroll should work', function testCase(done) { // eslint-disable-line
     var scripts = []; // eslint-disable-line
 
