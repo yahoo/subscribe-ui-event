@@ -8,7 +8,7 @@ import { supportPassiveEvent } from '../globalVars';
 
 const defaultEventOption = {
   capture: false,
-  passive: false,
+  passive: false
 };
 
 /**
@@ -26,9 +26,7 @@ function listen(target, eventType, handler, options) {
   let remove = 'removeEventListener';
   let type = eventType;
 
-  const eventOptions = supportPassiveEvent
-    ? assign({}, defaultEventOption, options)
-    : false;
+  const eventOptions = supportPassiveEvent ? assign({}, defaultEventOption, options) : false;
 
   if (!target.addEventListener && target.attachEvent) {
     add = 'attachEvent';
@@ -40,7 +38,7 @@ function listen(target, eventType, handler, options) {
   return {
     remove() {
       target[remove](eventType, handler);
-    },
+    }
   };
 }
 

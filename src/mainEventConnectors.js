@@ -182,7 +182,6 @@ function connectDiscreteEvent(target, event) {
   };
 }
 
-
 export default {
   scrollStart: connectContinuousEvent(win, 'scroll', 'scrollStart'),
   scrollEnd: connectContinuousEvent(win, 'scroll', 'scrollEnd'),

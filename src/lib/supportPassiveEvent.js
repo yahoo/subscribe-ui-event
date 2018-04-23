@@ -7,7 +7,7 @@ if (typeof window !== 'undefined') {
     const options = Object.defineProperty({}, 'passive', {
       get() {
         passiveSupported = true;
-      },
+      }
     });
 
     window.addEventListener('test', null, options);
