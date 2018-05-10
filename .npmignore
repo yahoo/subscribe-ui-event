@@ -1,4 +1,5 @@
 .editorconfig
+.nyc_output/
 /artifacts/
 /bin/
 /build/
@@ -14,3 +15,6 @@ TEST_*
 *.log
 *~
 *.tap
+.eslintrc.js
+.travis.yml
+Gruntfile.js
