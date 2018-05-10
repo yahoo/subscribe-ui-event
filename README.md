@@ -1,4 +1,5 @@
 # subscribe-ui-event
+
 [![npm version](https://badge.fury.io/js/subscribe-ui-event.svg)](http://badge.fury.io/js/subscribe-ui-event)
 [![Build Status](https://travis-ci.org/yahoo/subscribe-ui-event.svg?branch=master)](https://travis-ci.org/yahoo/subscribe-ui-event)
 [![Coverage Status](https://coveralls.io/repos/yahoo/subscribe-ui-event/badge.svg)](https://coveralls.io/r/yahoo/subscribe-ui-event)
@@ -25,10 +26,10 @@ For 10 `subscribe`, the difference of memory consumption between peak and trough
 
 ## Other Benifits
 
-1. Do throttling by default.
-2. Get `document.body.scrollTop`, `window.innerWidth` once.
-3. Provide `requestAnimationFrame` throttle for the need of high performance.
-4. Be able to use like `scrollStart` (see below) those edge events.
+1.  Do throttling by default.
+2.  Get `document.body.scrollTop`, `window.innerWidth` once.
+3.  Provide `requestAnimationFrame` throttle for the need of high performance.
+4.  Be able to use like `scrollStart` (see below) those edge events.
 
 ## Install
 
@@ -51,14 +52,14 @@ Provide throttled version of window or document events, such like `scroll`, `res
 Example:
 
 ```js
-var subscribe = require('subscribe-ui-event').subscribe;
+import { subscribe } from 'subscribe-ui-event');
 function eventHandler (e, payload) {
     // e is the native event object and
     // payload is the additional information
     ...
 }
 // 50ms throttle by default
-var subscription = subscribe('scroll', eventHandler);
+const subscription = subscribe('scroll', eventHandler);
 // remove later
 subscription.unsubscribe();
 ```
@@ -66,6 +67,7 @@ subscription.unsubscribe();
 **Addtional Payload**
 
 The format of the payload is:
+
 ```js
 {
     type: <String>, // could be 'scroll', 'resize' ...
@@ -106,15 +108,15 @@ The format of the payload is:
 
 `eventType` could be one of the following:
 
-1. scroll - window.scoll
-2. scrollStart - The start of window.scoll
-3. scrollEnd - The end of window.scoll
-4. resize - window.resize
-5. resizeStart - The start window.resize
-6. resizeEnd - The end window.resize
-7. visibilitychange - document.visibilitychange (IE8 doesn't support)
-8. touchmoveStart - The start of window.touchmove
-9. touchmoveEnd - The end of window.touchmove
+1.  scroll - window.scoll
+2.  scrollStart - The start of window.scoll
+3.  scrollEnd - The end of window.scoll
+4.  resize - window.resize
+5.  resizeStart - The start window.resize
+6.  resizeEnd - The end window.resize
+7.  visibilitychange - document.visibilitychange (IE8 doesn't support)
+8.  touchmoveStart - The start of window.touchmove
+9.  touchmoveEnd - The end of window.touchmove
 10. touchmove - window.touchmove
 11. touchstart - window.touchstart
 12. touchend - window.touchend
@@ -128,6 +130,10 @@ Void unsubscribe(String eventType, Function callback)
 ```
 
 Unsubscribe an event listener, suggest to use `subscription.unsubscribe()`, because it may accidentally unsubscribe those events having the same `eventType` and `callback` but different `throttleRate`.
+
+## Credits
+
+* This library runs full browser test suite using Sauce Labs.
 
 ## License
 

@@ -5,8 +5,11 @@ coverage/
 node_modules/
 tmp/
 dist/
+dist-es/
 *.log
 *.tap
 tests/functional/css
 tests/functional/bundle.js
 tests/functional/subscribe-functional.js
+tests/functional/subscribe.spec.js
+.nyc_output

@@ -2,14 +2,13 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
 
-var globalVars = require('./globalVars');
-var leIE8 = require('./lib/leIE8'); // less then or equal to IE8
-var mainEventConnectors = require('./mainEventConnectors');
+import globalVars from './globalVars';
+import leIE8 from './lib/leIE8'; // less then or equal to IE8
+import mainEventConnectors from './mainEventConnectors';
 
 // constants
-var DEFAULT_THROTTLE_RATE = require('./constants').DEFAULT_THROTTLE_RATE;
+import { DEFAULT_THROTTLE_RATE } from './constants';
 
 /**
  * Subscribe to UI events.
@@ -22,33 +21,31 @@ var DEFAULT_THROTTLE_RATE = require('./constants').DEFAULT_THROTTLE_RATE;
  * @param {Object} options.eventOptions - Option to pass to event listener
  * @return {Object} The object with unsubscribe function.
  */
-function subscribe(type, cb, options) {
-    options = options || {};
+function subscribe(type, cb, options = {}) {
+  const useRAF = options.useRAF || false;
+  let throttleRate = parseInt(options.throttleRate, 10);
+  const eventOptions = options.eventOptions;
 
-    var useRAF = options.useRAF || false;
-    var throttleRate = parseInt(options.throttleRate, 10);
-    var eventOptions = options.eventOptions;
+  if (isNaN(throttleRate)) {
+    throttleRate = DEFAULT_THROTTLE_RATE;
+  }
 
-    if (isNaN(throttleRate)) {
-        throttleRate = DEFAULT_THROTTLE_RATE;
-    }
+  if (useRAF) {
+    throttleRate = 'raf';
+  }
 
-    if (useRAF) {
-        throttleRate = 'raf';
-    }
+  // turn off throttle if the browser is IE8 or less, because window.event will be reset
+  // when using any delayed function, i.g., setTimeout, or rAF.
+  if (leIE8) {
+    throttleRate = 0;
+  }
 
-    // turn off throttle if the browser is IE8 or less, because window.event will be reset
-    // when using any delayed function, i.g., setTimeout, or rAF.
-    if (leIE8) {
-        throttleRate = 0;
-    }
+  // once those variables enabled, then never disabled.
+  globalVars.enableScrollInfo = globalVars.enableScrollInfo || options.enableScrollInfo || false;
+  globalVars.enableResizeInfo = globalVars.enableResizeInfo || options.enableResizeInfo || false;
+  globalVars.enableTouchInfo = globalVars.enableTouchInfo || options.enableTouchInfo || false;
 
-    // once those variables enabled, then never disabled.
-    globalVars.enableScrollInfo = globalVars.enableScrollInfo || options.enableScrollInfo || false;
-    globalVars.enableResizeInfo = globalVars.enableResizeInfo || options.enableResizeInfo || false;
-    globalVars.enableTouchInfo = globalVars.enableTouchInfo || options.enableTouchInfo || false;
-
-    return mainEventConnectors[type](throttleRate, cb, options, eventOptions);
+  return mainEventConnectors[type](throttleRate, cb, options, eventOptions);
 }
 
-module.exports = subscribe;
+export default subscribe;

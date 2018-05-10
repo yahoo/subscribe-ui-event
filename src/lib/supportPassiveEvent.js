@@ -1,15 +1,17 @@
-var passiveSupported = false;
+/* global window */
+
+let passiveSupported = false; // eslint-disable-line import/no-mutable-exports
 
 if (typeof window !== 'undefined') {
   try {
-    var options = Object.defineProperty({}, 'passive', {
-      get: function() {
+    const options = Object.defineProperty({}, 'passive', {
+      get() {
         passiveSupported = true;
       }
     });
 
     window.addEventListener('test', null, options);
-  } catch (err) {}
+  } catch (err) {} // eslint-disable-line no-empty
 }
 
-module.exports = passiveSupported;
+export default passiveSupported;

@@ -4,58 +4,56 @@
  */
 /* global describe, it */
 
-'use strict';
+const jsdom = require('jsdom');
 
-var jsdom = require('node-jsdom');
-global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
-global.window = document.parentWindow;
+const { JSDOM } = jsdom;
+
+const dom = new JSDOM('<!doctype html><html><body></body></html>', { pretendToBeVisual: true });
+const { window } = dom;
+const document = window.document;
+
+global.document = document;
+global.window = window;
 global.navigator = window.navigator;
 global.Event = window.Event;
 
-var env = {
-    eventHandlers: {}
+const env = {
+  eventHandlers: {}
 };
 
-function addEventListener (type, cb) {
-    env.eventHandlers[type] = cb;
+function addEventListener(type, cb) {
+  env.eventHandlers[type] = cb;
 }
 
-function removeEventListener (type, cb) {
-    env.eventHandlers[type] = undefined;
+function removeEventListener(type, cb) {
+  env.eventHandlers[type] = undefined;
 }
 
-window = {
-    addEventListener: addEventListener,
-    removeEventListener: removeEventListener,
-    attachEvent: addEventListener,
-    detachEvent: removeEventListener,
-    setTimeout: function (cb, wait) {
-        cb();
-    },
-    requestAnimationFrame: function (cb) {
-        cb();
-    },
-    cancelAnimationFrame: function () {
-    },
-    innerWidth: 20
+window.addEventListener = addEventListener;
+window.removeEventListener = removeEventListener;
+window.attachEvent = addEventListener;
+window.detachEvent = removeEventListener;
+window.setTimeout = (cb, wait) => {
+  cb();
 };
-document = {
-    documentElement: {
-        scrollTop: 10,
-        scrollLeft: 0
-    },
-    body: {
-        scrollTop: 0,
-        scrollLeft: 0,
-        addEventListener: addEventListener,
-        removeEventListener: removeEventListener,
-        attachEvent: addEventListener,
-        detachEvent: removeEventListener
-    },
-    addEventListener: addEventListener,
-    removeEventListener: removeEventListener,
-    attachEvent: addEventListener,
-    detachEvent: removeEventListener
+window.requestAnimationFrame = (cb) => {
+  cb();
 };
+window.cancelAnimationFrame = () => {};
+window.innerWidth = 20;
+
+document.documentElement.scrollTop = 10;
+document.documentElement.scrollLeft = 0;
+document.body.scrollTop = 0;
+document.body.scrollLeft = 0;
+document.body.addEventListener = addEventListener;
+document.body.removeEventListener = removeEventListener;
+document.body.attachEvent = addEventListener;
+document.body.detachEvent = removeEventListener;
+
+document.addEventListener = addEventListener;
+document.removeEventListener = removeEventListener;
+document.attachEvent = addEventListener;
+document.detachEvent = removeEventListener;
 
 module.exports = env;

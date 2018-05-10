@@ -4,24 +4,18 @@
  */
 /* global describe, it */
 
-'use strict';
+import { expect } from 'chai';
 
-var env = require('../lib/setup');
+const globalVars = require('../../../dist/globalVars');
 
-var globalVars = require('../../../src/globalVars');
+const subscribe = require('../../../dist/subscribe');
+const unsubscribe = require('../../../dist/unsubscribe');
 
-var expect = require('expect.js');
-var subscribe = require('../../../src/subscribe');
-var unsubscribe = require('../../../src/unsubscribe');
-
-describe('unsubscribe', function () {
-    describe('#unsubscribe', function () {
-        it('scroll should be triggered by window scroll', function () {
-            var fn = function (e, ae) {
-            };
-            var subscription = subscribe('scroll', fn);
-            unsubscribe('scroll', fn);
-            expect(globalVars.removers.length).equal(0);
-        });
-    });
+describe('unsubscribe', () => {
+  it('scroll should be triggered by window scroll', () => {
+    const fn = function () {};
+    subscribe('scroll', fn);
+    unsubscribe('scroll', fn);
+    expect(globalVars.removers.length).to.equal(0);
+  });
 });
