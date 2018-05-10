@@ -3,7 +3,9 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import { removers } from './globalVars';
+import globalVars from './globalVars';
+
+const { removers } = globalVars;
 
 /**
  * Unsubscribe to UI events.
