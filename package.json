@@ -30,7 +30,7 @@
   "author": "Hank Hsiao <hankxiao@yahoo-inc.com>",
   "dependencies": {
     "eventemitter3": "^3.0.0",
-    "lodash": "^4.0.0",
+    "lodash": "^4.17.10",
     "raf": "^3.0.0"
   },
   "devDependencies": {
