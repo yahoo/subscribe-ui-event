@@ -4,7 +4,9 @@
  */
 
 import assign from 'lodash/assign';
-import { supportPassiveEvent } from '../globalVars';
+import globalVars from '../globalVars';
+
+const { supportPassiveEvent } = globalVars;
 
 const defaultEventOption = {
   capture: false,
