@@ -190,6 +190,7 @@ export default {
   resizeEnd: connectContinuousEvent(win, 'resize', 'resizeEnd'),
   resize: connectContinuousEvent(win, 'resize', 'resize'),
   visibilitychange: connectDiscreteEvent(doc, 'visibilitychange'),
+  selectionchange: connectDiscreteEvent(doc, 'selectionchange'),
   touchmoveStart: connectContinuousEvent(body, 'touchmove', 'touchmoveStart'),
   touchmoveEnd: connectContinuousEvent(body, 'touchmove', 'touchmoveEnd'),
   touchmove: connectContinuousEvent(body, 'touchmove', 'touchmove'),

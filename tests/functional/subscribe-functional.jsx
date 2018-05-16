@@ -83,6 +83,7 @@ class SubscribeDemo extends Component {
         <EventCounter eventType="resizeStart" />
         <EventCounter eventType="resizeEnd" />
         <EventCounter eventType="visibilitychange" />
+        <EventCounter eventType="selectionchange" />
         <EventCounter eventType="touchmoveStart" />
         <EventCounter eventType="touchmoveEnd" />
         <EventCounter eventType="touchmove" throttleRate={1000} />

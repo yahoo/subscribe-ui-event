@@ -24,7 +24,7 @@ For 10 `subscribe`, the difference of memory consumption between peak and trough
 
 ![subscribe](https://cloud.githubusercontent.com/assets/2044960/9611619/7c293652-5095-11e5-8d27-29a0d2d167cc.png)
 
-## Other Benifits
+## Other Benefits
 
 1.  Do throttling by default.
 2.  Get `document.body.scrollTop`, `window.innerWidth` once.
@@ -115,11 +115,12 @@ The format of the payload is:
 5.  resizeStart - The start window.resize
 6.  resizeEnd - The end window.resize
 7.  visibilitychange - document.visibilitychange (IE8 doesn't support)
-8.  touchmoveStart - The start of window.touchmove
-9.  touchmoveEnd - The end of window.touchmove
-10. touchmove - window.touchmove
-11. touchstart - window.touchstart
-12. touchend - window.touchend
+8.  selectionchange - document.selectionchange
+9.  touchmoveStart - The start of window.touchmove
+10. touchmoveEnd - The end of window.touchmove
+11. touchmove - window.touchmove
+12. touchstart - window.touchstart
+13. touchend - window.touchend
 
 `options.eventOptions`: An options object that specifies characteristics about the event listener (if passive event is supported by the browser)
 
