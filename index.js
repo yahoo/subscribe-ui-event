@@ -3,11 +3,11 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-const listenLib = require('./dist/lib/listen');
-const subscribeLib = require('./dist/subscribe');
-const unsubscribeLib = require('./dist/unsubscribe');
+var listenLib = require('./dist/lib/listen');
+var subscribeLib = require('./dist/subscribe');
+var unsubscribeLib = require('./dist/unsubscribe');
 
-const IS_CLIENT = typeof window !== 'undefined';
+var IS_CLIENT = typeof window !== 'undefined';
 
 function warn() {
   if (process.env.NODE_ENV !== 'production') {
