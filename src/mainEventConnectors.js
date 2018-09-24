@@ -90,8 +90,8 @@ function connectThrottle(throttledEvent, cb, ctx, throttledMainEvent) {
  * @param {String} event - A subscribe event.
  * @param {Object} eventOptions - An options pass to event listener
  */
-function connectContinuousEvent(target, mainEvent, event, eventOptions) {
-  return function throttleEvent(throttleRate, cb, options) {
+function connectContinuousEvent(target, mainEvent, event) {
+  return function throttleEvent(throttleRate, cb, options, eventOptions) {
     const context = options.context;
     const domTarget = options.target;
     const domId = domTarget && getHash(domTarget);
@@ -155,7 +155,7 @@ function connectContinuousEvent(target, mainEvent, event, eventOptions) {
 }
 
 function connectDiscreteEvent(target, event) {
-  return function throttleEvent(throttleRate, cb, options) {
+  return function throttleEvent(throttleRate, cb, options, eventOptions) {
     const context = options.context;
     const domTarget = options.target;
     const domId = domTarget && getHash(domTarget);
@@ -177,7 +177,7 @@ function connectDiscreteEvent(target, event) {
       EE.emit(throttledEvent, e, ae);
     }
 
-    listeners[throttledEvent] = listen(domTarget || target, event, handler);
+    listeners[throttledEvent] = listen(domTarget || target, event, handler, eventOptions);
     return remover;
   };
 }
