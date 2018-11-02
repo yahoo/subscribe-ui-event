@@ -15,6 +15,6 @@ function warn() {
   }
 }
 
-export const listen = IS_CLIENT ? listenLib : warn;
-export const subscribe = IS_CLIENT ? subscribeLib : warn;
-export const unsubscribe = IS_CLIENT ? unsubscribeLib : warn;
+export var listen = IS_CLIENT ? listenLib : warn;
+export var subscribe = IS_CLIENT ? subscribeLib : warn;
+export var unsubscribe = IS_CLIENT ? unsubscribeLib : warn;
