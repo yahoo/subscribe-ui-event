@@ -7,7 +7,7 @@ import listenLib from './dist-es/lib/listen';
 import subscribeLib from './dist-es/subscribe';
 import unsubscribeLib from './dist-es/unsubscribe';
 
-const IS_CLIENT = typeof window !== 'undefined';
+var IS_CLIENT = typeof window !== 'undefined';
 
 function warn() {
   if (process.env.NODE_ENV !== 'production') {
