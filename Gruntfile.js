@@ -310,7 +310,7 @@ module.exports = function (grunt) {
               browserName: 'firefox',
               platform: 'Windows 10',
               version: '59'
-            },
+            }
             // {
             //   browserName: 'Safari',
             //   deviceName: 'iPhone 8 Simulator',
@@ -324,11 +324,11 @@ module.exports = function (grunt) {
             //   platformName: 'Android',
             //   platformVersion: '4.4'
             // },
-            {
-              browserName: 'safari',
-              platform: 'macOS 10.13',
-              version: '11.0'
-            }
+            // {
+            //   browserName: 'safari',
+            //   platform: 'macOS 10.13',
+            //   version: '11.0'
+            // }
           ]
         }
       }
