@@ -290,11 +290,11 @@ module.exports = function (grunt) {
             //   platform: 'Windows 8',
             //   version: '10'
             // },
-            {
-              browserName: 'internet explorer',
-              platform: 'Windows 8.1',
-              version: '11'
-            },
+            // {
+            //   browserName: 'internet explorer',
+            //   platform: 'Windows 8.1',
+            //   version: '11'
+            // },
             // Edge has issue setting proxies
             // {
             //   browserName: 'MicrosoftEdge',
@@ -304,12 +304,12 @@ module.exports = function (grunt) {
             {
               browserName: 'chrome',
               platform: 'Windows 10',
-              version: '64'
+              version: '73'
             },
             {
               browserName: 'firefox',
               platform: 'Windows 10',
-              version: '59'
+              version: '66'
             }
             // {
             //   browserName: 'Safari',
