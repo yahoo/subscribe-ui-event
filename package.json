@@ -31,7 +31,7 @@
   "dependencies": {
     "eventemitter3": "^3.0.0",
     "lodash": "^4.17.15",
-    "raf": "^3.0.0"
+    "raf": "^3.4.1"
   },
   "devDependencies": {
     "async": "^2.6.0",
