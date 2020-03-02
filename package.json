@@ -46,7 +46,7 @@
     "chai": "^4.1.2",
     "coveralls": "^3.0.0",
     "es5-shim": "^4.0.0",
-    "eslint": "^3.6.0",
+    "eslint": "^4.18.2",
     "eslint-config-airbnb": "^15.0.0",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
