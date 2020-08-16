@@ -11,6 +11,7 @@ if (typeof window !== 'undefined') {
     });
 
     window.addEventListener('test', null, options);
+    window.removeEventListener('test', null, options);
   } catch (err) {} // eslint-disable-line no-empty
 }
 
