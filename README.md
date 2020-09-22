@@ -52,7 +52,7 @@ Provide throttled version of window or document events, such like `scroll`, `res
 Example:
 
 ```js
-import { subscribe } from 'subscribe-ui-event');
+import { subscribe } from 'subscribe-ui-event';
 function eventHandler (e, payload) {
     // e is the native event object and
     // payload is the additional information
