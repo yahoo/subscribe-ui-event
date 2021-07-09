@@ -2,7 +2,6 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/* global window, document, setTimeout */
 
 import clone from 'lodash/clone';
 import throttle from 'lodash/throttle';

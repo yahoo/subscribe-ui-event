@@ -1,8 +1,10 @@
 module.exports = {
-    extends: [
-        'eslint-config-airbnb-base',
-        'eslint-config-airbnb-base/rules/strict',
-    ].map(require.resolve),
+    env: {
+        browser: true,
+        node: true,
+    },
+    extends: ['eslint:recommended'],
+    parser: 'babel-eslint',
     rules: {
         'comma-dangle': 0,
         'no-underscore-dangle': 0,
