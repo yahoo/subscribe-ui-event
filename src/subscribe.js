@@ -22,30 +22,33 @@ import { DEFAULT_THROTTLE_RATE } from './constants';
  * @return {Object} The object with unsubscribe function.
  */
 function subscribe(type, cb, options = {}) {
-  const useRAF = options.useRAF || false;
-  let throttleRate = parseInt(options.throttleRate, 10);
-  const eventOptions = options.eventOptions;
+    const useRAF = options.useRAF || false;
+    let throttleRate = parseInt(options.throttleRate, 10);
+    const eventOptions = options.eventOptions;
 
-  if (isNaN(throttleRate)) {
-    throttleRate = DEFAULT_THROTTLE_RATE;
-  }
+    if (isNaN(throttleRate)) {
+        throttleRate = DEFAULT_THROTTLE_RATE;
+    }
 
-  if (useRAF) {
-    throttleRate = 'raf';
-  }
+    if (useRAF) {
+        throttleRate = 'raf';
+    }
 
-  // turn off throttle if the browser is IE8 or less, because window.event will be reset
-  // when using any delayed function, i.g., setTimeout, or rAF.
-  if (leIE8) {
-    throttleRate = 0;
-  }
+    // turn off throttle if the browser is IE8 or less, because window.event will be reset
+    // when using any delayed function, i.g., setTimeout, or rAF.
+    if (leIE8) {
+        throttleRate = 0;
+    }
 
-  // once those variables enabled, then never disabled.
-  globalVars.enableScrollInfo = globalVars.enableScrollInfo || options.enableScrollInfo || false;
-  globalVars.enableResizeInfo = globalVars.enableResizeInfo || options.enableResizeInfo || false;
-  globalVars.enableTouchInfo = globalVars.enableTouchInfo || options.enableTouchInfo || false;
+    // once those variables enabled, then never disabled.
+    globalVars.enableScrollInfo =
+        globalVars.enableScrollInfo || options.enableScrollInfo || false;
+    globalVars.enableResizeInfo =
+        globalVars.enableResizeInfo || options.enableResizeInfo || false;
+    globalVars.enableTouchInfo =
+        globalVars.enableTouchInfo || options.enableTouchInfo || false;
 
-  return mainEventConnectors[type](throttleRate, cb, options, eventOptions);
+    return mainEventConnectors[type](throttleRate, cb, options, eventOptions);
 }
 
 export default subscribe;

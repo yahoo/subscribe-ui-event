@@ -12,10 +12,10 @@ const subscribe = require('../../../dist/subscribe');
 const unsubscribe = require('../../../dist/unsubscribe');
 
 describe('unsubscribe', () => {
-  it('scroll should be triggered by window scroll', () => {
-    const fn = function () {};
-    subscribe('scroll', fn);
-    unsubscribe('scroll', fn);
-    expect(globalVars.removers.length).to.equal(0);
-  });
+    it('scroll should be triggered by window scroll', () => {
+        const fn = function () {};
+        subscribe('scroll', fn);
+        unsubscribe('scroll', fn);
+        expect(globalVars.removers.length).to.equal(0);
+    });
 });

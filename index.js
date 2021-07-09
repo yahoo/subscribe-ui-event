@@ -10,13 +10,15 @@ var unsubscribeLib = require('./dist/unsubscribe');
 var IS_CLIENT = typeof window !== 'undefined';
 
 function warn() {
-  if (process.env.NODE_ENV !== 'production') {
-    console.warn('Warning: the function is client-side only, does not work on server side'); // eslint-disable-line
-  }
+    if (process.env.NODE_ENV !== 'production') {
+        console.warn(
+            'Warning: the function is client-side only, does not work on server side'
+        ); // eslint-disable-line
+    }
 }
 
 module.exports = {
-  listen: IS_CLIENT ? listenLib : warn,
-  subscribe: IS_CLIENT ? subscribeLib : warn,
-  unsubscribe: IS_CLIENT ? unsubscribeLib : warn
+    listen: IS_CLIENT ? listenLib : warn,
+    subscribe: IS_CLIENT ? subscribeLib : warn,
+    unsubscribe: IS_CLIENT ? unsubscribeLib : warn,
 };

@@ -130,7 +130,7 @@ Unsubscribe an event listener, suggest to use `subscription.unsubscribe()`, beca
 
 ## Credits
 
-* This library runs full browser test suite using Sauce Labs.
+-   This library runs full browser test suite using Sauce Labs.
 
 ## License
 

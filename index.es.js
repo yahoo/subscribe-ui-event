@@ -10,9 +10,11 @@ import unsubscribeLib from './dist-es/unsubscribe';
 var IS_CLIENT = typeof window !== 'undefined';
 
 function warn() {
-  if (process.env.NODE_ENV !== 'production') {
-    console.warn('Warning: the function is client-side only, does not work on server side'); // eslint-disable-line
-  }
+    if (process.env.NODE_ENV !== 'production') {
+        console.warn(
+            'Warning: the function is client-side only, does not work on server side'
+        ); // eslint-disable-line
+    }
 }
 
 export var listen = IS_CLIENT ? listenLib : warn;

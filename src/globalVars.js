@@ -7,11 +7,11 @@ import EventEmitter from 'eventemitter3';
 import supportPassiveEvent from './lib/supportPassiveEvent';
 
 export default {
-  connections: {},
-  EE: new EventEmitter(),
-  enableResizeInfo: false,
-  enableScrollInfo: false,
-  listeners: {},
-  removers: [],
-  supportPassiveEvent
+    connections: {},
+    EE: new EventEmitter(),
+    enableResizeInfo: false,
+    enableScrollInfo: false,
+    listeners: {},
+    removers: [],
+    supportPassiveEvent,
 };
