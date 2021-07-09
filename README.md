@@ -1,8 +1,7 @@
 # subscribe-ui-event
 
 [![npm version](https://badge.fury.io/js/subscribe-ui-event.svg)](http://badge.fury.io/js/subscribe-ui-event)
-[![Build Status](https://travis-ci.org/yahoo/subscribe-ui-event.svg?branch=master)](https://travis-ci.org/yahoo/subscribe-ui-event)
-[![Coverage Status](https://coveralls.io/repos/yahoo/subscribe-ui-event/badge.svg)](https://coveralls.io/r/yahoo/subscribe-ui-event)
+![github actions](https://github.com/yahoo/routr/actions/workflows/test.js.yml/badge.svg)
 
 With `subscribe-ui-event`, instead of calling multiple `window.addEventListener('scroll', eventHandler);` by different components, call `subscribe('scroll', eventHandler)`. It will only add single event listener and dispatch event to those who subscribe the event via [eventemitter3](https://github.com/primus/EventEmitter3).
 

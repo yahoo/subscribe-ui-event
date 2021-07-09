@@ -1,5 +1,3 @@
-// jscs:disable maximumLineLength
-
 const fs = require('fs');
 const path = require('path');
 
