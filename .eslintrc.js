@@ -5,6 +5,10 @@ module.exports = {
     },
     extends: ['eslint:recommended'],
     parser: 'babel-eslint',
+    parserOptions: {
+        ecmaVersion: 8,
+        sourceType: "module"
+    },
     rules: {
         'comma-dangle': 0,
         'no-underscore-dangle': 0,
