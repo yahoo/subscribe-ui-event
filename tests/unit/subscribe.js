@@ -2,17 +2,12 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/* global describe, it */
 
-import { expect } from 'chai';
-
+const { expect } = require('chai');
 const env = require('../lib/setup');
-
-const globalVars = require('../../../dist/globalVars');
-
+const globalVars = require('../../dist/globalVars');
 const ee = globalVars.EE;
-
-const subscribe = require('../../../dist/subscribe');
+const subscribe = require('../../dist/subscribe');
 
 describe('subscribe', () => {
     describe('#general', () => {

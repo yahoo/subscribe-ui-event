@@ -10,10 +10,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "func": "grunt functional",
-    "lint": "eslint src && npm run format:check",
+    "lint": "eslint . && npm run format:check",
     "prepublish": "grunt dist",
-    "unit": "grunt unit",
-    "test": "grunt cover"
+    "test": "nyc ./node_modules/.bin/mocha tests/unit --recursive --reporter spec"
   },
   "repository": {
     "type": "git",

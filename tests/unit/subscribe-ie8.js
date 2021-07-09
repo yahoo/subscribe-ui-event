@@ -2,10 +2,8 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/* global  window,document, navigator, describe, it, before, beforeEach, after */
 
-import { expect } from 'chai';
-
+const { expect } = require('chai');
 const env = require('../lib/setup');
 
 let subscribe;
@@ -23,9 +21,9 @@ describe('subscribe-ie8', () => {
         window.removeEventListener = null;
         document.addEventListener = null;
         document.removeEventListener = null;
-        require.cache[require.resolve('../../../dist/lib/leIE8')] = undefined;
-        require.cache[require.resolve('../../../dist/subscribe')] = undefined;
-        require.cache[require.resolve('../../../dist/mainEventConnectors')] =
+        require.cache[require.resolve('../../dist/lib/leIE8')] = undefined;
+        require.cache[require.resolve('../../dist/subscribe')] = undefined;
+        require.cache[require.resolve('../../dist/mainEventConnectors')] =
             undefined;
     });
 
@@ -43,7 +41,7 @@ describe('subscribe-ie8', () => {
     });
 
     beforeEach(() => {
-        subscribe = require('../../../dist/subscribe'); // eslint-disable-line
+        subscribe = require('../../dist/subscribe'); // eslint-disable-line
     });
 
     describe('#subscribe', () => {

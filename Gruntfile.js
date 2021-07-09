@@ -9,7 +9,6 @@ module.exports = function (grunt) {
         'grunt-contrib-connect',
         'grunt-contrib-watch',
         'grunt-babel',
-        'grunt-shell',
         'grunt-webpack',
     ].forEach((packageName) => {
         let moduleTasks = path.resolve(
@@ -37,20 +36,13 @@ module.exports = function (grunt) {
     });
 
     // configurable paths
-    const env = process.env;
     const projectConfig = {
         src: 'src',
         dist: 'dist',
         distES: 'dist-es',
         tmp: 'tmp',
-        unit: 'tests/unit',
         functional: 'tests/functional',
-        spec: 'tests/spec',
-        coverage_dir: grunt.option('coverage_dir') || 'artifacts',
-        test_results_dir: grunt.option('test_results_dir') || 'artifacts',
     };
-
-    env.XUNIT_FILE = `${projectConfig.test_results_dir}/xunit.xml`;
 
     grunt.initConfig({
         project: projectConfig,
@@ -171,42 +163,6 @@ module.exports = function (grunt) {
                         ext: '.js',
                     },
                 ],
-            },
-            unit: {
-                options: {
-                    sourceMap: false,
-                    plugins: ['add-module-exports'],
-                    presets: ['env', 'react'],
-                },
-                files: [
-                    {
-                        expand: true,
-                        src: [
-                            '<%= project.unit %>/../lib/**/*.*',
-                            '<%= project.unit %>/**/*.*',
-                        ],
-                        dest: '<%= project.tmp %>',
-                        extDot: 'last',
-                        ext: '.js',
-                    },
-                ],
-            },
-        },
-        // shell
-        // shell commands to run protractor and istanbul
-        shell: {
-            nyc: {
-                options: {
-                    execOptions: {
-                        env,
-                    },
-                },
-                command:
-                    'node_modules/nyc/bin/nyc.js --reporter=lcovonly --dir <%= project.coverage_dir %> -- ./node_modules/mocha/bin/_mocha <%= project.tmp %>/<%= project.unit %> --recursive --reporter=xunit-file',
-            },
-            mocha: {
-                command:
-                    './node_modules/mocha/bin/mocha <%= project.tmp %>/<%= project.unit %> --recursive --reporter spec',
             },
         },
         // webpack
@@ -380,41 +336,10 @@ module.exports = function (grunt) {
         'watch:functional',
     ]);
 
-    // cover
-    // 1. clean tmp/
-    // 2. compile jsx to js in tmp/
-    // 3. run istanbul cover in tmp/ using mocha command
-    // 4. clean tmp/
-    grunt.registerTask('cover', [
-        'clean:tmp',
-        'clean:dist',
-        'babel:unit',
-        'babel:dist',
-        'babel:dist-es',
-        'shell:nyc',
-        'clean:tmp',
-    ]);
-
-    grunt.registerTask('unit', [
-        'clean:tmp',
-        'clean:dist',
-        'babel:unit',
-        'babel:dist-es',
-        'babel:dist',
-        'shell:mocha',
-    ]);
-
     // dist
     // 1. clean dist/
     // 2. compile jsx to js in dist/
     grunt.registerTask('dist', ['clean:dist', 'babel:dist', 'babel:dist-es']);
-    grunt.registerTask('test', [
-        'clean:dist',
-        'babel:dist',
-        'babel:dist-es',
-        'clean:tmp',
-        'babel:unit',
-    ]);
 
     // default
     grunt.registerTask('default', ['dist']);

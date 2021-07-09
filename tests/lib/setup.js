@@ -2,7 +2,6 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/* global describe, it */
 
 const jsdom = require('jsdom');
 
@@ -27,7 +26,7 @@ function addEventListener(type, cb) {
     env.eventHandlers[type] = cb;
 }
 
-function removeEventListener(type, cb) {
+function removeEventListener(type) {
     env.eventHandlers[type] = undefined;
 }
 
@@ -35,7 +34,7 @@ window.addEventListener = addEventListener;
 window.removeEventListener = removeEventListener;
 window.attachEvent = addEventListener;
 window.detachEvent = removeEventListener;
-window.setTimeout = (cb, wait) => {
+window.setTimeout = (cb) => {
     cb();
 };
 window.requestAnimationFrame = (cb) => {
