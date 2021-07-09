@@ -52,7 +52,7 @@
     "eslint-plugin-react": "^7.24.0",
     "grunt": "^1.0.0",
     "grunt-atomizer": "^3.0.0",
-    "grunt-babel": "^7.0.0",
+    "grunt-babel": "^8.0.0",
     "grunt-cli": "^1.0.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-connect": "^1.0.0",
