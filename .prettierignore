@@ -1,0 +1,6 @@
+.nyc_output
+coverage
+dist
+dist-es
+node_modules
+package*.json

@@ -9,8 +9,8 @@ import globalVars from '../globalVars';
 const { supportPassiveEvent } = globalVars;
 
 const defaultEventOption = {
-  capture: false,
-  passive: false
+    capture: false,
+    passive: false,
 };
 
 /**
@@ -24,24 +24,26 @@ const defaultEventOption = {
  * @return {Object} The object to be able to remove the handler.
  */
 function listen(target, eventType, handler, options) {
-  let add = 'addEventListener';
-  let remove = 'removeEventListener';
-  let type = eventType;
+    let add = 'addEventListener';
+    let remove = 'removeEventListener';
+    let type = eventType;
 
-  const eventOptions = supportPassiveEvent ? assign({}, defaultEventOption, options) : false;
+    const eventOptions = supportPassiveEvent
+        ? assign({}, defaultEventOption, options)
+        : false;
 
-  if (!target.addEventListener && target.attachEvent) {
-    add = 'attachEvent';
-    remove = 'detachEvent';
-    type = `on${eventType}`;
-  }
-  target[add](type, handler, eventOptions);
-
-  return {
-    remove() {
-      target[remove](eventType, handler);
+    if (!target.addEventListener && target.attachEvent) {
+        add = 'attachEvent';
+        remove = 'detachEvent';
+        type = `on${eventType}`;
     }
-  };
+    target[add](type, handler, eventOptions);
+
+    return {
+        remove() {
+            target[remove](eventType, handler);
+        },
+    };
 }
 
 export default listen;
