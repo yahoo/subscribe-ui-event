@@ -7,7 +7,7 @@ module.exports = {
     parser: 'babel-eslint',
     parserOptions: {
         ecmaVersion: 8,
-        sourceType: "module"
+        sourceType: 'module',
     },
     rules: {
         'comma-dangle': 0,
