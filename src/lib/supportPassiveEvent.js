@@ -3,8 +3,8 @@ let passiveSupported = false; // eslint-disable-line
 if (typeof window !== 'undefined') {
     try {
         const options = Object.defineProperty({}, 'passive', {
+            // eslint-disable-next-line getter-return
             get() {
-                // eslint-disable-line getter-return
                 passiveSupported = true;
             },
         });
