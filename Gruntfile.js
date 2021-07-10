@@ -8,7 +8,6 @@ module.exports = function (grunt) {
         'grunt-contrib-clean',
         'grunt-contrib-connect',
         'grunt-contrib-watch',
-        'grunt-babel',
         'grunt-webpack',
     ].forEach((packageName) => {
         let moduleTasks = path.resolve(
@@ -38,8 +37,6 @@ module.exports = function (grunt) {
     // configurable paths
     const projectConfig = {
         src: 'src',
-        dist: 'dist',
-        distES: 'dist-es',
         tmp: 'tmp',
         functional: 'tests/functional',
     };
@@ -47,22 +44,6 @@ module.exports = function (grunt) {
     grunt.initConfig({
         project: projectConfig,
         clean: {
-            dist: {
-                files: [
-                    {
-                        dot: true,
-                        src: ['<%= project.dist %>', '<%= project.distES %>'],
-                    },
-                ],
-            },
-            tmp: {
-                files: [
-                    {
-                        dot: true,
-                        src: ['<%= project.tmp %>'],
-                    },
-                ],
-            },
             functional: {
                 files: [
                     {
@@ -92,63 +73,6 @@ module.exports = function (grunt) {
         // babel
         // compiles jsx to js
         babel: {
-            dist: {
-                options: {
-                    sourceMap: false,
-                    plugins: ['add-module-exports'],
-                    presets: ['env', 'react'],
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= project.src %>',
-                        src: ['**/*.*'],
-                        dest: '<%= project.dist %>/',
-                        extDot: 'last',
-                        ext: '.js',
-                    },
-                ],
-            },
-            'dist-es': {
-                options: {
-                    sourceMap: false,
-                    presets: [
-                        [
-                            'env',
-                            {
-                                // Enable once most of the browser support es module
-                                // targets: {
-                                //   browsers: [
-                                //     'last 2 Chrome versions',
-                                //     'not Chrome < 60',
-                                //     'last 2 Safari versions',
-                                //     'not Safari < 10.1',
-                                //     'last 2 iOS versions',
-                                //     'not iOS < 10.3',
-                                //     'last 2 Firefox versions',
-                                //     'not Firefox < 54',
-                                //     'last 2 Edge versions',
-                                //     'not Edge < 15'
-                                //   ]
-                                // },
-                                useBuiltIns: 'entry',
-                                modules: false,
-                            },
-                        ],
-                        'react',
-                    ],
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= project.src %>',
-                        src: ['**/*.*'],
-                        dest: '<%= project.distES %>/',
-                        extDot: 'last',
-                        ext: '.js',
-                    },
-                ],
-            },
             functional: {
                 options: {
                     sourceMap: false,
@@ -335,12 +259,4 @@ module.exports = function (grunt) {
         'connect:functionalOpen',
         'watch:functional',
     ]);
-
-    // dist
-    // 1. clean dist/
-    // 2. compile jsx to js in dist/
-    grunt.registerTask('dist', ['clean:dist', 'babel:dist', 'babel:dist-es']);
-
-    // default
-    grunt.registerTask('default', ['dist']);
 };
