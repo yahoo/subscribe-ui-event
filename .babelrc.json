@@ -1,0 +1,12 @@
+{
+    "plugins": [["@babel/plugin-transform-runtime", { "version": "7.14.5" }]],
+    "env": {
+        "commonjs": {
+            "presets": [["@babel/preset-env", { "modules": "commonjs" }]],
+            "plugins": [["add-module-exports"]]
+        },
+        "es": {
+            "presets": [["@babel/preset-env", { "modules": false }]]
+        }
+    }
+}
