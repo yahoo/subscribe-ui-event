@@ -3,11 +3,17 @@
 [![npm version](https://badge.fury.io/js/subscribe-ui-event.svg)](http://badge.fury.io/js/subscribe-ui-event)
 ![github actions](https://github.com/yahoo/subscribe-ui-event/actions/workflows/test.js.yml/badge.svg)
 
-With `subscribe-ui-event`, instead of calling multiple `window.addEventListener('scroll', eventHandler);` by different components, call `subscribe('scroll', eventHandler)`. It will only add single event listener and dispatch event to those who subscribe the event via [eventemitter3](https://github.com/primus/EventEmitter3).
+With `subscribe-ui-event`, instead of calling multiple `window.addEventListener('scroll', eventHandler);` by different components, call `subscribe('scroll', eventHandler)`. It will only add a single event listener and dispatch event to those who subscribe to the event via [eventemitter3](https://github.com/primus/EventEmitter3).
 
-Why single event? More performance and less memory consumption.
+## Install
+
+```bash
+npm install subscribe-ui-event
+```
 
 ## Single Event Listener v.s. Multiple Event Listeners
+
+Why a single event? More performant and less memory consumption.
 
 The [jsperf ](http://jsperf.com/subscribe-v-s-addeventlistener/2) runs 10 `addEventListener` and 10 non-throttling `subscribe`, and the outcome is that the ops/sec of `subscribe` is slightly less. But in regular case, you will use throttling `subscribe`, and it will be more performant.
 
@@ -21,34 +27,28 @@ For 10 `subscribe`, the difference of memory consumption between peak and trough
 
 ![subscribe](https://cloud.githubusercontent.com/assets/2044960/9611619/7c293652-5095-11e5-8d27-29a0d2d167cc.png)
 
-## Other Benifits
+## Other Benefits
 
-1.  Do throttling by default.
-2.  Get `document.body.scrollTop`, `window.innerWidth` once.
-3.  Provide `requestAnimationFrame` throttle for the need of high performance.
-4.  Be able to use like `scrollStart` (see below) those edge events.
-
-## Install
-
-```bash
-npm install subscribe-ui-event
-```
+1.  Throttling by default.
+2.  Access `document.body.scrollTop`, `window.innerWidth` once.
+3.  Provide `requestAnimationFrame` throttle for high performance.
+4.  Be able to use events like `scrollStart` (see below) those edge events.
 
 ## API
 
 ### subscribe
 
-```js
-Subscription subscribe(String eventType, Function callback, Object? options)
+```ts
+subscribe(eventType: String, callback: Function, options: Object?): Subscription
 ```
 
-Provide throttled version of window or document events, such like `scroll`, `resize`, `touch` and `visibilitychange` to subscribe, see below.
+Provide throttled version of `window` or `document` events, such like `scroll`, `resize`, `touch` and `visibilitychange` to subscribe, see below.
 
 **Note on IE8 or the below, the throttle will be turned off because the event object is global and will be deleted for setTimeout or rAF.**
 
 Example:
 
-```js
+```ts
 import { subscribe } from 'subscribe-ui-event';
 function eventHandler (e, payload) {
     // e is the native event object and
@@ -61,7 +61,7 @@ const subscription = subscribe('scroll', eventHandler);
 subscription.unsubscribe();
 ```
 
-**Addtional Payload**
+#### Optional Payload
 
 The format of the payload is:
 
@@ -89,7 +89,7 @@ The format of the payload is:
 }
 ```
 
-**Options**
+#### Options
 
 `options.throttleRate` allows of changing the throttle rate, and the default value is 50 (ms). Set 0 for no throttle. **On IE8, there will be no throttle, because throttling will use setTimeout or rAF to achieve, and the event object passed into event handler will be overwritten.**
 
@@ -123,10 +123,10 @@ The format of the payload is:
 ### unsubscribe
 
 ```js
-Void unsubscribe(String eventType, Function callback)
+unsubscribe(eventType: String, callback: Function): Void
 ```
 
-Unsubscribe an event listener, suggest to use `subscription.unsubscribe()`, because it may accidentally unsubscribe those events having the same `eventType` and `callback` but different `throttleRate`.
+Unsubscribe to an event listener, we suggest you use `subscription.unsubscribe()`, because it may accidentally unsubscribe those events having the same `eventType` and `callback`, but different `throttleRate`.
 
 ## Credits
 
