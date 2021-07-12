@@ -57,7 +57,7 @@
     "grunt-atomizer": "^3.0.0",
     "grunt-cli": "^1.0.0",
     "grunt-contrib-clean": "^2.0.0",
-    "grunt-contrib-connect": "^1.0.0",
+    "grunt-contrib-connect": "^3.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-saucelabs": "^9.0.0",
     "grunt-webpack": "^4.0.3",
