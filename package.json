@@ -49,7 +49,7 @@
     "babel-plugin-add-module-exports": "^1.0.4",
     "chai": "^4.3.4",
     "es5-shim": "^4.0.0",
-    "eslint": "^7.30.0",
+    "eslint": "^8.0.1",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.24.0",
