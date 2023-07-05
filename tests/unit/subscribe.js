@@ -115,7 +115,7 @@ describe('subscribe', () => {
                     subscription.unsubscribe();
                     done();
                 },
-                { throttleRate: 100 }
+                { throttleRate: 100 },
             );
 
             // simulate window scroll event
@@ -132,7 +132,7 @@ describe('subscribe', () => {
                     subscription.unsubscribe();
                     done();
                 },
-                { useRAF: true }
+                { useRAF: true },
             );
 
             // simulate window scroll event
@@ -149,7 +149,7 @@ describe('subscribe', () => {
                     subscription.unsubscribe();
                     done();
                 },
-                { throttleRate: 50, useRAF: true }
+                { throttleRate: 50, useRAF: true },
             );
 
             // simulate window scroll event
@@ -183,7 +183,7 @@ describe('subscribe', () => {
                     expect(ae.scroll.top).to.equal(10);
                     subscription1.unsubscribe();
                 },
-                { enableScrollInfo: false }
+                { enableScrollInfo: false },
             );
 
             // the second one request scroll info, which should dominate.
@@ -196,7 +196,7 @@ describe('subscribe', () => {
                     subscription2.unsubscribe();
                     done();
                 },
-                { enableScrollInfo: true }
+                { enableScrollInfo: true },
             );
 
             // simulate window scroll event
@@ -215,7 +215,7 @@ describe('subscribe', () => {
                     expect(ae.resize.width).to.equal(20);
                     subscription1.unsubscribe();
                 },
-                { enableResizeInfo: false }
+                { enableResizeInfo: false },
             );
 
             const subscription2 = subscribe(
@@ -227,7 +227,7 @@ describe('subscribe', () => {
                     subscription2.unsubscribe();
                     done();
                 },
-                { enableResizeInfo: true }
+                { enableResizeInfo: true },
             );
 
             // simulate window scroll event
@@ -336,7 +336,7 @@ describe('subscribe', () => {
                     touch.pageX = 30;
                     touch.pageY = 20;
                 },
-                { enableTouchInfo: true }
+                { enableTouchInfo: true },
             );
 
             const subscription2 = subscribe('touchmove', (e, ae) => {
@@ -374,7 +374,7 @@ describe('subscribe', () => {
                     touch.clientX = 20;
                     touch.clientY = 30;
                 },
-                { enableTouchInfo: true }
+                { enableTouchInfo: true },
             );
 
             const subscription2 = subscribe('touchmove', (e, ae) => {

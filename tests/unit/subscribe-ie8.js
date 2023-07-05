@@ -66,7 +66,7 @@ describe('subscribe-ie8', () => {
                     expect(syntheticEvent.type).to.equal('scrollStart');
                     expect(subscription1._type).to.equal('scrollStart:0');
                     subscription1.unsubscribe();
-                }
+                },
             );
 
             const subscription2 = subscribe(
@@ -77,7 +77,7 @@ describe('subscribe-ie8', () => {
                     expect(subscription2._type).to.equal('scrollEnd:0');
                     subscription2.unsubscribe();
                     done();
-                }
+                },
             );
 
             // simulate window scroll event

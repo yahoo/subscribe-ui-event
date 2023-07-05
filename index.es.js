@@ -12,7 +12,7 @@ var IS_CLIENT = typeof window !== 'undefined';
 function warn() {
     if (process.env.NODE_ENV !== 'production') {
         console.warn(
-            'Warning: the function is client-side only, does not work on server side'
+            'Warning: the function is client-side only, does not work on server side',
         ); // eslint-disable-line
     }
 }

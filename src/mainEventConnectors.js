@@ -106,7 +106,7 @@ function connectContinuousEvent(target, mainEvent, event) {
             throttledEvent,
             cb,
             context,
-            throttledMainEvent
+            throttledMainEvent,
         );
         removers.push(remover);
 
@@ -150,7 +150,7 @@ function connectContinuousEvent(target, mainEvent, event) {
             if (!leIE8) {
                 timer = setTimeout(
                     endCallback.bind(null, e),
-                    throttleRate + EVENT_END_DELAY
+                    throttleRate + EVENT_END_DELAY,
                 );
             } else {
                 // For browser less then and equal to IE8, event object need to be cloned for setTimeout.
@@ -164,7 +164,7 @@ function connectContinuousEvent(target, mainEvent, event) {
             domTarget || target,
             mainEvent,
             handler,
-            eventOptions
+            eventOptions,
         );
         return remover;
     };
@@ -197,7 +197,7 @@ function connectDiscreteEvent(target, event) {
             domTarget || target,
             event,
             handler,
-            eventOptions
+            eventOptions,
         );
         return remover;
     };
