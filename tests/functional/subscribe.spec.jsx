@@ -37,25 +37,25 @@ describe('Subscribe UI Event tests', () => {
             if (!leIE8) {
                 expect($('.scroll-raf').getInt()).to.not.above(
                     20,
-                    'scroll-raf'
+                    'scroll-raf',
                 );
                 expect($('.scroll-1000').getInt()).to.below(20, 'scroll-1000');
                 expect($('.scroll-300-raf').getInt()).to.not.above(
                     20,
-                    'scroll-300-raf'
+                    'scroll-300-raf',
                 );
             } else {
                 expect($('.scroll-raf').getInt()).to.not.below(
                     20,
-                    'scroll-raf'
+                    'scroll-raf',
                 );
                 expect($('.scroll-1000').getInt()).to.not.below(
                     20,
-                    'scroll-1000'
+                    'scroll-1000',
                 );
                 expect($('.scroll-300-raf').getInt()).to.not.below(
                     20,
-                    'scroll-300-raf'
+                    'scroll-300-raf',
                 );
             }
 

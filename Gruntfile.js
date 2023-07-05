@@ -15,7 +15,7 @@ module.exports = function (grunt) {
             '..',
             'node_modules',
             packageName,
-            'tasks'
+            'tasks',
         );
 
         if (!fs.existsSync(moduleTasks)) {
@@ -23,7 +23,7 @@ module.exports = function (grunt) {
                 process.cwd(),
                 'node_modules',
                 packageName,
-                'tasks'
+                'tasks',
             );
         }
 
