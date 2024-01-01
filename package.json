@@ -46,7 +46,7 @@
     "@babel/register": "^7.14.5",
     "async": "^3.2.0",
     "babel-plugin-add-module-exports": "^1.0.4",
-    "chai": "^4.3.4",
+    "chai": "^5.0.0",
     "es5-shim": "^4.0.0",
     "eslint": "^8.0.1",
     "eslint-plugin-import": "^2.25.2",
