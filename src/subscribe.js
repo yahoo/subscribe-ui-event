@@ -4,7 +4,6 @@
  */
 
 import globalVars from './globalVars';
-import leIE8 from './lib/leIE8'; // less then or equal to IE8
 import mainEventConnectors from './mainEventConnectors';
 
 // constants
@@ -32,12 +31,6 @@ function subscribe(type, cb, options = {}) {
 
     if (useRAF) {
         throttleRate = 'raf';
-    }
-
-    // turn off throttle if the browser is IE8 or less, because window.event will be reset
-    // when using any delayed function, i.g., setTimeout, or rAF.
-    if (leIE8) {
-        throttleRate = 0;
     }
 
     // once those variables enabled, then never disabled.

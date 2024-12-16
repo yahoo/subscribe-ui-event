@@ -3,7 +3,6 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import assign from 'lodash/assign';
 import globalVars from '../globalVars';
 
 const { supportPassiveEvent } = globalVars;
@@ -29,7 +28,7 @@ function listen(target, eventType, handler, options) {
     let type = eventType;
 
     const eventOptions = supportPassiveEvent
-        ? assign({}, defaultEventOption, options)
+        ? Object.assign({}, defaultEventOption, options)
         : false;
 
     if (!target.addEventListener && target.attachEvent) {

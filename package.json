@@ -34,7 +34,6 @@
   "author": "Hank Hsiao <hankxiao@yahoo-inc.com>",
   "dependencies": {
     "eventemitter3": "^5.0.0",
-    "lodash": "^4.17.15",
     "raf": "^3.0.0"
   },
   "devDependencies": {
@@ -79,5 +78,6 @@
   "prettier": {
     "singleQuote": true,
     "tabWidth": 4
-  }
+  },
+  "browserslist": "> 0.25%, not dead"
 }

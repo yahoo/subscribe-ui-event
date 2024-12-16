@@ -3,13 +3,8 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import clone from 'lodash/clone';
-import throttle from 'lodash/throttle';
-import noop from 'lodash/noop';
-
 import AugmentedEvent from './AugmentedEvent';
 import globalVars from './globalVars';
-import leIE8 from './lib/leIE8';
 import listen from './lib/listen';
 import rAFThrottle from './lib/rAFThrottle';
 
@@ -32,6 +27,19 @@ if (typeof window !== 'undefined') {
 
 function getHash(domNode) {
     return domNode.id || `target-id-${hashId++}`; // eslint-disable-line
+}
+
+function noop() {}
+
+function throttle(func, wait) {
+    let lastCall = 0;
+    return function (...args) {
+        const now = Date.now();
+        if (now - lastCall >= wait) {
+            lastCall = now;
+            func.apply(this, args);
+        }
+    };
 }
 
 /**
@@ -147,17 +155,10 @@ function connectContinuousEvent(target, mainEvent, event) {
 
             ae.main.update(e);
             EE.emit(throttledMainEvent, e, ae.main);
-            if (!leIE8) {
-                timer = setTimeout(
-                    endCallback.bind(null, e),
-                    throttleRate + EVENT_END_DELAY,
-                );
-            } else {
-                // For browser less then and equal to IE8, event object need to be cloned for setTimeout.
-                timer = setTimeout(() => {
-                    endCallback(clone(e));
-                }, throttleRate + EVENT_END_DELAY);
-            }
+            timer = setTimeout(
+                endCallback.bind(null, e),
+                throttleRate + EVENT_END_DELAY,
+            );
         }
 
         listeners[throttledMainEvent] = listen(
