@@ -1,3 +1,7 @@
+> ⚠️ **DEPRECATED / END-OF-LIFE (EOL)** — `subscribe-ui-event` will be unmaintained as of **2025-10-01**.
+> No new features, issues, PRs, or security fixes will be provided.
+> See the issue for more information - https://github.com/yahoo/subscribe-ui-event/issues/458
+
 # subscribe-ui-event
 
 [![npm version](https://badge.fury.io/js/subscribe-ui-event.svg)](http://badge.fury.io/js/subscribe-ui-event)
